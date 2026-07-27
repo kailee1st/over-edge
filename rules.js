@@ -64,6 +64,65 @@ export const BASIS = {
 };
 
 /* ------------------------------------------------------------
+   카테고리 — 화면의 첫 갈림길
+   ------------------------------------------------------------
+   카드를 한꺼번에 던지면 파악이 안 된다. 주제로 묶어서 고르게 하고,
+   고른 줄기 안에서 한 장씩 진행한다.
+
+   분류 기준은 주제 하나만 쓴다. 시급성(기한 임박)과 누가 하는지는
+   분류가 아니라 카드에 붙는 태그다. 기준을 둘 이상으로 나누면
+   같은 항목이 여러 칸에 흩어져서 오히려 파악이 어려워진다.
+   ------------------------------------------------------------ */
+export const CATEGORIES = [
+  {
+    id: 'money',
+    label: '금전·행정',
+    short: '돈',
+    desc: '놓치면 돈이 나가는 것',
+    icon: 'money',
+    order: 1,
+  },
+  {
+    id: 'docs',
+    label: '서류·기록',
+    short: '서류',
+    desc: '종이를 떼거나 챙기는 일',
+    icon: 'note',
+    order: 2,
+  },
+  {
+    id: 'admit',
+    label: '입원 실무',
+    short: '입원',
+    desc: '입원·수술 전에 정해둬야 하는 것',
+    icon: 'bed',
+    order: 3,
+  },
+  {
+    id: 'ask',
+    label: '다음 진료 질문',
+    short: '질문',
+    desc: '진료실에서 물어야 할 것',
+    icon: 'heart',
+    order: 4,
+  },
+  {
+    id: 'calm',
+    label: '지금 안 해도 되는 것',
+    short: '나중',
+    desc: '미뤄도 괜찮은 것을 짚어드려요',
+    icon: 'info',
+    order: 5,
+  },
+];
+
+export const WHO = {
+  me:     { id: 'me',     label: '제가 할 수 있어요' },
+  parent: { id: 'parent', label: '부모님이 하셔야 해요' },
+  both:   { id: 'both',   label: '같이 하셔야 해요' },
+};
+
+/* ------------------------------------------------------------
    룰 5개
    5개 중 4개가 T1(자동교부 서류)만으로 발화한다.
    즉 사진 한 장으로 시작해도 도움이 나간다.
@@ -74,6 +133,8 @@ export const RULES = [
     id: 'R1',
     order: 10,
     type: 'hard',
+    cat: 'money',
+    who: 'both',
     name: '산정특례 등록 신청',
 
     // 확진 + 확진일이 둘 다 있어야 발화
@@ -108,6 +169,14 @@ export const RULES = [
     unverifiedNumbers: true,
     unverifiedNote: '본인부담률이 몇 %로 내려가는지는 원문 재검증 전이라 숫자를 말하지 않습니다',
 
+    // "이건 못 해요"를 누르면 나오는 대안
+    alt: {
+      title: '병원이 대행을 안 해주면 직접 접수하셔야 해요',
+      step: '국민건강보험공단 1577-1000에 전화해서 "암 산정특례 등록 신청하려는데 필요한 서류를 알려주세요"라고 물어보세요',
+      why: '담당의가 작성한 등록신청서가 있어야 해요. 그것만 받아두면 접수는 자녀분이 할 수 있어요',
+      source: 'nhis-special-copay',
+    },
+
     verified: true,
     verifiedAt: '2026-07-26',
   },
@@ -117,6 +186,8 @@ export const RULES = [
     id: 'R1-pre',
     order: 20,
     type: 'preview',
+    cat: 'money',
+    who: 'both',
     name: '산정특례 30일 시계 예고',
 
     // ★ 확진일이 없어도 발화한다. 이게 이 룰의 존재 이유
@@ -165,6 +236,8 @@ export const RULES = [
     id: 'R2',
     order: 30,
     type: 'gate',
+    cat: 'docs',
+    who: 'parent',
     name: '상급병원 진료의뢰서',
 
     trigger: {
@@ -193,6 +266,13 @@ export const RULES = [
     relatedDoc: 'referral',
     // 이미 받았으면 안내할 이유가 없다
     resolvedBy: ['referral'],
+
+    alt: {
+      title: '이미 의뢰서 없이 다녀오셨으면',
+      step: '병원 원무과에 "의뢰서를 나중에 제출하면 보험 적용이 되나요"라고 물어보세요',
+      why: '기관마다 소급 처리 방침이 달라요. 되는 곳도 있으니 물어보는 게 손해가 없어요',
+      unresolved: true,
+    },
     unverifiedNumbers: false,
     verified: true,
     verifiedAt: '2026-07-22',
@@ -203,6 +283,8 @@ export const RULES = [
     id: 'R3',
     order: 40,
     type: 'gate',
+    cat: 'docs',
+    who: 'both',
     name: '서류 대리발급 요건',
 
     trigger: {
@@ -247,6 +329,14 @@ export const RULES = [
     // 본인만 뗄 수 있는 것과 대리 가능한 것을 둘 다 확보했으면 해결
     resolvedByAll: ['diagnosis', 'medical-record'],
 
+    // 부모님이 창구에 못 가시는 경우 — 아직 답을 모른다. 모른다고 말한다
+    alt: {
+      title: '부모님이 병원에 못 가시는 상황이면, 저도 아직 답을 못 드려요',
+      step: '해당 병원 원무과에 "환자가 직접 오기 어려운데 진단서를 받을 방법이 있나요"라고 물어봐 주세요',
+      why: '의료법에 예외 조항이 있지만 구체적인 요건을 아직 원문으로 확인하지 못했어요. 확인되면 바로 알려드릴게요',
+      unresolved: true,
+    },
+
     unverifiedNumbers: false,
     verified: true,
     verifiedAt: '2026-07-22',
@@ -257,6 +347,8 @@ export const RULES = [
     id: 'R4',
     order: 50,
     type: 'gate',
+    cat: 'money',
+    who: 'me',
     name: '실손보험 청구 서류',
 
     trigger: {
@@ -294,6 +386,8 @@ export const RULES = [
     order: 70,
     type: 'gate',
     basis: 'ops',
+    cat: 'docs',
+    who: 'parent',
     name: '서류 원본 유실 방지',
 
     trigger: {
@@ -331,6 +425,8 @@ export const RULES = [
     order: 60,
     type: 'gate',
     basis: 'ops',
+    cat: 'ask',
+    who: 'both',
     name: '진료실 내용 전달 경로',
 
     trigger: {
@@ -375,6 +471,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B1',
     name: '노인장기요양 등급 신청',
+    cat: 'money',
     blockedBy: '65세 미만 노인성 질병 해당 여부, 30일 판정 기간 기산점 미검증',
     source: 'longtermcare',
     redirectTo: '국민건강보험공단 1577-1000',
@@ -382,6 +479,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B2',
     name: '본인부담상한제',
+    cat: 'money',
     blockedBy: '공단 통보형이라 사용자가 할 일이 있는지 불명확. 상한액 기준 미검증',
     source: 'nhis-special-copay',
     redirectTo: '국민건강보험공단 1577-1000',
@@ -389,6 +487,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B3',
     name: '의료비 세액공제',
+    cat: 'money',
     blockedBy: '연간 신고 + 5년 경정청구. 공제율·한도 미검증',
     source: 'nts',
     redirectTo: '국세청',
@@ -396,6 +495,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B4',
     name: '회송서 (추적관찰 전환 시)',
+    cat: 'docs',
     blockedBy: '발급 요건과 실무 관행 미검증',
     source: 'nhis-referral',
     redirectTo: '담당의',
@@ -403,10 +503,93 @@ export const RULE_BACKLOG = [
   {
     id: 'B5',
     name: 'T4 경로 (부모가 발급 불가)',
+    cat: 'docs',
     blockedBy: '의료법 제21조 제3항 각 호 원문 미확인. 우리 공략 상황에서 가장 많이 발생할 층',
     source: 'medical-law-21',
     redirectTo: '해당 병원 원무과',
     priority: 'high',
+  },
+
+  /* ---- 커베리지 감사에서 나온 빈 칸 (2026-07-28) ----
+     입원 실무 층이 통째로 비어 있다. 확진 직후 다음 구간이 여기인데
+     룰이 0개라 화면에 카테고리 자체가 안 뜬다. 가장 큰 구멍 ---- */
+  {
+    id: 'B6',
+    name: '재난적의료비 지원 신청',
+    cat: 'money',
+    blockedBy: '진료종료일 기준 신청 기한 미검증. 소득·재산 요건도 원문 확인 필요',
+    source: 'nhis-special-copay',
+    redirectTo: '국민건강보험공단 1577-1000',
+    priority: 'high',
+    note: '하드 마감이 있는데 룰이 없다. 산정특례 다음으로 급한 후보',
+  },
+  {
+    id: 'B7',
+    name: '가족돌봄휴가·가족돌봄휴직 (보호자 본인의 회사 서류)',
+    cat: 'money',
+    blockedBy: '남녀고용평등법 제22조의2 원문 미확인. 취업규칙별로 달라 일반화 가능성 검토 필요',
+    redirectTo: '회사 인사팀',
+    note: '환자가 아니라 케어러 본인이 쓰는 제도. 우리 ICP에 정확히 맞는데 빠져 있다',
+  },
+  {
+    id: 'B8',
+    name: '간호간병통합서비스 병동 유무 확인',
+    cat: 'admit',
+    blockedBy: '병원별 운영 여부가 달라 일반 룰로 만들 수 있는지 미확인',
+    redirectTo: '해당 병원 원무과',
+    note: '입원 전에 물어야 하는데 모르면 사보험 간병비로 빠진다',
+  },
+  {
+    id: 'B9',
+    name: '병실 등급·상급병실 차액',
+    cat: 'admit',
+    blockedBy: '병원별 차액 고지 방식 미확인. 금액은 절대 출력하지 않는 전제 필요',
+    redirectTo: '해당 병원 원무과',
+  },
+  {
+    id: 'B10',
+    name: '수술 전 검사·금식·복용약 중단',
+    cat: 'admit',
+    blockedBy: '복약 적정성 판단은 가드레일 never. 안내 가능한 범위 재설계 필요',
+    redirectTo: '담당의',
+    note: '가드레일에 걸리는 항목. "물어보세요"까지만 가능한지 검토',
+  },
+  {
+    id: 'B11',
+    name: '타병원 자료·영상 CD 챙기기',
+    cat: 'admit',
+    blockedBy: '전원·협진 시 실무 절차 미검증',
+    redirectTo: '해당 병원 원무과',
+  },
+  {
+    id: 'B12',
+    name: '다음 진료에서 물어야 할 것',
+    cat: 'ask',
+    blockedBy: '출력 형태가 다르다. 할 일 카드가 아니라 질문 목록이라 카드 몸통 재설계 필요',
+    note: 'A(정리)의 핵심. 룰이 아니라 상태에서 파생되는 출력',
+  },
+  {
+    id: 'B13',
+    name: '확정된 것 / 아직 미정인 것 구분',
+    cat: 'ask',
+    blockedBy: '상태 카드에는 있으나 별도 출력이 아니다',
+    note: '지금은 드로어의 상태 문장에 묻혀 있다',
+  },
+  {
+    id: 'B14',
+    name: '치료 시작 전에만 가능한 결정 (가임력 보존 등)',
+    cat: 'ask',
+    blockedBy: '적응증 판단이 필요해 무면허 진단에 닿는다. 안내 범위 재설계 필요',
+    redirectTo: '담당의',
+    priority: 'high',
+    note: '항암 개시 전이라는 하드 마감이 있는데 되돌릴 수 없는 종류다. 가장 무거운 빈 칸',
+  },
+  {
+    id: 'B15',
+    name: '지금 안 해도 되는 것 / 이미 예정된 것',
+    cat: 'calm',
+    blockedBy: '부정 출력이라 룰 구조가 반대다. 발화하지 않은 룰을 근거로 만들어야 한다',
+    note: '0을 말할 수 있는 도구만 3을 말할 자격이 있다. F6의 확장',
   },
 ];
 
@@ -513,6 +696,23 @@ export function findBacklog(text) {
   ];
   const hit = map.find((m) => m.re.test(text));
   return hit ? RULE_BACKLOG.find((b) => b.id === hit.id) : null;
+}
+
+/** 발화한 룰을 카테고리로 묶는다. 빈 카테고리는 빼고 정렬해서 준다 */
+export function groupByCategory(rules) {
+  return CATEGORIES
+    .map((c) => ({
+      ...c,
+      rules: sortRules(rules.filter((r) => (r.cat || 'docs') === c.id)),
+    }))
+    .filter((g) => g.rules.length > 0)
+    .sort((a, b) => {
+      // 하드 마감이 있는 카테고리를 앞으로
+      const ha = a.rules.some((r) => r.type === 'hard') ? 0 : 1;
+      const hb = b.rules.some((r) => r.type === 'hard') ? 0 : 1;
+      if (ha !== hb) return ha - hb;
+      return a.order - b.order;
+    });
 }
 
 /** 정렬 — hard → preview → gate, 같은 유형 안에서는 order */

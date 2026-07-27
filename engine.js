@@ -27,8 +27,7 @@ import {
   matchGuardrail,
   citeSource,
   outOfScopeMessage,
-  KB_VERSION,
-} from './kb.js';
+  KB_VERSION, SOURCES,} from './kb.js';
 
 import {
   RULES,
@@ -141,6 +140,8 @@ export function extractState(input, opts = {}) {
     if (st.confirmDate === 'TODAY') st.confirmDate = fmtDate(today);
     return applyProfile({
       ...st,
+      // 시나리오는 정의된 상태다. 표시할 때 근거 있는 값으로 취급한다
+      detected: Object.fromEntries(Object.keys(st).map((k) => [k, true])),
       today: fmtDate(today),
       rawText: sc.input,
       inputMode: 'button',
@@ -158,11 +159,23 @@ export function extractState(input, opts = {}) {
   const confirmDate = confirmed ? detectConfirmDate(text, today) : null;
   const docs = detectDocs(text);
   const events = detectEvents(text, today);
-  const patientCanVisit = !/입원|의식|치매|인지|못 움직|누워/.test(text);
-  // 동행 여부: 같이 간다는 말이 없으면 혼자 가시는 것으로 본다
-  const patientGoesAlone = !/같이 가|동행|제가 가|모시고 가|반차/.test(text);
+  // 이 둘은 부정 패턴이 안 걸리면 true 로 가정한다. 가정은 근거가 아니다.
+  // detected 에는 실제로 말이 걸린 것만 넣고, UI 는 그것만 "확인했어요"라고 말한다
+  const cantVisit = /입원|의식|치매|인지|못 움직|누워/.test(text);
+  const withCompany = /같이 가|동행|제가 가|모시고 가|반차/.test(text);
+  const patientCanVisit = !cantVisit;
+  const patientGoesAlone = !withCompany;
+
+  const detected = {};
+  if (stage) detected.stage = true;
+  if (confirmed !== null && confirmed !== undefined) detected.confirmed = true;
+  if (confirmDate) detected.confirmDate = true;
+  if (docs.length) detected.docs = true;
+  if (cantVisit) detected.patientCanVisit = true;
+  if (withCompany) detected.patientGoesAlone = true;
 
   return applyProfile({
+    detected,
     stage,
     confirmed,
     confirmDate,
@@ -671,8 +684,10 @@ export function buildOutput(state, tags, matched, opts = {}) {
   }
 
   // F3 + F4 정상 출력
-  const cards = matched.fired.slice(0, 3).map((r) => renderCard(r, state, today));
-  const overflow = matched.fired.length > 3 ? matched.fired.slice(3).map((r) => r.id) : [];
+  // 카드 수를 자르지 않는다. 화면이 카테고리로 나눠 하나씩 보여주므로
+  // 3장 상한은 오히려 할 수 있는 일을 숨긴다
+  const cards = matched.fired.map((r) => renderCard(r, state, today));
+  const overflow = [];
 
   const followUp = matched.fired
     .filter((r) => r.followUp && r.followUp.enabled)
@@ -717,11 +732,30 @@ function renderCard(rule, state, today) {
     deadlineText = `${state[dl.anchor]}부터 ${dl.days}일 → ${dueDate}까지 (${daysLeft >= 0 ? `${daysLeft}일 남음` : `${-daysLeft}일 지남`})`;
   }
 
+  // 대안 경로 — "이건 못 해요"를 눌렀을 때 내놓을 다음 수
+  let alt = null;
+  if (rule.alt) {
+    const asrc = rule.alt.source ? SOURCES[rule.alt.source] : null;
+    alt = {
+      title: rule.alt.title,
+      step: rule.alt.step,
+      why: rule.alt.why || null,
+      unresolved: !!rule.alt.unresolved,
+      source: asrc ? { org: asrc.org, label: asrc.label, url: asrc.url, tel: asrc.tel || null } : null,
+    };
+  }
+
   return {
     ruleId: rule.id,
+    name: rule.name,
     type: rule.type,
     typeLabel: DEADLINE_KINDS[rule.type].label,
     urgent: DEADLINE_KINDS[rule.type].urgent,
+
+    // 분류 — 화면이 한 번에 다 보여주지 않고 영역별로 나눠 묻는다
+    cat: rule.cat || 'docs',
+    who: rule.who || 'both',
+    alt,
 
     // ① 놓치고 있는 것
     title: rule.title,

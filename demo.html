@@ -391,6 +391,10 @@
   /* 화면 전환 */
   .app[data-view="idle"] .view-result{display:none;}
   .app[data-view="result"] .view-idle{display:none;}
+  .app[data-view="seq"] .view-idle,.app[data-view="seq"] .view-result,
+  .app[data-view="seq"] .view-todo,.app[data-view="seq"] .view-profile{display:none;}
+  .app[data-view="idle"] .view-seq,.app[data-view="result"] .view-seq,
+  .app[data-view="todo"] .view-seq,.app[data-view="profile"] .view-seq{display:none;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
   @keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
@@ -667,11 +671,91 @@
   .login .lnote{margin-top:15px;font-size:11.5px;color:var(--ink-faint);line-height:1.6;
     background:#f7f9f9;border-radius:11px;padding:11px 12px;}
 
+  /* ---------- 카테고리 선택 ---------- */
+  .cats{display:flex;flex-direction:column;gap:11px;margin-top:16px;}
+  .cats+#docsPanel,.cats~.fu{margin-top:20px;}
+  .cat{width:100%;text-align:left;border:1px solid var(--line);background:#fff;font:inherit;
+    border-radius:var(--radius);padding:16px 17px;cursor:pointer;box-shadow:var(--shadow-sm);
+    display:flex;align-items:center;gap:13px;}
+  .cat:hover{border-color:var(--teal-500);background:var(--teal-50);}
+  .cat .ci{width:40px;height:40px;flex:0 0 40px;border-radius:13px;background:var(--teal-50);
+    display:grid;place-items:center;color:var(--teal-600);}
+  .cat .ci svg{width:20px;height:20px;}
+  .cat.urgent .ci{background:var(--urgent-50);color:var(--urgent);}
+  .cat .cb{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .cat .cl{font-size:16px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
+  .cat .cd{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
+  .cat .cw{font-size:11.5px;font-weight:700;color:var(--urgent);margin-top:5px;
+    display:flex;align-items:center;gap:4px;}
+  .cat .cw svg{width:12px;height:12px;}
+  .cat .cn{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--teal-600);
+    color:#fff;font-size:13px;font-weight:800;display:grid;place-items:center;}
+  .cat.urgent .cn{background:var(--urgent);}
+  .cat.needinfo{border-style:dashed;border-color:var(--warm-600);background:#fffaf7;}
+  .cat.needinfo .ci{background:var(--warm-50);color:var(--warm-600);}
+  .cat.needinfo .cn{background:var(--warm-600);font-size:15px;}
+  .cat.needinfo .cq{font-size:11.5px;font-weight:700;color:var(--warm-600);margin-top:5px;}
+  .cat.clear{opacity:.55;}
+  .cat.clear .cn{background:var(--line);color:var(--ink-faint);}
+
+  .fromtext{display:inline-block;margin-left:7px;font-size:11px;font-weight:700;
+    color:var(--teal-700);background:var(--teal-50);padding:2px 8px;border-radius:999px;
+    vertical-align:middle;}
+  .tools{display:flex;gap:9px;margin-top:20px;flex-wrap:wrap;}
+  .tool{flex:1 1 150px;border:1px dashed var(--teal-500);background:#f7fcfc;font:inherit;
+    font-size:13px;font-weight:700;color:var(--teal-700);padding:12px;border-radius:13px;
+    cursor:pointer;text-align:center;}
+  .tool:hover{background:var(--teal-50);}
+
+  /* ---------- 시퀀스 ---------- */
+  .seqhd{position:sticky;top:52px;z-index:30;background:rgba(255,255,255,.94);
+    backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
+  .seqhd-in{max-width:760px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:10px;}
+  .seqhd .back{border:none;background:none;cursor:pointer;color:var(--teal-700);font:inherit;
+    font-size:13px;font-weight:700;padding:5px 8px;border-radius:9px;display:flex;align-items:center;gap:4px;}
+  .seqhd .back:hover{background:var(--teal-50);}
+  .seqhd .back svg{width:14px;height:14px;}
+  .seqhd .sl{font-size:14.5px;font-weight:800;color:var(--teal-900);}
+  .seqhd .sc{margin-left:auto;font-size:12.5px;font-weight:700;color:var(--ink-faint);}
+  .bars{display:flex;gap:4px;max-width:760px;margin:0 auto;padding:0 18px 9px;}
+  .bars i{flex:1;height:3px;border-radius:2px;background:var(--line);}
+  .bars i.on{background:var(--teal-500);}
+  .bars i.cur{background:var(--teal-700);}
+
+  .whotag{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
+    padding:3px 9px;border-radius:999px;background:#f2f6f6;color:var(--ink-soft);margin-left:7px;}
+  .whotag.parent{background:var(--warm-50);color:var(--warm-600);}
+  .whotag.me{background:var(--teal-50);color:var(--teal-700);}
+
+  .acts{display:flex;flex-direction:column;gap:8px;margin-top:18px;}
+  .act{border:1px solid var(--line);background:#fff;font:inherit;font-size:14.5px;font-weight:700;
+    padding:14px;border-radius:13px;cursor:pointer;color:var(--ink);text-align:center;}
+  .act:hover{background:var(--teal-50);border-color:var(--teal-500);}
+  .act.prim{background:var(--teal-600);border-color:var(--teal-600);color:#fff;}
+  .act.prim:hover{background:var(--teal-700);}
+  .act.weak{color:var(--ink-faint);font-weight:600;font-size:13.5px;padding:11px;}
+
+  .altbox{border:1px solid var(--warm-600);border-radius:var(--radius);background:var(--warm-50);
+    padding:16px 17px;}
+  .altbox .at{font-size:15px;font-weight:800;color:var(--warm-600);line-height:1.5;}
+  .altbox .as{margin-top:11px;background:#fff;border-radius:12px;padding:12px 13px;
+    font-size:14px;line-height:1.6;}
+  .altbox .aw{margin-top:9px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .altbox .au{margin-top:11px;font-size:12px;color:var(--warm-600);font-weight:700;}
+
+  .seqdone{text-align:center;padding:34px 20px;}
+  .seqdone .ico2{width:52px;height:52px;margin:0 auto 14px;border-radius:16px;
+    background:var(--teal-50);display:grid;place-items:center;color:var(--teal-600);}
+  .seqdone .ico2 svg{width:26px;height:26px;}
+  .seqdone .bt{font-size:19px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
+  .seqdone .bs{margin-top:8px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+
   @media (max-width:520px){
     .bigmark{width:84px;height:84px;}
     .ask{font-size:20px;}
-    .statusbar,.subhd{top:50px;}
+    .statusbar,.subhd,.seqhd{top:50px;}
     .egs{max-width:100%;}
+    .cat{padding:14px;}
   }
 </style>
 </head>
@@ -719,17 +803,38 @@
         </button>
       </div>
     </div>
-    <div class="rbody" id="rbody">
-      <div class="rbody-in">
-        <div class="lead" id="lead"><span class="n">0</span><span id="leadTxt">지금 하실 일</span></div>
+    <!-- 모드 A: 카테고리 선택 -->
+    <div class="rbody" id="rbody" data-mode="cats">
+      <div class="rbody-in" id="catsWrap">
+        <div class="lead" id="lead"><span class="n">0</span><span id="leadTxt">확인할 것</span></div>
         <div class="lead-sub" id="leadSub"></div>
+        <div class="cats" id="cats"></div>
         <div class="cards" id="cards"></div>
+        <div class="tools">
+          <button class="tool" id="toolDocs" type="button">가진 서류 알려주기</button>
+          <button class="tool" id="toolProfile" type="button">내 정보 채우기</button>
+        </div>
         <div class="next" id="next" hidden>
           <div class="next-t">그다음에는?</div>
           <div class="chips" id="chips"></div>
         </div>
       </div>
     </div>
+  </section>
+
+  <!-- ===== 시퀀스 (한 번에 하나) ===== -->
+  <section class="view view-seq" id="viewSeq">
+    <div class="seqhd">
+      <div class="seqhd-in">
+        <button class="back" id="seqBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>영역 목록
+        </button>
+        <span class="sl" id="seqLabel">—</span>
+        <span class="sc" id="seqCount">1 / 1</span>
+      </div>
+      <div class="bars" id="seqBars"></div>
+    </div>
+    <div class="rbody"><div class="rbody-in" id="seqBody"></div></div>
   </section>
 
   <!-- ===== 내 할 일 ===== -->
@@ -861,7 +966,7 @@
 -->
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
-import { SCENARIOS, RULE_BACKLOG, findRule } from './rules.js';
+import { SCENARIOS, RULE_BACKLOG, findRule, CATEGORIES, WHO, groupByCategory } from './rules.js';
 import { TIERS, OUT_OF_SCOPE, findDoc, DOCS } from './kb.js';
 
 const $ = id => document.getElementById(id);
@@ -889,6 +994,9 @@ const I = {
   bell:'<path d="M6 9a6 6 0 1112 0c0 5 2 6 2 6H4s2-1 2-6z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M10 20a2 2 0 004 0" stroke="currentColor" stroke-width="1.8"/>',
   heart:'<path d="M12 21s-7-4.6-7-10a4 4 0 017-2.6A4 4 0 0119 11c0 5.4-7 10-7 10z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>',
   info:'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 11v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="8" r="1" fill="currentColor"/>',
+  money:'<circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v10M9.5 9.8h4a1.6 1.6 0 010 3.2h-4M9.5 13h5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>',
+  arrow:'<path d="M5 12h13M13 7l5 5-5 5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>',
+  bed:'<path d="M3 18V8M3 12h13a4 4 0 014 4v2M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7.5" cy="9.5" r="2" stroke="currentColor" stroke-width="1.8"/>',
 };
 const svg = p => '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">'+p+'</svg>';
 const card = (ic,title,sub,body,cls,attr) =>
@@ -900,6 +1008,13 @@ const card = (ic,title,sub,body,cls,attr) =>
             지금 하실 일(발견)과 내 할 일(내가 하기로 한 것)을 나눈다
    profile  사용자가 직접 채운 정보. 채울수록 판정이 깊어진다
    ---------------------------------------------------------- */
+/* outcomes  카드마다 사용자가 내린 결론. 시퀀스가 여기 있는 건 다시 안 묻는다
+             'done' 했음 · 'later' 나중에(내 할 일로) · 'cant' 못 함(대안 봤음)
+   seq       지금 진행 중인 영역. null 이면 카테고리 화면          */
+const outcomes = new Map();
+let seq = null;
+let docsOpen = false;
+
 let cur = null;                       // 마지막 run 결과
 let lastPayload = null;               // 재판정용
 const adopted = new Map();            // ruleId -> {card, status:'todo'|'doing'|'done'}
@@ -924,7 +1039,8 @@ loadProfile();
 /* ==========================================================
    카드
    ========================================================== */
-function cMissing(c){
+function cMissing(c, opt){
+  opt = opt || {};
   const kind = c.type;
   const ic = kind==='hard' ? I.alert : kind==='preview' ? I.clock : I.note;
   const done = adopted.has(c.ruleId);
@@ -956,16 +1072,17 @@ function cMissing(c){
       + (c.stepWhy?'<span class="why">'+esc(c.stepWhy)+'</span>':'') + '</div></span></div>'
     + '</div>' + brk
     + (c.caution ? '<div class="caution">'+svg(I.alert)+'<span>'+esc(c.caution)+'</span></div>' : '')
-    + '<div class="did">'
+    + (opt.seq ? '' : '<div class="did">'
       + (done
           ? '<span class="adopted-note">'+svg(I.check)+'내 할 일에 넣었어요</span>'
             + '<span class="lbl2">진행 상황은 내 할 일에서 체크해요</span>'
           : '<button type="button" class="adopt" data-adopt="'+esc(c.ruleId)+'">'+svg(I.check)+'이거 할게요</button>'
             + '<span class="lbl2">누르면 내 할 일로 옮겨요</span>')
-      + '</div>'
+      + '</div>')
     + '<div class="notice">'+esc(c.notice)+(c.numbersHidden?' 일부 수치는 '+esc(c.numbersNote)+'입니다.':'')+'</div>';
 
-  const badge = '<span class="miss-badge is-'+kind+'">'+esc(c.typeLabel)+'</span>';
+  const badge = '<span class="miss-badge is-'+kind+'">'+esc(c.typeLabel)+'</span>'
+    + (opt.whoTag || '');
   return card(ic, esc(c.title), badge, rows, 'miss is-'+kind+(done?' done':''), 'data-rule="'+esc(c.ruleId)+'"');
 }
 
@@ -987,6 +1104,172 @@ function cFollowUp(fu){
     + '<input type="text" id="fuContact" placeholder="연락처 또는 이메일" aria-label="연락처">'
     + '<button type="button" id="fuBtn">신청</button></div><div class="fu-ok" id="fuOk" hidden></div></div>';
 }
+
+/* ==========================================================
+   카테고리 — 한 번에 다 보여주지 않고 영역을 먼저 고르게 한다
+   전부 펼치면 파악이 안 된다. 고르면 그 안에서만 순서대로 간다
+   ========================================================== */
+function liveCards(r){
+  return (r.output.cards||[]).filter(c => !outcomes.has(c.ruleId) && !adopted.has(c.ruleId));
+}
+
+/* 정보가 없어서 못 켠 룰. "confirmDate 없음" 처럼 채우면 켜지는 것만 센다.
+   단계 불일치나 서류 미보유는 지금 물어서 해결될 문제가 아니라 제외한다 */
+function needInfo(r, catId){
+  const askable = new Set(PROFILE_FIELDS.map(f=>f.key));
+  return (r.matched.skipped||[]).filter(sk=>{
+    if (sk.resolved) return false;
+    const m = /^(\w+) 없음$/.exec(sk.reason||'');
+    if (!m || !askable.has(m[1])) return false;
+    const rule = findRule(sk.id);
+    return rule && (rule.cat||'docs') === catId;
+  });
+}
+
+function drawCats(r){
+  const live = liveCards(r);
+  const groups = CATEGORIES.map(c => ({
+    ...c,
+    rules: live.filter(x => (x.cat||'docs') === c.id),
+    all:   (r.output.cards||[]).filter(x => (x.cat||'docs') === c.id),
+    need:  needInfo(r, c.id),
+  })).filter(g => g.all.length > 0 || g.need.length > 0);
+
+  $('cats').innerHTML = groups.map(g => {
+    const hard = g.rules.find(x => x.deadline.dueDate);
+    const clear = g.rules.length === 0 && g.need.length === 0;
+    // 켤 수 있는 카드가 없고 물어볼 것만 남은 영역 → 내 정보로 보낸다
+    const askOnly = g.rules.length === 0 && g.need.length > 0;
+    return '<button class="cat'+(hard?' urgent':'')+(clear?' clear':'')+(askOnly?' needinfo':'')
+      + '" data-cat="'+esc(g.id)+'" data-ask="'+(askOnly?'1':'')+'" type="button">'
+      + '<span class="ci">'+svg(I[g.icon]||I.note)+'</span>'
+      + '<span class="cb"><span class="cl">'+esc(g.label)+'</span>'
+      + '<span class="cd">'+esc(clear ? '이 영역은 다 보셨어요' : g.desc)+'</span>'
+      + (hard ? '<span class="cw">'+svg(I.alert)+esc(hard.deadline.dueDate)+'까지 · '
+                + (hard.deadline.daysLeft>=0 ? hard.deadline.daysLeft+'일 남음' : (-hard.deadline.daysLeft)+'일 지남')
+                +'</span>' : '')
+      + (g.need.length ? '<span class="cq">'+esc(g.need[0].name)
+                + (g.need.length>1?' 외 '+(g.need.length-1)+'가지':'')
+                + '을 보려면 정보가 하나 더 필요해요</span>' : '')
+      + '</span>'
+      + '<span class="cn">'+(askOnly ? '?' : clear ? '✓' : g.rules.length)+'</span></button>';
+  }).join('');
+  return groups;
+}
+
+/* ==========================================================
+   시퀀스 — 한 화면에 한 장. 고른 답에 따라 다음이 갈린다
+   ========================================================== */
+function openCat(catId){
+  const list = liveCards(cur).filter(c => (c.cat||'docs') === catId);
+  if (!list.length) { toast('이 영역은 지금 확인할 게 없어요'); return; }
+  seq = { catId, list, idx: 0, alt: false };
+  drawSeq();
+  app.dataset.view = 'seq';
+  window.scrollTo(0,0);
+}
+
+function seqNext(){
+  seq.idx += 1; seq.alt = false;
+  drawSeq();
+}
+function backToCats(){
+  seq = null;
+  app.dataset.view = 'result';
+  if (cur) render(cur);
+}
+
+function drawSeq(){
+  const cat = CATEGORIES.find(c => c.id === seq.catId) || { label:'확인' };
+  $('seqLabel').textContent = cat.label;
+
+  const total = seq.list.length, i = seq.idx;
+  $('seqCount').textContent = Math.min(i+1, total) + ' / ' + total;
+  $('seqBars').innerHTML = seq.list.map((_,k)=>
+    '<i class="'+(k<i?'on':k===i?'cur':'')+'"></i>').join('');
+
+  // 영역 끝
+  if (i >= total) {
+    $('seqCount').textContent = total + ' / ' + total;
+    const done  = seq.list.filter(c=>outcomes.get(c.ruleId)==='done').length;
+    const later = seq.list.filter(c=>outcomes.get(c.ruleId)==='later').length;
+    const cant  = seq.list.filter(c=>outcomes.get(c.ruleId)==='cant').length;
+    const bits = [];
+    if (done)  bits.push('이미 하신 것 '+done+'가지');
+    if (later) bits.push('내 할 일에 담은 것 '+later+'가지');
+    if (cant)  bits.push('다른 길을 안내한 것 '+cant+'가지');
+    $('seqBody').innerHTML = '<div class="seqdone">'
+      + '<div class="ico2">'+svg(I.check)+'</div>'
+      + '<div class="bt">'+esc(cat.label)+' 영역은 다 보셨어요</div>'
+      + '<div class="bs">'+(bits.length?esc(bits.join(' · ')):'확인만 하셨어요')+'</div>'
+      + '<div class="acts" style="max-width:300px;margin:22px auto 0">'
+      + '<button class="act prim" data-seq="back" type="button">다른 영역 보기</button></div></div>';
+    return;
+  }
+
+  const c = seq.list[i];
+
+  // 분기 B — "이건 못 해요"를 눌렀을 때
+  if (seq.alt) {
+    const a = c.alt;
+    $('seqBody').innerHTML = '<div class="altbox">'
+      + '<div class="at">'+esc(a.title)+'</div>'
+      + '<div class="as">'+esc(a.step)+'</div>'
+      + (a.why ? '<div class="aw">'+esc(a.why)+'</div>' : '')
+      + (a.source ? '<div class="au">'+esc(a.source.org)
+          + (a.source.tel?' ☎ '+esc(a.source.tel):'')+'</div>' : '')
+      + (a.unresolved && !a.why ? '<div class="au">이 경로는 저도 아직 확인 중이에요. 확인되면 알려드릴게요</div>' : '')
+      + '</div>'
+      + '<div class="acts">'
+      + '<button class="act prim" data-seq="alt-todo" type="button">이 방법으로 해볼게요</button>'
+      + '<button class="act weak" data-seq="alt-skip" type="button">이것도 어려워요. 넘어갈게요</button>'
+      + '</div>';
+    return;
+  }
+
+  // 분기 A — 카드 한 장 + 세 갈래
+  const w = WHO[c.who||'both'] || {};
+  const whoCls = c.who==='parent'?'parent':c.who==='me'?'me':'';
+  const acts = '<div class="acts">'
+    + '<button class="act prim" data-seq="later" type="button">이거 할게요</button>'
+    + '<button class="act" data-seq="done" type="button">이미 했어요</button>'
+    + '<button class="act weak" data-seq="cant" type="button">'
+      + (c.alt ? '이건 못 해요. 다른 방법 있어요?' : '이건 건너뛸게요') + '</button>'
+    + '</div>';
+
+  $('seqBody').innerHTML = cMissing(c, { seq:true, whoTag:
+      '<span class="whotag '+whoCls+'">'+esc(w.label||'')+'</span>' }) + acts;
+}
+
+$('cats').addEventListener('click', e=>{
+  const b = e.target.closest('[data-cat]'); if (!b) return;
+  if (b.dataset.ask) { openProfile(); return; }
+  openCat(b.dataset.cat);
+});
+$('seqBack').addEventListener('click', backToCats);
+$('seqBody').addEventListener('click', e=>{
+  const b = e.target.closest('[data-seq]'); if (!b) return;
+  const c = seq.list[seq.idx];
+  switch (b.dataset.seq) {
+    case 'back': backToCats(); break;
+    case 'done':
+      outcomes.set(c.ruleId, 'done'); toast('이미 하셨으니 목록에서 뺐어요'); seqNext(); break;
+    case 'later':
+      outcomes.set(c.ruleId, 'later');
+      adopted.set(c.ruleId, { card:c, status:'todo' });
+      syncTodoBadge(); toast('내 할 일에 넣었어요'); seqNext(); break;
+    case 'cant':
+      if (c.alt) { seq.alt = true; drawSeq(); }
+      else { outcomes.set(c.ruleId, 'cant'); seqNext(); }
+      break;
+    case 'alt-todo':
+      outcomes.set(c.ruleId, 'later');
+      adopted.set(c.ruleId, { card:{...c, step:c.alt.step, title:c.alt.title}, status:'todo' });
+      syncTodoBadge(); toast('대신 이 방법을 담았어요'); seqNext(); break;
+    case 'alt-skip':
+      outcomes.set(c.ruleId, 'cant'); seqNext(); break;
+  }
+});
 
 /* ==========================================================
    그다음에는? — 후속 질문
@@ -1035,7 +1318,7 @@ function render(r){
   $('sbConfirm').textContent = s.confirmedLabel || '';
 
   // 본문
-  const live = (o.cards||[]).filter(c=>!adopted.has(c.ruleId));
+  const live = liveCards(r);
   const n = live.length;
 
   const lead = $('lead'), leadTxt = $('leadTxt'), leadSub = $('leadSub');
@@ -1067,16 +1350,22 @@ function render(r){
     html = cEdge('지금은 괜찮아요', '새로 놓치고 있는 것 0개',
       '지금까지 안내한 것 외에 새로 생긴 건 없어요. 새 진료나 검사가 생기면 다시 알려주세요.');
   } else {
-    leadTxt.textContent = '지금 하실 일';
-    leadSub.textContent = (o.notices||[]).join(' ');
-    html = live.map(cMissing).join('');
-    if (o.followUp) html += cFollowUp(o.followUp);
+    leadTxt.textContent = '확인할 게 있어요';
+    leadSub.textContent = '영역을 하나 골라주세요. 한 번에 한 가지만 보여드려요.';
+    if (o.followUp) html = cFollowUp(o.followUp);
   }
   $('cards').innerHTML = html;
 
-  // 가진 서류 — 넣으면 판정이 달라진다
-  if (o.kind === 'cards' || o.kind === 'zero') {
-    $('cards').insertAdjacentHTML('beforeend', drawDocsBox(r));
+  // 카테고리 — 정상 출력에서만
+  const isCards = (o.kind === 'cards' || o.kind === 'zero');
+  $('cats').innerHTML = '';
+  if (isCards && n > 0) drawCats(r);
+  document.querySelector('.tools').hidden = !isCards;
+
+  // 가진 서류 — 기본은 접어둔다. 첫 화면을 조용하게 유지한다
+  if (isCards) {
+    $('cards').insertAdjacentHTML('beforeend',
+      '<div id="docsPanel"'+(docsOpen?'':' hidden')+'>'+drawDocsBox(r)+'</div>');
   }
 
   // 정보가 부족하면 채우라고 알려준다. 몇 개가 더 켜지는지 숫자로 보여준다
@@ -1089,6 +1378,10 @@ function render(r){
       + ' 부모님 이름이나 주민번호는 묻지 않아요.</div>'
       + '<button class="gb" id="gapBtn" type="button">내 정보 채우기</button></div>');
   }
+
+  // 도구 버튼 — 문구 갱신 + 중복 제거
+  $('toolDocs').textContent = docsOpen ? '서류 목록 접기' : '가진 서류 알려주기';
+  $('toolProfile').hidden = !!document.getElementById('gapBtn');
 
   // 할 일 배지
   syncTodoBadge();
@@ -1109,7 +1402,7 @@ function render(r){
   (r.matched.fired||[]).forEach(x=>{ if(!seenIds.includes(x.id)) seenIds.push(x.id); });
 
   app.dataset.view = 'result';
-  $('rbody').scrollTop = 0;
+  window.scrollTo(0, 0);
   saveLog(r.log);
 }
 
@@ -1159,6 +1452,7 @@ function toast(msg){
    ========================================================== */
 function handle(payload){
   lastPayload = payload;
+  seq = null;
   render(run(payload, { prevRuleIds: seenIds, profile }));
 }
 function requery(){ if (lastPayload) handle(lastPayload); }
@@ -1211,6 +1505,17 @@ $('cards').addEventListener('click', e=>{
     ok.hidden=false; ok.textContent = date+'에 먼저 연락드릴게요.';
   }
 });
+
+/* 도구 두 개 — 첫 화면에서 밀어둔 것들 */
+$('toolDocs').addEventListener('click', ()=>{
+  docsOpen = !docsOpen;
+  if (cur) render(cur);
+  if (docsOpen) setTimeout(()=>{
+    const el = document.getElementById('docsPanel');
+    if (el) el.scrollIntoView({ behavior:'smooth', block:'center' });
+  }, 40);
+});
+$('toolProfile').addEventListener('click', openProfile);
 
 /* 후속 질문 칩 */
 $('chips').addEventListener('click', e=>{
@@ -1361,7 +1666,7 @@ function drawTodo(){
 }
 
 $('todoBadge').addEventListener('click', ()=>{ drawTodo(); app.dataset.view='todo'; });
-$('todoBack').addEventListener('click', ()=>{ app.dataset.view='result'; if(cur) render(cur); });
+$('todoBack').addEventListener('click', ()=>{ app.dataset.view='result'; seq=null; if(cur) render(cur); });
 $('todoBody').addEventListener('click', e=>{
   const st = e.target.closest('[data-st]');
   if (st) {
@@ -1380,6 +1685,9 @@ function openProfile(){ drawProfile(); app.dataset.view='profile'; }
 
 function drawProfile(){
   const firedIds = (cur && cur.matched.fired || []).map(x=>x.id);
+  // 엔진이 자유 입력에서 이미 뽑아낸 값. 같은 걸 두 번 묻지 않는다.
+  // 쓰기는 profile 로만 가고, 읽기는 추출값을 덮어쓴 합집합으로 본다
+  const known = Object.assign({}, (cur && cur.state) || {}, profile);
   const gaps = profileGaps(profile, { firedIds });
   $('pfLead').innerHTML = gaps.count === 0
     ? '필요한 정보를 다 알려주셨어요.'
@@ -1388,11 +1696,14 @@ function drawProfile(){
 
   $('pfBody').innerHTML = PROFILE_FIELDS.map(f=>{
     if (f.dependsOn) {
-      const ok = Object.entries(f.dependsOn).every(([k,v])=>profile[k]===v);
+      const ok = Object.entries(f.dependsOn).every(([k,v])=>known[k]===v);
       if (!ok) return '';
     }
-    const val = profile[f.key];
-    const filled = val !== undefined && val !== '';
+    const val = known[f.key];
+    // 추측한 기본값이 아니라 실제로 글에서 걸린 것만 "확인했어요"라고 말한다
+    const det = (cur && cur.state && cur.state.detected) || {};
+    const fromText = profile[f.key] === undefined && !!det[f.key];
+    const filled = val !== undefined && val !== null && val !== '';
     let control = '';
     if (f.type === 'choice') {
       control = '<div class="pf-opts">' + f.options.map((o,i)=>
@@ -1403,7 +1714,8 @@ function drawProfile(){
     }
     const unlockTxt = (f.unlocks||[]).filter(id=>!firedIds.includes(id)).length
       ? '<div class="why">'+svg(I.info)+'<span>'+esc(f.why)+'</span></div>' : '';
-    return '<div class="pf'+(filled?' filled':'')+'"><div class="q">'+esc(f.label)+'</div>'
+    return '<div class="pf'+(filled?' filled':'')+'"><div class="q">'+esc(f.label)
+      + (fromText?'<span class="fromtext">적어주신 글에서 확인했어요</span>':'')+'</div>'
       + (f.hint ? '<div class="hint">'+esc(f.hint)+'</div>' : '')
       + control + unlockTxt + '</div>';
   }).join('');
