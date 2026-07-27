@@ -191,6 +191,8 @@ export const RULES = [
       '소견서로는 갈음되지 않아요. 요양급여의뢰서라는 법정 서식이어야 해요. 그리고 사진이 아니라 원본 종이가 필요해요',
 
     relatedDoc: 'referral',
+    // 이미 받았으면 안내할 이유가 없다
+    resolvedBy: ['referral'],
     unverifiedNumbers: false,
     verified: true,
     verifiedAt: '2026-07-22',
@@ -242,6 +244,9 @@ export const RULES = [
 
     caution: '동의서는 자필서명이어야 해요. 도장이나 지장은 인정되지 않아요',
 
+    // 본인만 뗄 수 있는 것과 대리 가능한 것을 둘 다 확보했으면 해결
+    resolvedByAll: ['diagnosis', 'medical-record'],
+
     unverifiedNumbers: false,
     verified: true,
     verifiedAt: '2026-07-22',
@@ -277,6 +282,7 @@ export const RULES = [
     guardRef: 'insurancePayout',
 
     relatedDoc: 'receipt-detail',
+    resolvedBy: ['receipt-detail'],
     unverifiedNumbers: false,
     verified: true,
     verifiedAt: '2026-07-22',

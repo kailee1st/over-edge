@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>기술 — Dr.Hand</title>
+<meta name="description" content="Dr.Hand는 판정 경로에 생성 AI를 두지 않습니다. 같은 상황이면 같은 항목이 빠짐없이 나오도록 규칙 엔진이 판정하고, 근거는 공공기관 원문만 인용합니다.">
+<meta property="og:title" content="Dr.Hand 기술 — 같은 상황이면 같은 답">
+<meta property="og:description" content="판정은 규칙 엔진이, 근거는 공공기관 원문이. 생성 AI는 입력 이해까지만 씁니다.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <a href="intro.html" class="logo">
+      <svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Dr.Hand 로고">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#128b96"/>
+        <path d="M16 7.5v8M12 11.5h8" stroke="#f7f9f9" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M7.5 21.5c2.6 4 14.4 4 17 0" stroke="#c96f4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+      Dr.Hand
+    </a>
+    <a href="intro.html" class="back">← 처음으로</a>
+  </div>
+</header>
+
+<nav class="chipnav" aria-label="메뉴">
+  <div class="chipnav-in">
+    <a href="features.html">기능</a>
+    <a href="tech.html" class="on">기술</a>
+    <a href="faq.html">FAQ</a>
+    <a href="concerns.html">이용 전 안내</a>
+    <a href="intro.html#contact">문의</a>
+  </div>
+</nav>
+
+<nav class="rail" aria-label="메뉴">
+  <div class="rl">MENU</div>
+  <ul>
+    <li><a href="features.html"><span class="ico">◇</span>기능</a></li>
+    <li><a href="tech.html" class="on"><span class="ico">⚙</span>기술</a></li>
+    <li><a href="faq.html"><span class="ico">?</span>FAQ</a></li>
+    <li><a href="concerns.html"><span class="ico">!</span>이용 전 안내</a></li>
+    <li><a href="intro.html#contact"><span class="ico">✉</span>문의</a></li>
+  </ul>
+</nav>
+
+<div class="phead wrap">
+  <div class="eyebrow">기술</div>
+  <h1>같은 상황이면,<br>같은 항목이 빠짐없이</h1>
+  <p>Dr.Hand가 파는 것은 답의 화려함이 아니라 <b>완결성과 재현성</b>입니다.
+    그래서 판정하는 자리에는 생성 AI를 두지 않았습니다.</p>
+</div>
+
+<section class="wrap" style="padding-bottom:16px;">
+  <div class="handoff">
+    <h2 class="sec-title" style="text-align:left;font-size:19px;">판정은 규칙 엔진이, 근거는 공공기관 원문이</h2>
+    <p style="font-size:15.5px;color:var(--ink);">
+      범용 AI도 산정특례를 말할 수 있습니다. 문제는 <b>매번 말하지 않는다는 것</b>, 그리고
+      무엇을 빠뜨렸는지 스스로도 모른다는 것입니다.</p>
+    <p style="font-size:15.5px;color:var(--ink);margin-top:10px;">
+      Dr.Hand의 규칙 목록은 배포 단위로 고정되어 있습니다. 같은 상황을 넣으면 같은 항목이 같은 순서로 나옵니다.
+      생성 AI는 <b>자유롭게 쓴 문장을 상태로 옮기는 데까지만</b> 쓰고, 무엇을 말할지는 엔진이 결정합니다.</p>
+    <div class="chips" style="margin-top:14px;">
+      <span class="chip">kb-v1-20260727</span>
+      <span class="chip">rules-v1-20260727</span>
+      <span class="chip">규칙 7개 · 전부 원문 검증</span>
+      <span class="chip">대기 주제 5개 · 숫자 미출력</span>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding-top:10px;">
+  <h2 class="sec-title" style="text-align:left;">판정 과정 4단계</h2>
+  <p class="sec-lead" style="text-align:left;margin-left:0;">모두 순수 함수입니다. 외부 호출이 없어 같은 입력이면 같은 결과가 나옵니다.</p>
+  <div class="ftable">
+    <div class="frow">
+      <div class="ft">1 · 상태 추출 <span class="st">extractState</span></div>
+      <p>자유 문장이나 선택한 상황에서 <b>지금 어느 단계에 계신지</b>, 확진 여부와 확진일, 확보한 서류를 뽑아냅니다.
+        확진일이 기한 계산의 기준점이 됩니다.</p>
+    </div>
+    <div class="frow">
+      <div class="ft">2 · 서류 층 태깅 <span class="st">tagDocs</span></div>
+      <p>서류마다 누가 발급받을 수 있는지를 층으로 나눕니다 —
+        자동으로 받는 것(T1), 환자 본인이 발급받는 것(T2), 가족이 대리로 받을 수 있는 것과 받을 수 없는 것(T3).
+        <b>곧 잠기는 서류</b>를 미리 알려주는 근거가 됩니다.</p>
+    </div>
+    <div class="frow">
+      <div class="ft">3 · 규칙 대조 <span class="st">matchRules</span></div>
+      <p>고정된 규칙 목록을 현재 상태와 맞춰보고, 발화할 항목을 <b>기한 → 곧 생길 기한 → 요건</b> 순으로 정렬합니다.
+        하드 마감이 있으면 항상 첫 카드입니다.</p>
+    </div>
+    <div class="frow">
+      <div class="ft">4 · 출력 조립 <span class="st">buildOutput</span></div>
+      <p>네 갈래로 나뉩니다 — <b>놓친 것 카드</b> / 확진 전 <b>예고</b> /
+        판정하지 않고 정확한 창구로 넘기는 <b>경계선</b> / 새로 챙길 것이 없을 때의 <b>0개 응답</b>.
+        억지로 채우지 않고, 없으면 없다고 답합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding-top:10px;">
+  <h2 class="sec-title" style="text-align:left;">근거를 다루는 방식</h2>
+  <div class="worry-list">
+    <div class="worry">
+      <h3>Tier 1 출처만 인용합니다</h3>
+      <p>법제처 국가법령정보센터, 국민건강보험공단, 보건복지부, 복지로, 국세청, 국립암센터 등
+        <b>공공기관 원문</b>만 규칙의 근거로 씁니다. 병원 안내 페이지나 사설 법령 DB는 실무 참고로만 두고 인용하지 않으며,
+        블로그·언론·카페는 아예 제외합니다.</p>
+      <p class="src">출처마다 <b>확인한 날짜</b>를 함께 관리합니다. 규정이 바뀌면 날짜부터 다시 확인합니다.</p>
+    </div>
+    <div class="worry">
+      <h3>검증되지 않은 규정은 숫자를 말하지 않습니다</h3>
+      <p>원문 확인이 끝나지 않은 주제는 규칙에 올리지 않고 <b>대기 목록</b>에 둡니다.
+        사용자가 물어오면 금액이나 대상 여부를 판단하지 않고, 어느 기관에 확인해야 하는지만 안내합니다.
+        기한을 틀리게 말하면 손해가 그대로 사용자에게 남기 때문입니다.</p>
+      <p class="src">현재 대기 중 — 노인장기요양 · 본인부담상한제 · 의료비 세액공제 · 회송 절차 등</p>
+    </div>
+    <div class="worry">
+      <h3>판정하지 않는 질문은 처음부터 넘깁니다</h3>
+      <p>진단·치료법·예후에 해당하는 입력은 엔진이 <b>규칙 대조 전에</b> 걸러내고,
+        담당 의료진·약사·공단·보험사·병원 사회복지팀 중 맞는 곳으로 안내합니다.
+        먼저 감정을 한 문장으로 받고, 대신 해드릴 수 있는 일을 제시합니다.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" style="padding-top:10px;">
+  <h2 class="sec-title" style="text-align:left;">개인정보와 자기검사</h2>
+  <div class="ftable">
+    <div class="frow">
+      <div class="ft">기록에는 개인정보를 담지 않습니다</div>
+      <p>이용 기록으로 남기는 것은 <b>어떤 단계에서 어떤 규칙이 몇 번째로 발화했는지</b>,
+        어떤 서류 층이 확보·미확보였는지 같은 <b>구조 정보</b>뿐입니다.
+        이름·생년·연락처·주민번호·이메일은 저장 전에 자동으로 가려집니다.</p>
+      <p class="src">자기검사 항목 — 저장 페이로드에 개인정보 항목이 남아 있는지 매번 확인</p>
+    </div>
+    <div class="frow">
+      <div class="ft">배포 전마다 스스로 검사합니다</div>
+      <p>시나리오별로 <b>나와야 하는 항목과 나오면 안 되는 항목</b>을 대조하고,
+        같은 입력을 여러 번 넣어 <b>매번 같은 결과</b>가 나오는지 확인합니다.
+        기한 날짜 계산, 정렬 순서, 경계선 처리, 0개 응답까지 검사 대상입니다.</p>
+      <p class="src">최근 실행(2026-07-27) — 전체 통과. 재현성 검사에서 동일 입력 5회 결과 일치</p>
+    </div>
+    <div class="frow">
+      <div class="ft">모르는 상황은 모른다고 기록합니다</div>
+      <p>규칙에 걸리지 않는 입력은 억지로 답을 만들지 않고, <b>다루지 못하는 주제</b>로 표시해 따로 모읍니다.
+        그 목록이 다음에 검증할 규칙의 우선순위가 됩니다.</p>
+    </div>
+  </div>
+
+  <div class="end">
+    <a href="features.html" class="cta-primary">
+      기능 보기
+      <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </a>
+    <span class="cta-note">기술적인 질문은 <a href="intro.html#contact" style="color:var(--teal-700);font-weight:700;">문의</a>로 주세요.</span>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="contact"><b>Dr.Hand</b> · 이동원 · KAIST OverEdge · kailee1st@gmail.com</p>
+  <p class="disc">Dr.Hand는 의료 절차와 서류를 정리·안내하는 동행 서비스이며, 진단이나 의학적 확정 판단을 제공하지 않습니다.
+    최종 확인은 담당 의료진과 해당 기관과 함께 하시기 바랍니다.</p>
+  <p class="disc-119">응급 상황(가슴 통증·호흡 곤란·의식 저하 등)에는 Dr.Hand를 이용하지 마시고 즉시 <b>119</b>에 연락하십시오.</p>
+</footer>
+
+<div class="sticky"><a href="intro.html#contact">문의하기</a></div>
+
+</body>
+</html>

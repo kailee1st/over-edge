@@ -604,10 +604,74 @@
   .pf-foot button:hover{background:var(--teal-700);}
   .pf-note{margin-top:11px;font-size:12px;color:var(--ink-faint);line-height:1.6;text-align:center;}
 
+  /* ---------- 대기 화면 예시 질문 ---------- */
+  .egs{margin-top:26px;width:100%;max-width:430px;}
+  .egs-t{font-size:12px;font-weight:800;color:var(--ink-faint);letter-spacing:.03em;
+    margin-bottom:10px;text-transform:uppercase;}
+  .eg{width:100%;text-align:left;border:1px solid var(--line);background:#fff;font:inherit;
+    border-radius:14px;padding:13px 15px;cursor:pointer;margin-bottom:8px;display:block;
+    box-shadow:var(--shadow-sm);}
+  .eg:hover{border-color:var(--teal-500);background:var(--teal-50);}
+  .eg .et{font-size:14px;font-weight:700;color:var(--ink);line-height:1.45;}
+  .eg .ed{font-size:12.5px;color:var(--ink-faint);margin-top:4px;line-height:1.5;}
+  .eg.best{border-color:var(--teal-500);background:linear-gradient(180deg,#f7fcfc,#fff);}
+  .eg.best .badge2{display:inline-block;font-size:10.5px;font-weight:800;color:#fff;
+    background:var(--teal-600);padding:2px 8px;border-radius:999px;margin-bottom:6px;}
+
+  /* ---------- 가상 서류 ---------- */
+  .docs-box{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);
+    background:#fff;padding:15px 16px;}
+  .docs-box .dt{font-size:14.5px;font-weight:800;color:var(--teal-900);display:flex;
+    align-items:center;gap:8px;}
+  .docs-box .dt svg{width:17px;height:17px;color:var(--teal-600);}
+  .docs-box .ds{margin-top:7px;font-size:13px;color:var(--ink-soft);line-height:1.6;}
+  .doc-chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px;}
+  .dchip{border:1px solid var(--line);background:#fff;font:inherit;font-size:13px;
+    padding:8px 13px;border-radius:999px;cursor:pointer;color:var(--ink);display:flex;
+    align-items:center;gap:6px;}
+  .dchip .tr{font-size:9.5px;font-weight:800;padding:1px 5px;border-radius:5px;}
+  .dchip.on{background:var(--teal-600);border-color:var(--teal-600);color:#fff;font-weight:700;}
+  .dchip.on .tr{background:rgba(255,255,255,.24);color:#fff;}
+  .dchip:hover:not(.on){background:var(--teal-50);}
+  .doc-effect{margin-top:12px;background:var(--teal-50);border-radius:11px;padding:11px 13px;
+    font-size:13px;line-height:1.6;color:var(--teal-900);}
+  .doc-effect b{color:var(--teal-700);}
+  .doc-demo{margin-top:10px;font-size:11.5px;color:var(--warm-600);background:var(--warm-50);
+    border-radius:9px;padding:8px 11px;line-height:1.5;}
+
+  /* ---------- 로그인 ---------- */
+  .who{margin-left:9px;border:none;background:none;font:inherit;font-size:12.5px;
+    color:var(--ink-soft);cursor:pointer;padding:5px 9px;border-radius:9px;display:flex;
+    align-items:center;gap:6px;}
+  .who:hover{background:var(--teal-50);color:var(--teal-700);}
+  .who .av{width:22px;height:22px;border-radius:50%;background:var(--teal-600);color:#fff;
+    font-size:11px;font-weight:800;display:grid;place-items:center;flex:0 0 22px;}
+  .login-wrap{position:fixed;inset:0;z-index:90;background:rgba(16,55,60,.4);
+    display:none;place-items:center;padding:20px;}
+  .login-wrap.on{display:grid;}
+  .login{background:#fff;border-radius:22px;padding:26px 24px;max-width:380px;width:100%;
+    box-shadow:0 20px 60px rgba(11,63,71,.28);}
+  .login .lmk{width:56px;height:56px;margin:0 auto 16px;display:block;}
+  .login h2{font-size:19px;font-weight:800;color:var(--teal-900);text-align:center;
+    letter-spacing:-.02em;}
+  .login .lsub{margin-top:8px;font-size:13.5px;color:var(--ink-soft);text-align:center;line-height:1.6;}
+  .login input{margin-top:18px;width:100%;border:1px solid var(--line);border-radius:12px;
+    padding:12px 14px;font:inherit;font-size:15px;}
+  .login input:focus{outline:none;border-color:var(--teal-500);}
+  .login .lbtn{margin-top:11px;width:100%;border:none;background:var(--teal-600);color:#fff;
+    font:inherit;font-size:15px;font-weight:800;padding:13px;border-radius:12px;cursor:pointer;}
+  .login .lbtn:hover{background:var(--teal-700);}
+  .login .lskip{margin-top:9px;width:100%;border:none;background:none;font:inherit;
+    font-size:13px;color:var(--ink-faint);cursor:pointer;padding:8px;border-radius:9px;}
+  .login .lskip:hover{background:#f5f8f8;}
+  .login .lnote{margin-top:15px;font-size:11.5px;color:var(--ink-faint);line-height:1.6;
+    background:#f7f9f9;border-radius:11px;padding:11px 12px;}
+
   @media (max-width:520px){
     .bigmark{width:84px;height:84px;}
     .ask{font-size:20px;}
     .statusbar,.subhd{top:50px;}
+    .egs{max-width:100%;}
   }
 </style>
 </head>
@@ -619,7 +683,10 @@
     <div class="hd-in">
       <span class="mk" id="mkSlot"></span>
       <span class="nm">Dr.Hand</span>
-      <button class="menu" id="menuBtn" type="button" aria-label="메뉴 열기">
+      <button class="who" id="whoBtn" type="button">
+        <span class="av" id="whoAv">?</span><span id="whoNm">누구세요?</span>
+      </button>
+      <button class="menu" id="menuBtn" type="button" aria-label="메뉴 열기" style="margin-left:auto">
         <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
@@ -631,6 +698,10 @@
     <div class="ask">무슨 일이 있으셨어요?</div>
     <div class="ask-sub">부모님 병원 이야기를 적어주시면, 지금 놓치고 있는 것을 먼저 알려드려요.</div>
     <div class="idle-note">진단은 하지 않아요</div>
+    <div class="egs">
+      <div class="egs-t">이렇게 물어보세요</div>
+      <div id="egList"></div>
+    </div>
   </section>
 
   <!-- ===== 결과 화면 ===== -->
@@ -759,6 +830,21 @@
   </div>
 </aside>
 
+<div class="login-wrap" id="loginWrap">
+  <div class="login">
+    <span class="lmk" id="lmkSlot"></span>
+    <h2>어떻게 불러드릴까요?</h2>
+    <div class="lsub">이름만 알려주시면 돼요. 담아둔 할 일과 정보를 다음에도 그대로 보여드릴게요.</div>
+    <input type="text" id="loginName" placeholder="예: 준호" maxlength="20" autocomplete="off">
+    <button class="lbtn" id="loginGo" type="button">시작하기</button>
+    <button class="lskip" id="loginSkip" type="button">그냥 둘러볼게요</button>
+    <div class="lnote">
+      진짜 로그인이 아니에요. 비밀번호도 없고 서버로 아무것도 보내지 않아요.
+      이 브라우저에만 기억해요. 다른 기기에서는 다시 알려주셔야 해요.
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <!-- ===== Supabase (계측용. 개인정보는 저장하지 않음) ===== -->
@@ -776,7 +862,7 @@
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
 import { SCENARIOS, RULE_BACKLOG, findRule } from './rules.js';
-import { TIERS, OUT_OF_SCOPE, findDoc } from './kb.js';
+import { TIERS, OUT_OF_SCOPE, findDoc, DOCS } from './kb.js';
 
 const $ = id => document.getElementById(id);
 const app = $('app');
@@ -821,9 +907,19 @@ const seenIds = [];                   // 지금까지 안내한 룰 (0개 판정
 const profile = {};                   // 내 정보
 let sessionId = null;
 
-const PSTORE = 'drhand.profile';
-try { Object.assign(profile, JSON.parse(localStorage.getItem(PSTORE) || '{}')); } catch(e){}
-function saveProfile(){ try{ localStorage.setItem(PSTORE, JSON.stringify(profile)); }catch(e){} }
+/* ---------- 저장 ----------
+   로그인은 진짜 인증이 아니다. 이름으로 저장 칸을 나누는 것뿐이다.
+   비밀번호도 서버도 없다. 나중에 Supabase Auth 로 갈아끼울 자리.
+   ---------------------------------------------------------- */
+let who = '';
+try { who = localStorage.getItem('drhand.who') || ''; } catch(e){}
+const pkey = () => 'drhand.profile.' + (who || '_guest');
+function loadProfile(){
+  for (const k of Object.keys(profile)) delete profile[k];
+  try { Object.assign(profile, JSON.parse(localStorage.getItem(pkey()) || '{}')); } catch(e){}
+}
+function saveProfile(){ try{ localStorage.setItem(pkey(), JSON.stringify(profile)); }catch(e){} }
+loadProfile();
 
 /* ==========================================================
    카드
@@ -978,6 +1074,11 @@ function render(r){
   }
   $('cards').innerHTML = html;
 
+  // 가진 서류 — 넣으면 판정이 달라진다
+  if (o.kind === 'cards' || o.kind === 'zero') {
+    $('cards').insertAdjacentHTML('beforeend', drawDocsBox(r));
+  }
+
   // 정보가 부족하면 채우라고 알려준다. 몇 개가 더 켜지는지 숫자로 보여준다
   const gaps = profileGaps(profile, { firedIds: (r.matched.fired||[]).map(x=>x.id) });
   if (gaps.count > 0 && o.kind !== 'unhandled') {
@@ -1088,6 +1189,16 @@ $('cards').addEventListener('click', e=>{
     return;
   }
   if (e.target.closest('#gapBtn')) { openProfile(); return; }
+  const dc = e.target.closest('[data-doc]');
+  if (dc) {
+    const id = dc.dataset.doc;
+    const list = new Set(profile.docs || []);
+    list.has(id) ? list.delete(id) : list.add(id);
+    profile.docs = [...list];
+    saveProfile();
+    requery();
+    return;
+  }
   const fu = e.target.closest('#fuBtn');
   if (fu) {
     const date = $('fuDate').value, contact = $('fuContact').value.trim();
@@ -1108,6 +1219,92 @@ $('chips').addEventListener('click', e=>{
   const q = qs[+c.dataset.q]; if (!q) return;
   handle({ text: q.text });
 });
+
+/* ==========================================================
+   예시 질문 — 데모니까 앞에 내놓는다
+   ========================================================== */
+const EXAMPLES = [
+  { scn:'S2', best:true,
+    t:'어머니 조직검사 했고 다음 주에 결과 들으러 가요',
+    d:'확진 전인데도 30일 시계를 미리 알려줘요' },
+  { scn:'S1',
+    t:'건강검진에서 폐에 뭐가 보인다고 하셨어요',
+    d:'큰 병원 갈 때 필요한 서류부터' },
+  { scn:'S3',
+    t:'확진 들었고 진단서 받아왔어요',
+    d:'30일 마감이 실제로 계산돼요' },
+];
+$('egList').innerHTML = EXAMPLES.map((e,i)=>
+  '<button class="eg'+(e.best?' best':'')+'" data-eg="'+i+'" type="button">'
+  + (e.best?'<span class="badge2">가장 잘 보이는 예시</span>':'')
+  + '<div class="et">'+esc(e.t)+'</div><div class="ed">'+esc(e.d)+'</div></button>').join('');
+$('egList').addEventListener('click', e=>{
+  const b = e.target.closest('[data-eg]'); if (!b) return;
+  handle({ scenarioId: EXAMPLES[+b.dataset.eg].scn });
+});
+
+/* ==========================================================
+   가상 서류 — 넣으면 판정이 달라지는 것을 보여준다
+   ========================================================== */
+const DOC_PICK = ['prescription','receipt','receipt-detail','referral','diagnosis','medical-record'];
+
+function tierShort(t){
+  return t==='T1'?'T1':t==='T2'?'T2':t==='T3-ok'?'대리 가능':t==='T3-blocked'?'본인만':t==='T4'?'T4':'';
+}
+function drawDocsBox(r){
+  const picked = new Set(profile.docs || []);
+  const chips = DOC_PICK.map(id=>{
+    const d = findDoc(id); if (!d) return '';
+    return '<button class="dchip'+(picked.has(id)?' on':'')+'" data-doc="'+esc(id)+'" type="button">'
+      + esc(d.name)+'<span class="tr '+ (d.tier==='T1'?'t1':d.tier==='T2'?'t2':d.tier==='T3-ok'?'t3ok':'t3no')
+      +'">'+esc(tierShort(d.tier))+'</span></button>';
+  }).join('');
+
+  // 서류를 넣어서 사라진 항목
+  const resolved = (r.matched.skipped||[]).filter(x=>x.resolved);
+  const effect = resolved.length
+    ? '<div class="doc-effect">서류를 확인했더니 <b>'+resolved.length+'가지</b>는 이제 안 하셔도 돼요. '
+      + '목록에서 내렸어요.</div>'
+    : (picked.size
+        ? '<div class="doc-effect">확인한 서류로는 아직 줄어드는 항목이 없어요.</div>'
+        : '');
+
+  return '<div class="docs-box"><div class="dt">'+svg(I.note)+'가지고 계신 서류를 눌러주세요</div>'
+    + '<div class="ds">서류를 알려주시면 이미 해결된 항목은 목록에서 빠져요. '
+    + '누가 뗄 수 있는 서류인지도 함께 표시했어요.</div>'
+    + '<div class="doc-chips">'+chips+'</div>' + effect
+    + '<div class="doc-demo">데모에서는 실제 파일을 올리지 않아요. 눌러서 "가지고 있다"만 표시합니다. '
+    + '사진 판독은 다음 단계예요.</div></div>';
+}
+
+/* ==========================================================
+   로그인 — 이름으로 저장 칸만 나눈다
+   ========================================================== */
+function drawWho(){
+  $('whoAv').textContent = who ? who.slice(0,1) : '?';
+  $('whoNm').textContent = who ? who + '님' : '누구세요?';
+}
+function openLogin(){
+  $('loginName').value = who || '';
+  $('loginWrap').classList.add('on');
+  setTimeout(()=>$('loginName').focus(), 80);
+}
+function closeLogin(){ $('loginWrap').classList.remove('on'); }
+function setWho(name){
+  who = (name||'').trim().slice(0,20);
+  try{ who ? localStorage.setItem('drhand.who', who) : localStorage.removeItem('drhand.who'); }catch(e){}
+  loadProfile(); drawWho(); closeLogin();
+  adopted.clear(); syncTodoBadge();
+  if (who) toast(who + '님, 담아두신 건 다음에도 그대로 있어요');
+  if (cur) render(cur);
+}
+$('lmkSlot').innerHTML = MARK;
+$('whoBtn').addEventListener('click', openLogin);
+$('loginGo').addEventListener('click', ()=>setWho($('loginName').value));
+$('loginSkip').addEventListener('click', ()=>{ closeLogin(); });
+$('loginName').addEventListener('keydown', e=>{ if(e.key==='Enter') setWho($('loginName').value); });
+$('loginWrap').addEventListener('click', e=>{ if(e.target===$('loginWrap')) closeLogin(); });
+drawWho();
 
 /* ==========================================================
    내 할 일 — 채택한 것의 진행 상황

@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr.Hand — 집안에 의사 한 명, 이제 손안에</title>
+<meta name="description" content="병원 처음이라 낯설고 불안하시죠? 상황만 알려주시면 Dr.Hand가 진료 내용을 정리하고, 지금 놓치고 있는 것을 기한이나 요건이 걸린 것부터 알려드립니다. 진단은 하지 않아요.">
+<meta property="og:title" content="Dr.Hand — 집안에 의사 한 명, 이제 손안에">
+<meta property="og:description" content="상황만 알려주시면 진료 내용을 정리하고, 지금 놓치고 있는 것을 먼저 알려드립니다.">
+<meta property="og:type" content="website">
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@latest/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <a href="intro.html" class="logo">
+      <svg class="mark" viewBox="0 0 32 32" role="img" aria-label="Dr.Hand 로고">
+        <rect x="1" y="1" width="30" height="30" rx="9" fill="#128b96"/>
+        <path d="M16 7.5v8M12 11.5h8" stroke="#f7f9f9" stroke-width="2.6" stroke-linecap="round"/>
+        <path d="M7.5 21.5c2.6 4 14.4 4 17 0" stroke="#c96f4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+      </svg>
+      Dr.Hand
+    </a>
+    <a href="#contact" class="nav-cta">문의하기</a>
+  </div>
+</header>
+
+<nav class="chipnav" aria-label="메뉴">
+  <div class="chipnav-in">
+    <a href="features.html">기능</a>
+    <a href="tech.html">기술</a>
+    <a href="faq.html">FAQ</a>
+    <a href="concerns.html">이용 전 안내</a>
+    <a href="#contact">문의</a>
+  </div>
+</nav>
+
+<nav class="rail" aria-label="메뉴">
+  <div class="rl">MENU</div>
+  <ul>
+    <li><a href="features.html"><span class="ico">◇</span>기능</a></li>
+    <li><a href="tech.html"><span class="ico">⚙</span>기술</a></li>
+    <li><a href="faq.html"><span class="ico">?</span>FAQ</a></li>
+    <li><a href="concerns.html"><span class="ico">!</span>이용 전 안내</a></li>
+    <li><a href="#contact"><span class="ico">✉</span>문의</a></li>
+  </ul>
+</nav>
+
+<!-- ① 들어가는 말 -->
+<div class="hero wrap">
+  <span class="badge">🩺 진단하지 않는 의료 동행 AI</span>
+  <h1>집안에 의사 한 명 있었으면,<br><span class="hl">이제 손안에 있어요</span></h1>
+  <p class="sub">진료 내용을 정리하고, <b>지금 놓치고 있는 것</b>을 먼저 알려드려요.</p>
+  <p class="guard">진단은 하지 않아요. 의학적 판단은 의료진과 함께.</p>
+</div>
+
+<!-- ② 페인포인트 -->
+<section class="wrap" style="padding:16px 0 0;">
+  <div class="asks">
+    <h2>병원 처음이라<br>낯설고 불안하시죠?</h2>
+    <div class="ask-list">
+      <div class="ask"><span class="ic">🔍</span><p>정보는 많은데, 어떤 것이 나를 위한 것인지 모르겠고</p></div>
+      <div class="ask"><span class="ic">😮‍💨</span><p>혼자 정보 찾고 간병하랴 정신없고</p></div>
+      <div class="ask"><span class="ic">💭</span><p>무언가 빼놓은 게 있을까 봐 계속 신경 쓰이고</p></div>
+    </div>
+    <p class="close">처음이면 누구나 그렇습니다.
+      <small>모르는 게 문제가 아니라, <b>무엇을 모르는지 모르는 것</b>이 문제입니다.</small></p>
+  </div>
+</section>
+
+<!-- ②-2 근거: 얼마나 많은 사람이 이 상황에 있는가 -->
+<section class="wrap" style="padding:22px 0 0;">
+  <div class="proof">
+    <h2>몰라서 신청하지 못한 돈은<br>그대로 사라집니다</h2>
+    <p class="plead">우리 제도는 대부분 <b>신청주의</b>입니다. 자격이 있어도 신청하지 않으면 아무 일도 일어나지 않고,
+      기한이 지나면 영구히 소멸합니다.</p>
+    <div class="proof-grid">
+      <div class="pstat">
+        <div class="pn">510억 원</div>
+        <div class="pl">신청하지 않아 <b>시효로 소멸한</b> 본인부담상한제 환급금 — 6만 5천여 명 몫</div>
+        <div class="ps">국민건강보험공단 (2015~2025.9 누적)</div>
+      </div>
+      <div class="pstat">
+        <div class="pn">78만 원</div>
+        <div class="pl">그중 <b>1인당 평균</b> 금액 — 받을 수 있었지만 받지 못한 돈입니다</div>
+        <div class="ps">국민건강보험공단</div>
+      </div>
+      <div class="pstat">
+        <div class="pn">61%</div>
+        <div class="pl">못 받은 사람 중 <b>소득 1~3분위</b> 비율 — 손해는 아래쪽에 쏠립니다</div>
+        <div class="ps">국민건강보험공단</div>
+      </div>
+      <div class="pstat">
+        <div class="pn">+51%</div>
+        <div class="pl">재난적의료비 기준을 완화한 <b>다음 해 지급 건수 증가율</b> — 환자가 늘어난 것이 아니라, 원래 있었는데 제도 밖에 있던 분들이 들어온 것입니다</div>
+        <div class="ps">국민건강보험공단 2024 지급 실적</div>
+      </div>
+    </div>
+    <p class="pclose">정보가 부족해서 생기는 일이 아닙니다.<br>
+      <span>제도 이름을 몰라서, 기한을 몰라서 생깁니다.</span></p>
+    <p style="font-size:11.5px;color:rgba(255,255,255,.5);text-align:center;margin-top:14px;line-height:1.6;">
+      위 네 항목은 공단 발표 자료로 확인된 수치입니다.
+      절차를 몰라 새는 금액 전체는 연 <b style="color:rgba(255,255,255,.7)">약 1,360억 원</b>으로 <b style="color:rgba(255,255,255,.7)">추정</b>합니다 —
+      가계가 직접 부담하는 의료비의 0.28% 수준으로 보수적으로 잡은 값입니다.</p>
+  </div>
+</section>
+
+<!-- ②→③ 연결 -->
+<div class="bridge wrap">
+  <span class="line"></span>
+  <p class="txt">무엇을 물어야 할지 몰라도 됩니다.<br>지금 상황만 알려주시면 됩니다.</p>
+</div>
+
+<!-- ③ 카드뉴스로 보는 기능 -->
+<section class="wrap" style="padding-top:14px;">
+  <div class="sec-eyebrow">Dr.Hand가 하는 일</div>
+  <h2 class="sec-title">상황만 말씀해 주세요.<br>나머지는 <span style="color:var(--teal-600)">저희가 찾습니다</span></h2>
+  <p class="sec-lead">검색어를 몰라도, 제도 이름을 몰라도 괜찮습니다.
+    지금 어디쯤인지·이번 진료에서 무엇이 정해지는지·무엇을 물어야 하는지까지 정리해 드립니다.</p>
+
+  <div class="flow">
+    <div class="fstep">
+      <div class="sn"><i>1</i>보내주시는 것</div>
+      <h3>상황 한 줄</h3>
+      <p>말하듯 적으시면 됩니다. 사진이나 음성메모도 괜찮습니다.</p>
+      <div class="quote">"어머니가 폐에 뭐가 보인다고<br>추가검사 받으라셔요"</div>
+    </div>
+
+    <div class="fstep key">
+      <div class="sn"><i>2</i>AI가 하는 일</div>
+      <h3>지금 어디쯤인지부터<br>맞춰봅니다</h3>
+      <p>어느 단계에 계신지 파악하고, 그 단계에서 보통 무엇이 정해지는지, 무엇이 기한이나 요건에 걸리는지를
+        공공기관 원문과 대조합니다.</p>
+      <div class="tags">
+        <span>진료 단계 파악</span><span>이번 진료의 목적</span><span>기한 규정</span><span>서류 요건</span><span>공식 원문 대조</span>
+      </div>
+    </div>
+
+    <div class="fstep">
+      <div class="sn"><i>3</i>돌려받는 것</div>
+      <h3>돌려받는 네 가지</h3>
+      <p>정보를 더 드리는 게 아니라, <b>지금 필요한 판단</b>만 드립니다.</p>
+      <div class="out">
+        <div><b>위치</b><span>지금 어느 단계인지</span></div>
+        <div><b>다음</b><span>이번 진료에서 정해질 것</span></div>
+        <div><b>질문</b><span>그 자리에서 읽을 질문</span></div>
+        <div><b>놓친 것</b><span>기한·요건이 걸린 것</span></div>
+      </div>
+    </div>
+  </div>
+
+  <p class="sec-lead" style="margin-bottom:18px;">실제로 이렇게 돌아옵니다 — 화면을 옆으로 넘겨보세요.</p>
+
+  <div class="stage">
+    <div class="mascot-row">
+      <svg class="mascot" viewBox="0 0 120 120" fill="none" role="img" aria-label="Dr.Hand 마스코트">
+        <rect x="40" y="20" width="12" height="34" rx="6" fill="#16a2af"/>
+        <rect x="55" y="14" width="12" height="40" rx="6" fill="#16a2af"/>
+        <rect x="70" y="20" width="12" height="34" rx="6" fill="#16a2af"/>
+        <rect x="84" y="30" width="12" height="26" rx="6" fill="#16a2af"/>
+        <rect x="24" y="46" width="26" height="12" rx="6" fill="#128b96"/>
+        <rect x="34" y="46" width="62" height="56" rx="24" fill="#16a2af"/>
+        <circle cx="55" cy="76" r="4.4" fill="#fff"/>
+        <circle cx="76" cy="76" r="4.4" fill="#fff"/>
+        <circle cx="56" cy="77" r="2" fill="#0b3f47"/>
+        <circle cx="77" cy="77" r="2" fill="#0b3f47"/>
+        <path d="M58 88q7.5 6 15 0" stroke="#fff" stroke-width="3" stroke-linecap="round" fill="none"/>
+        <circle cx="47" cy="86" r="4" fill="#fff" opacity=".28"/>
+        <circle cx="85" cy="86" r="4" fill="#fff" opacity=".28"/>
+      </svg>
+      <div class="bubble">물어보지 않으신 것부터<br>말씀드릴게요 ✋</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-inner">
+        <div class="phone-bar">
+          <svg class="m" viewBox="0 0 32 32" aria-hidden="true">
+            <rect x="1" y="1" width="30" height="30" rx="9" fill="#128b96"/>
+            <path d="M16 7.5v8M12 11.5h8" stroke="#f7f9f9" stroke-width="2.8" stroke-linecap="round"/>
+            <path d="M7.5 21.5c2.6 4 14.4 4 17 0" stroke="#c96f4a" stroke-width="3" stroke-linecap="round" fill="none"/>
+          </svg>
+          <b>Dr.Hand</b><span class="to">놓친 것 점검</span>
+        </div>
+        <div class="viewport">
+          <div class="track" id="track">
+
+            <div class="screen">
+              <div class="callout"><span class="n">1</span>병원에서 받아온 종이, 사진 한 장으로 시작해요</div>
+              <div class="rcard">
+                <div class="rc-h">📎 받은 것</div>
+                <div class="doc"><span class="di">💊</span><span>처방전</span></div>
+                <div class="doc"><span class="di">🧾</span><span>진료비 계산서·영수증</span></div>
+                <div class="doc"><span class="di">🎙️</span><span>진료 직후 남긴 음성메모 40초</span></div>
+                <div class="checkline"><span class="cb">✓</span>가족 서류라면 본인 동의를 받으셨나요?</div>
+                <p class="mini-note">병원에서 자동으로 받으시는 서류만으로 시작할 수 있습니다. 따로 발급받아 오실 서류는 없습니다.</p>
+              </div>
+            </div>
+
+            <div class="screen">
+              <div class="callout"><span class="n">2</span>지금 어디쯤 오셨는지 알려드려요</div>
+              <div class="rcard">
+                <div class="rc-h">🧭 현재 위치</div>
+                <div class="rc-b">폐에 <b>결절</b>(작은 덩어리)이 보여 <b>추가검사를 기다리는 단계</b>입니다.
+                  아직 진단이 정해진 단계는 아닙니다.</div>
+                <div class="doc"><span class="di">📅</span><span>다음 진료는 <b>조직검사를 할지 정하는 자리</b>입니다</span></div>
+                <div class="checkline" style="align-items:flex-start;"><span class="cb">1</span>조직검사를 하나요, 추적관찰인가요? 한다면 언제인가요</div>
+                <div class="checkline" style="align-items:flex-start;"><span class="cb">2</span>검사 방법은 무엇이고, 입원이 필요한가요</div>
+                <div class="checkline" style="align-items:flex-start;"><span class="cb">3</span>결과 듣는 날 예약은 오늘 잡아야 하나요</div>
+                <p class="mini-note">진료실을 나오면 다시 묻기 어렵습니다. 그래서 들어가시기 전에 드립니다.</p>
+              </div>
+            </div>
+
+            <div class="screen">
+              <div class="callout"><span class="n">3</span>지금 놓치고 계신 것</div>
+              <div class="rcard alert">
+                <div class="rc-h">⚠️ 기한이 걸려 있습니다</div>
+                <div class="rc-title">산정특례 등록 신청</div>
+                <div class="four">
+                  <div class="row"><span class="lb">기한</span><span class="vl"><b>확진일부터 30일 이내</b> (토·일·공휴일 포함). 지나면 신청일부터만 적용됩니다</span></div>
+                  <div class="row"><span class="lb">공식 안내</span><span class="vl"><a href="https://www.nhis.or.kr/static/html/wbma/c/wbmac0215.html" target="_blank" rel="noopener">국민건강보험공단 안내 →</a></span></div>
+                  <div class="row"><span class="lb">지금 할 일</span><span class="vl">공단 1577-1000에 <b>등록 여부</b> 확인</span></div>
+                </div>
+                <p class="mini-note">※ 확정 판단이 아니며, 최종 확인은 공단과 함께 하시기 바랍니다.</p>
+              </div>
+            </div>
+
+            <div class="screen">
+              <div class="callout"><span class="n">4</span>새로 놓치고 있는 것: 0개</div>
+              <div class="rcard ok">
+                <div class="rc-h">✅ 이번엔 새로 챙기실 것이 없습니다</div>
+                <div class="rc-b">반복되는 세 가지는 계속 확인하고 있습니다.</div>
+                <div class="doc"><span class="di">🩸</span><span>검사 예약 — 확인됨</span></div>
+                <div class="doc"><span class="di">🗓️</span><span>다음 진료일 — 확인됨</span></div>
+                <div class="doc"><span class="di">🧾</span><span>수납 시 "세부내역서" 요청 — 3회 연속</span></div>
+                <p class="peak">오늘도 잘 챙기셨어요.</p>
+                <p class="mini-note">챙기실 것이 없으면 없다고 알려드립니다. 항목을 억지로 채우지 않습니다.</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button class="nav" id="prev" aria-label="이전 화면">‹</button>
+      <div class="dots" id="dots"></div>
+      <button class="nav" id="next" aria-label="다음 화면">›</button>
+    </div>
+    <p class="screen-label" id="slabel">1 / 4 · 상황 보내기</p>
+  </div>
+
+  <div class="famstrip">
+    <span class="fi">👨‍👩‍👧</span>
+    <div>
+      <h4>환자와 보호자가 함께 쓰기 <span class="tag">준비 중</span></h4>
+      <p>환자분이 병원에서 받아 나온 서류를 보호자와 <b>같이 모으고</b>,
+        지금 어디까지 왔는지 <b>같은 화면으로 함께 보는</b> 구조입니다.
+        서류와 상황이 한 사람 손에만 남지 않게 하는 것이 목적입니다.</p>
+      <p style="margin-top:8px;">어려운 쪽은 화면이 아니라 <b>동의와 본인인증</b>입니다.
+        의료정보의 주인은 환자 본인이고, 온라인 열람이나 대리 발급은 본인인증 절차를 통과해야 합니다.
+        그 절차를 제대로 갖춘 뒤에 엽니다 — 그때까지는 대화방에 그대로 붙여 쓸 수 있는 문장으로 대신합니다.</p>
+    </div>
+  </div>
+
+  <div class="end" style="padding-top:20px;">
+    <a href="features.html" class="cta-ghost">여정의 어디까지 되는지 보기 →</a>
+  </div>
+</section>
+
+<!-- ④ 소식 받기 · 문의 -->
+<section class="wrap" id="contact">
+  <div class="about">
+    <h2>소식 받기 · 문의</h2>
+    <p class="who">서비스 카드뉴스와 데모 업데이트, 이후 진행 소식을<br>받아보고 싶으시면 이메일을 남겨주세요.</p>
+
+    <form id="waitForm" novalidate>
+      <div class="form-row" id="formRow">
+        <input type="email" id="email" placeholder="이메일 주소" autocomplete="email" aria-label="이메일 주소">
+        <button type="submit" id="submitBtn" data-umami-event="signup-click">소식 받기</button>
+      </div>
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+    </form>
+
+    <div class="about-grid" style="margin-top:16px;">
+      <a href="mailto:kailee1st@gmail.com">✉️ 직접 문의 — kailee1st@gmail.com</a>
+      <div class="row">📱 설치 없이 웹에서 바로 — 앱 출시 준비 중</div>
+    </div>
+    <p class="consent">이메일은 소식 안내에만 사용하고, 원하실 때 언제든 해지하실 수 있습니다.
+      가족 서류를 보내주실 때는 환자 본인 동의를 먼저 받아주세요.</p>
+  </div>
+</section>
+
+<!-- ⑤ 데모 이동 -->
+<section class="wrap" style="padding-top:0;">
+  <div class="demo-band">
+    <div class="dtext">
+      <h3>직접 눌러보는 데모</h3>
+      <p>상황을 넣으면 놓치고 있는 것을 실제로 찾아서 보여줍니다.
+        <b>지금 만들고 있는 버전</b>이라 화면이 계속 바뀝니다.</p>
+    </div>
+    <a href="demo.html" class="demo-btn">데모 열기 →</a>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="contact"><b>Dr.Hand</b> · 이동원 · KAIST OverEdge · kailee1st@gmail.com</p>
+  <p class="disc">Dr.Hand는 의료 절차와 서류를 정리·안내하는 동행 서비스이며, 진단이나 의학적 확정 판단을 제공하지 않습니다.
+    최종 확인은 담당 의료진과 해당 기관과 함께 하시기 바랍니다.</p>
+  <p class="disc-119">응급 상황(가슴 통증·호흡 곤란·의식 저하 등)에는 Dr.Hand를 이용하지 마시고 즉시 <b>119</b>에 연락하십시오.</p>
+</footer>
+
+<div class="sticky"><a href="#contact">문의하기</a></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+/* 소식 받기 — Supabase waitlist 테이블에 이메일만 INSERT.
+   ⚠️ RLS가 anon INSERT만 허용하고 SELECT는 차단이므로 .insert()에 .select()를 붙이면 401이 납니다. */
+(function(){
+  var form = document.getElementById('waitForm');
+  if(!form || !window.supabase) return;
+  var sb = window.supabase.createClient(
+    'https://efzhsdedyeyjanvzikqe.supabase.co',
+    'sb_publishable_gfXK9g5zoc-izRagjS_2Eg_Tm7rv94x'
+  );
+  var emailEl = document.getElementById('email');
+  var btn = document.getElementById('submitBtn');
+  var msg = document.getElementById('formMsg');
+  var row = document.getElementById('formRow');
+  var DONE_KEY = 'drhand_waitlist_done';
+
+  function showDone(email){
+    row.innerHTML = '<div class="form-done"><span class="chk">✓</span>등록되었습니다. 소식이 준비되면 알려드릴게요.</div>';
+    msg.textContent = email ? (email + ' 으로 보내드립니다') : '';
+    msg.className = 'form-msg ok';
+  }
+  var prev = localStorage.getItem(DONE_KEY);
+  if(prev){ showDone(prev); }
+
+  function setMsg(t, k){ msg.textContent = t; msg.className = 'form-msg ' + (k||''); }
+  function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    var email = (emailEl.value || '').trim().toLowerCase();
+    if(!email){ setMsg('이메일을 입력해 주세요.', 'err'); emailEl.focus(); return; }
+    if(!isEmail(email)){ setMsg('이메일 형식을 확인해 주세요.', 'err'); emailEl.focus(); return; }
+    btn.disabled = true; emailEl.disabled = true;
+    var orig = btn.textContent; btn.textContent = '등록 중…';
+    setMsg('', '');
+    try{
+      var res = await sb.from('waitlist').insert([{ email: email }]);
+      if(res.error){
+        var m = res.error.message || '';
+        if(res.error.code === '23505' || /duplicate|unique/i.test(m)){
+          localStorage.setItem(DONE_KEY, email); showDone(email);
+          setMsg('이미 등록된 이메일입니다. 준비되면 알려드릴게요.', 'ok'); return;
+        }
+        throw res.error;
+      }
+      localStorage.setItem(DONE_KEY, email); showDone(email);
+    }catch(err){
+      btn.disabled = false; emailEl.disabled = false; btn.textContent = orig;
+      setMsg('잠시 문제가 생겼습니다. 다시 시도해 주세요.', 'err');
+      console.error('[waitlist]', err);
+    }
+  });
+})();
+</script>
+<script>
+(function(){
+  var track = document.getElementById('track');
+  var dotsWrap = document.getElementById('dots');
+  var label = document.getElementById('slabel');
+  var names = ['상황 보내기','지금 어디쯤인지','놓친 것 짚기','새로 놓친 것 0개'];
+  var total = track.children.length;
+  var i = 0, timer = null;
+
+  for(var d=0; d<total; d++){
+    (function(d){
+      var b = document.createElement('button');
+      b.className = 'dot' + (d===0?' on':'');
+      b.setAttribute('aria-label', (d+1)+'번째 화면: ' + (names[d]||''));
+      b.addEventListener('click', function(){ go(d); restart(); });
+      dotsWrap.appendChild(b);
+    })(d);
+  }
+  var dots = dotsWrap.children;
+
+  function go(n){
+    i = (n + total) % total;
+    track.style.transform = 'translateX(' + (-i*100) + '%)';
+    for(var d=0; d<total; d++) dots[d].classList.toggle('on', d===i);
+    label.textContent = (i+1) + ' / ' + total + ' · ' + (names[i]||'');
+  }
+  document.getElementById('next').addEventListener('click', function(){ go(i+1); restart(); });
+  document.getElementById('prev').addEventListener('click', function(){ go(i-1); restart(); });
+
+  var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function start(){ if(reduceMotion) return; timer = setInterval(function(){ go(i+1); }, 5200); }
+  function restart(){ clearInterval(timer); start(); }
+  start();
+})();
+</script>
+</body>
+</html>

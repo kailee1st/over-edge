@@ -259,6 +259,7 @@ export function applyProfile(state, profile) {
     if (v === undefined || v === '') continue;
     out[f.key] = v;
   }
+
   // 다음 진료일이 있으면 이벤트로 넣는다 (팔로업 날짜가 됨)
   if (profile.nextVisitDate) {
     const others = (out.events || []).filter((e) => e.type !== 'resultVisit');
@@ -267,8 +268,43 @@ export function applyProfile(state, profile) {
       { type: 'resultVisit', label: '다음 진료', date: profile.nextVisitDate, inDays: null },
     ];
   }
+
+  // 가진 서류 — 텍스트에서 못 잡은 것을 사용자가 직접 체크한 것.
+  // 합집합으로 넣는다. 그리고 확보한 서류는 미확보 목록에서 뺀다.
+  if (Array.isArray(profile.docs) && profile.docs.length) {
+    const merged = [...new Set([...(out.docs || []), ...profile.docs])];
+    out.docs = merged;
+    out.docsHave = merged.map((id) => (findDoc(id) || {}).name).filter(Boolean);
+    out.docsMissing = (out.docsMissing || []).filter((id) => !merged.includes(id));
+  }
+
   out.profileApplied = true;
   return out;
+}
+
+/* ------------------------------------------------------------
+   서류를 넣으면 무엇이 달라지는가
+   ------------------------------------------------------------
+   데모에서 "서류를 넣으면 판정이 바뀐다"를 보여주는 데 쓴다.
+   같은 상황에서 서류만 추가해 두 번 돌리고 차이를 낸다.
+   ------------------------------------------------------------ */
+export function diffByDocs(input, docIds, opts = {}) {
+  const base = run(input, opts);
+  const withDocs = run(input, {
+    ...opts,
+    profile: { ...(opts.profile || {}), docs: docIds },
+  });
+
+  const b = new Set(base.matched.fired.map((r) => r.id));
+  const a = new Set(withDocs.matched.fired.map((r) => r.id));
+
+  return {
+    before: base,
+    after: withDocs,
+    resolved: [...b].filter((id) => !a.has(id)), // 서류가 있어서 이제 안 해도 되는 것
+    added: [...a].filter((id) => !b.has(id)),    // 서류가 있어서 새로 알게 된 것
+    unchanged: [...a].filter((id) => b.has(id)),
+  };
 }
 
 /** 아직 안 채운 정보와, 채우면 켜지는 룰 */
@@ -467,7 +503,9 @@ export function matchRules(state, tags) {
   for (const rule of RULES) {
     const verdict = testRule(rule, state, tags);
     if (verdict.fired) fired.push(rule);
-    else skipped.push({ id: rule.id, reason: verdict.reason });
+    // resolved: 서류를 확보해서 안 해도 되게 된 것.
+    // 단계 불일치로 안 뜬 것과 구분해야 사용자에게 "줄었어요"를 말할 수 있다.
+    else skipped.push({ id: rule.id, name: rule.name, reason: verdict.reason, resolved: !!verdict.resolved });
   }
 
   return { fired: sortRules(fired), skipped };
@@ -511,6 +549,16 @@ function testRule(rule, state, tags) {
   // 추가 조건 (예: 부모가 혼자 진료실에 들어가는 상황에서만)
   if (rule.onlyIf === 'patientGoesAlone' && state.patientGoesAlone !== true) {
     return { fired: false, reason: '부모님이 혼자 가시는 상황이 아님' };
+  }
+
+  // 이미 그 서류를 확보했으면 안내할 이유가 없다.
+  // 서류를 넣으면 목록에서 사라지는 것이 사용자가 체감하는 "달라짐"이다.
+  const have = new Set(state.docs || []);
+  if (rule.resolvedBy && rule.resolvedBy.some((d) => have.has(d))) {
+    return { fired: false, reason: '해당 서류를 이미 확보함', resolved: true };
+  }
+  if (rule.resolvedByAll && rule.resolvedByAll.every((d) => have.has(d))) {
+    return { fired: false, reason: '필요 서류를 모두 확보함', resolved: true };
   }
 
   return { fired: true, reason: null };
