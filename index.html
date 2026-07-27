@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dr.Hand — 집안에 의사 한 명, 이제 손안에</title>
+<meta name="description" content="Dr.Hand는 떨어져 사는 부모님의 진료를 대신 챙기는 의료 동행 AI입니다. 진료실 안부터 다음 할 일, 서류까지 — 집안의 주치의처럼. 진단은 하지 않아요.">
+<meta property="og:title" content="Dr.Hand — 집안에 의사 한 명, 이제 손안에">
+<meta property="og:description" content="떨어져 사는 부모님 병원을 대신 챙기는 의료 동행 AI. 정리하고, 다음 할 일을 알려주고, 서류를 연결해요.">
+<meta property="og:type" content="website">
+<style>
+  :root{
+    --teal-900:#0b3f47; --teal-700:#0f6d78; --teal-600:#128b96; --teal-500:#16a2af;
+    --teal-100:#d3edef; --teal-50:#e8f6f7;
+    --ink:#1c2b2e; --ink-soft:#54646a; --ink-faint:#8a979c;
+    --line:#e7eded; --card:#fff;
+    --shadow-sm:0 1px 3px rgba(16,55,60,.06),0 1px 2px rgba(16,55,60,.04);
+    --shadow-md:0 8px 30px rgba(16,55,60,.09),0 2px 8px rgba(16,55,60,.05);
+    --radius:20px; --radius-sm:14px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:"Pretendard","Apple SD Gothic Neo","Malgun Gothic","Segoe UI",system-ui,sans-serif;
+    color:var(--ink);line-height:1.62;-webkit-font-smoothing:antialiased;
+    background:linear-gradient(180deg,#eef4f5 0%,#f7f9f9 42%,#fff 100%);
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 20px;}
+
+  /* header */
+  header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:rgba(247,249,249,.82);border-bottom:1px solid var(--line);}
+  .head-in{max-width:960px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;justify-content:space-between;gap:12px;}
+  .logo{display:flex;align-items:center;gap:9px;font-weight:800;font-size:19px;color:var(--teal-900);letter-spacing:-.02em;}
+  .logo .mark{width:30px;height:30px;border-radius:9px;background:linear-gradient(135deg,var(--teal-600),var(--teal-500));display:grid;place-items:center;box-shadow:0 3px 10px rgba(18,139,150,.35);}
+  .logo .mark svg{width:18px;height:18px;}
+  .nav-cta{font-size:14px;font-weight:700;color:#fff;background:var(--teal-600);padding:9px 16px;border-radius:999px;text-decoration:none;white-space:nowrap;box-shadow:0 3px 10px rgba(18,139,150,.3);transition:background .2s;}
+  .nav-cta:hover{background:var(--teal-700);}
+
+  /* hero */
+  .hero{padding:52px 0 20px;display:flex;flex-direction:column;align-items:center;text-align:center;gap:8px;}
+  .badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--teal-700);background:var(--teal-50);border:1px solid var(--teal-100);padding:7px 14px;border-radius:999px;margin-bottom:14px;}
+  .hero h1{font-size:33px;line-height:1.28;letter-spacing:-.03em;font-weight:800;color:var(--teal-900);}
+  .hero h1 .hl{color:var(--teal-600);}
+  .hero .sub{font-size:16.5px;color:var(--ink-soft);max-width:600px;margin-top:6px;}
+  .hero .guard{font-size:13px;color:var(--ink-faint);margin-top:2px;}
+  .cta-primary{display:inline-flex;align-items:center;gap:9px;font-size:17px;font-weight:800;color:#fff;background:linear-gradient(135deg,var(--teal-600),var(--teal-500));padding:16px 30px;border-radius:999px;text-decoration:none;box-shadow:0 8px 24px rgba(18,139,150,.35);transition:transform .15s,box-shadow .2s;margin-top:16px;}
+  .cta-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(18,139,150,.42);}
+  .cta-primary svg{width:20px;height:20px;}
+  .cta-note{font-size:12.5px;color:var(--ink-faint);margin-top:10px;}
+
+  /* app mockup (phone) */
+  .mock{margin-top:30px;width:270px;max-width:82vw;background:#fff;border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow-md);padding:14px 12px 16px;text-align:left;}
+  .mock-bar{display:flex;align-items:center;gap:7px;padding:2px 4px 12px;border-bottom:1px solid var(--line);margin-bottom:12px;}
+  .mock-bar .m-mark{width:22px;height:22px;border-radius:7px;background:linear-gradient(135deg,var(--teal-600),var(--teal-500));display:grid;place-items:center;}
+  .mock-bar .m-mark svg{width:13px;height:13px;}
+  .mock-bar b{font-size:13px;color:var(--teal-900);}
+  .mock-bar .dot{margin-left:auto;width:7px;height:7px;border-radius:50%;background:#37c46a;box-shadow:0 0 0 3px rgba(55,196,106,.16);}
+  .m-ai{background:var(--teal-50);border:1px solid var(--teal-100);border-radius:14px;border-top-left-radius:5px;padding:11px 13px;font-size:13.5px;color:var(--ink);margin-bottom:9px;max-width:90%;}
+  .m-user{background:var(--teal-600);color:#fff;border-radius:14px;border-top-right-radius:5px;padding:10px 13px;font-size:13px;margin-left:auto;max-width:82%;margin-bottom:12px;}
+  .m-input{display:flex;align-items:center;gap:8px;border:1px solid var(--line);border-radius:999px;padding:8px 8px 8px 14px;}
+  .m-input span{font-size:12.5px;color:var(--ink-faint);flex:1;}
+  .m-input .mic{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--teal-600),var(--teal-500));display:grid;place-items:center;flex:none;}
+  .m-input .mic svg{width:15px;height:15px;}
+
+  /* empathy line */
+  .empathy{text-align:center;font-size:18px;font-weight:700;color:var(--teal-900);letter-spacing:-.02em;padding:44px 0 8px;}
+  .empathy span{color:var(--teal-600);}
+
+  section{padding:22px 0;}
+  .sec-eyebrow{font-size:13px;font-weight:700;color:var(--teal-600);text-align:center;letter-spacing:.02em;margin-bottom:8px;}
+  .sec-title{font-size:23px;font-weight:800;color:var(--teal-900);text-align:center;letter-spacing:-.02em;margin-bottom:26px;line-height:1.35;}
+
+  /* feature journey cards */
+  .feat-list{display:flex;flex-direction:column;gap:16px;}
+  .feat{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:24px 22px;box-shadow:var(--shadow-sm);position:relative;}
+  .feat .num{position:absolute;top:-11px;left:22px;width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--teal-600),var(--teal-500));color:#fff;font-weight:800;font-size:15px;display:grid;place-items:center;box-shadow:0 3px 9px rgba(18,139,150,.35);}
+  .feat .fq{font-size:14px;color:var(--ink-faint);font-style:italic;margin:6px 0 10px;}
+  .feat h3{font-size:19px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;margin-bottom:7px;display:flex;align-items:center;gap:9px;}
+  .feat h3 .ic{width:34px;height:34px;border-radius:10px;background:var(--teal-50);border:1px solid var(--teal-100);display:grid;place-items:center;flex:none;}
+  .feat h3 .ic svg{width:19px;height:19px;color:var(--teal-600);}
+  .feat p{font-size:15px;color:var(--ink-soft);}
+  .feat .feff{display:inline-block;margin-top:11px;font-size:13.5px;font-weight:600;color:var(--teal-700);background:var(--teal-50);border-radius:999px;padding:5px 13px;}
+
+  /* mid CTA */
+  .mid-cta{text-align:center;padding:30px 0 8px;}
+
+  /* waitlist */
+  .signup{background:linear-gradient(135deg,var(--teal-700),var(--teal-500));border-radius:var(--radius);padding:38px 26px;text-align:center;color:#fff;box-shadow:var(--shadow-md);margin-top:24px;}
+  .signup h2{font-size:21px;font-weight:800;letter-spacing:-.02em;margin-bottom:8px;}
+  .signup p{font-size:15px;color:rgba(255,255,255,.9);margin-bottom:22px;}
+  .form-row{display:flex;gap:9px;max-width:420px;margin:0 auto;}
+  .form-row input{flex:1;font-size:16px;font-family:inherit;padding:14px 16px;border:none;border-radius:12px;color:var(--ink);outline:none;}
+  .form-row input:focus{box-shadow:0 0 0 3px rgba(255,255,255,.5);}
+  .form-row button{font-size:15px;font-weight:800;font-family:inherit;color:var(--teal-700);background:#fff;border:none;padding:14px 20px;border-radius:12px;cursor:pointer;white-space:nowrap;transition:opacity .2s;}
+  .form-row button:disabled{opacity:.6;cursor:default;}
+  .form-msg{font-size:13.5px;margin-top:12px;min-height:20px;font-weight:600;}
+  .form-msg.err{color:#ffe0e0;} .form-msg.ok{color:#eafff4;}
+  .form-done{font-size:16px;font-weight:700;color:#fff;}
+  .form-done .chk{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:rgba(255,255,255,.25);margin-right:8px;vertical-align:middle;}
+
+  footer{border-top:1px solid var(--line);padding:26px 0 40px;text-align:center;margin-top:34px;}
+  footer .contact{font-size:14px;color:var(--ink-soft);margin-bottom:8px;}
+  footer .contact b{color:var(--ink);}
+  footer .disc{font-size:12.5px;color:var(--ink-faint);max-width:560px;margin:0 auto;}
+
+  @media(min-width:720px){
+    .hero{padding-top:62px;}
+    .hero h1{font-size:44px;}
+    .hero-top{display:flex;align-items:center;gap:40px;text-align:left;justify-content:center;}
+    .hero-top .htext{display:flex;flex-direction:column;align-items:flex-start;}
+    .hero-top .htext .sub{text-align:left;}
+    .mock{margin-top:0;flex:none;}
+  }
+</style>
+<!-- 방문 측정(Umami) — cloud.umami.is 가입 후 발급받은 data-website-id로 아래 값을 교체하세요 -->
+<script defer src="https://cloud.umami.is/script.js" data-website-id="8b7d6562-9e37-4ee1-86c2-000ba144ef56"></script>
+</head>
+<body>
+
+<header>
+  <div class="head-in">
+    <div class="logo">
+      <span class="mark"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="1.8"/><path d="M12 15v-3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      Dr.Hand
+    </div>
+    <a href="demo.html" class="nav-cta" data-umami-event="demo-click">데모 체험</a>
+  </div>
+</header>
+
+<!-- HERO -->
+<div class="hero wrap">
+  <div class="hero-top">
+    <div class="htext">
+      <span class="badge">🩺 진단하지 않는 의료 동행 AI</span>
+      <h1>집안에 의사 한 명 있었으면,<br><span class="hl">이제 손안에 있어요</span></h1>
+      <p class="sub">Dr.Hand는 떨어져 사는 부모님의 진료를 대신 챙기는 의료 동행 AI예요.
+        진료실 안부터 다음 할 일, 서류까지 — 집안의 주치의처럼.</p>
+      <p class="guard">진단은 하지 않아요. 의학적 판단은 의료진과 함께.</p>
+      <a href="demo.html" class="cta-primary" data-umami-event="demo-click">
+        데모 체험하기
+        <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+      <span class="cta-note">설치·로그인 없이 지금 바로</span>
+    </div>
+
+    <!-- app mockup -->
+    <div class="mock" aria-hidden="true">
+      <div class="mock-bar">
+        <span class="m-mark"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="1.9"/></svg></span>
+        <b>Dr.Hand</b><span class="dot"></span>
+      </div>
+      <div class="m-ai">어머니 진료, 어떻게 되셨어요? 편하게 말씀해 주세요.</div>
+      <div class="m-user">허리 디스크래서 주사 맞고 약 받으라는데… 뭘 해야 해?</div>
+      <div class="m-ai">진료 내용을 정리하고, 다음에 하실 일을 알려드릴게요 👇</div>
+      <div class="m-input">
+        <span>말이나 녹음으로 편하게…</span>
+        <span class="mic"><svg viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="11" rx="3" stroke="#fff" stroke-width="1.8"/><path d="M5 11a7 7 0 0014 0M12 18v3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EMPATHY -->
+<div class="empathy wrap">부모님이 아프시면, 결국 챙기는 사람은 <span>정해져 있죠.</span></div>
+
+<!-- FEATURES (journey cards) -->
+<section class="wrap">
+  <div class="sec-eyebrow">Dr.Hand가 하는 일</div>
+  <h2 class="sec-title">진단은 안 해요.<br>대신 진료실 안부터 끝까지 함께해요</h2>
+  <div class="feat-list">
+
+    <div class="feat">
+      <span class="num">1</span>
+      <p class="fq">"부모님이 '뭐라고 하셨는데 잘 모르겠다'고만 하세요."</p>
+      <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M4 5a2 2 0 012-2h12v16H6a2 2 0 00-2 2V5z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M18 3v16" stroke="currentColor" stroke-width="1.8"/></svg></span>진료실 동행</h3>
+      <p>진료실에 함께 들어간 것처럼, 무슨 얘기가 오갔는지 정리하고 어려운 말을 쉽게 풀어드려요.</p>
+      <span class="feff">멀리서도 부모님 진료를 알 수 있어요</span>
+    </div>
+
+    <div class="feat">
+      <span class="num">2</span>
+      <p class="fq">"이제 뭘 해야 하지? 늘 막막하죠."</p>
+      <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></span>다음 스텝 안내</h3>
+      <p>지금 상황에서 다음에 할 일 하나를 콕 집어 알려드려요.</p>
+      <span class="feff">헤매지 않고, 놓치지 않아요</span>
+    </div>
+
+    <div class="feat">
+      <span class="num">3</span>
+      <p class="fq">"장기요양·실손·복지… 어디서부터 해야 할지 모르겠어요."</p>
+      <h3><span class="ic"><svg viewBox="0 0 24 24" fill="none"><path d="M6 3h9l4 4v14a1 1 0 01-1 1H6a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 13h6M9 17h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>서류 연계·안내</h3>
+      <p>필요한 서류가 뭔지, 어디서 어떻게 하는지 안내하고 연결해드려요.</p>
+      <span class="feff">연차 내고 전화 돌리는 시간을 줄여요</span>
+    </div>
+
+  </div>
+</section>
+
+<!-- MID CTA -->
+<div class="mid-cta wrap">
+  <a href="demo.html" class="cta-primary" data-umami-event="demo-click">
+    지금 Dr.Hand 만나보기
+    <svg viewBox="0 0 24 24" fill="none"><path d="M5 12h14M13 6l6 6-6 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </a>
+</div>
+
+<!-- WAITLIST -->
+<section class="wrap">
+  <div class="signup">
+    <h2>먼저 소식 받아보세요</h2>
+    <p>정식 출시와 새 기능 소식을 이메일로 알려드릴게요.</p>
+    <form id="waitForm" novalidate>
+      <div class="form-row" id="formRow">
+        <input type="email" id="email" placeholder="이메일 주소" autocomplete="email" aria-label="이메일 주소">
+        <button type="submit" id="submitBtn" data-umami-event="signup-click">소식 받기</button>
+      </div>
+      <div class="form-msg" id="formMsg" role="status" aria-live="polite"></div>
+    </form>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p class="contact"><b>Dr.Hand</b> · 이동원 · KAIST OverEdge · kailee1st@gmail.com</p>
+  <p class="disc">Dr.Hand는 의료 정보를 정리·안내하는 동행 서비스이며, 진단이나 의학적 확정 판단을 제공하지 않습니다. 최종적인 의학적 판단은 반드시 의료진과 함께 내리세요.</p>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+(function(){
+  const SUPABASE_URL = 'https://efzhsdedyeyjanvzikqe.supabase.co';
+  const SUPABASE_KEY = 'sb_publishable_gfXK9g5zoc-izRagjS_2Eg_Tm7rv94x';
+  const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+  const form = document.getElementById('waitForm');
+  const emailEl = document.getElementById('email');
+  const btn = document.getElementById('submitBtn');
+  const msg = document.getElementById('formMsg');
+  const row = document.getElementById('formRow');
+  const DONE_KEY = 'drhand_waitlist_done';
+
+  function showDone(email){
+    row.innerHTML = '<div class="form-done"><span class="chk">✓</span>등록 완료! 소식이 준비되면 알려드릴게요.</div>';
+    msg.textContent = email ? (email + ' 으로 보내드려요') : '';
+    msg.className = 'form-msg ok';
+  }
+  const prev = localStorage.getItem(DONE_KEY);
+  if(prev){ showDone(prev); }
+
+  function setMsg(text, kind){ msg.textContent = text; msg.className = 'form-msg ' + (kind||''); }
+  const isEmail = v => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const email = emailEl.value.trim().toLowerCase();
+    if(!email){ setMsg('이메일을 입력해주세요.', 'err'); emailEl.focus(); return; }
+    if(!isEmail(email)){ setMsg('이메일 형식을 확인해주세요.', 'err'); emailEl.focus(); return; }
+    btn.disabled = true; emailEl.disabled = true;
+    const orig = btn.textContent; btn.textContent = '등록 중…';
+    setMsg('', '');
+    try{
+      const { error } = await sb.from('waitlist').insert([{ email: email }]);
+      if(error){
+        if(error.code === '23505' || /duplicate|unique/i.test(error.message||'')){
+          localStorage.setItem(DONE_KEY, email); showDone(email);
+          setMsg('이미 등록된 이메일이에요. 소식 받으실 준비 완료!', 'ok'); return;
+        }
+        throw error;
+      }
+      localStorage.setItem(DONE_KEY, email); showDone(email);
+    }catch(err){
+      btn.disabled = false; emailEl.disabled = false; btn.textContent = orig;
+      setMsg('잠시 문제가 생겼어요. 다시 시도해주세요.', 'err');
+      console.error('[waitlist]', err);
+    }
+  });
+})();
+</script>
+</body>
+</html>

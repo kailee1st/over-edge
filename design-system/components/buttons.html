@@ -1,0 +1,38 @@
+<!-- @dsCard group="Components" name="버튼" subtitle="Primary(틸 그라디언트) / Ghost / Disabled" -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif; background:#F7F9F9; color:#1C2B2E; padding:28px; display:flex; flex-direction:column; gap:18px; }
+  .row { display:flex; gap:12px; align-items:center; flex-wrap:wrap; }
+  .spec { font-size:11px; font-weight:600; color:#8A979C; font-family:ui-monospace,monospace; width:100%; }
+  .btn { font-family:inherit; font-size:15px; font-weight:700; padding:13px 26px; border-radius:14px; border:none; cursor:pointer; letter-spacing:-.01em; }
+  .primary { background:linear-gradient(135deg,#128B96,#16A2AF); color:#fff; box-shadow:0 3px 10px rgba(18,139,150,.3); }
+  .primary:hover { background:linear-gradient(135deg,#0F6D78,#128B96); }
+  .ghost { background:transparent; color:#0F6D78; border:1.5px solid #128B96; }
+  .ghost:hover { background:#E8F6F7; }
+  .disabled { background:#E7EDED; color:#8A979C; cursor:not-allowed; box-shadow:none; }
+  .sm { font-size:13.5px; padding:9px 18px; border-radius:11px; }
+  .note { font-size:12.5px; color:#54646A; background:#fff; border:1px solid #E7EDED; border-radius:12px; padding:12px 14px; line-height:1.6; }
+  .note b { color:#1C2B2E; }
+</style>
+</head>
+<body>
+  <div class="row"><span class="spec">Primary — 주 CTA는 페이지당 1종만 반복 ("무료로 정리 받아보기")</span>
+    <button class="btn primary">무료로 정리 받아보기</button>
+    <button class="btn primary sm">무료로 정리 받아보기</button>
+  </div>
+  <div class="row"><span class="spec">Ghost — 보조 CTA ("직접 해보기" 데모 연결 전용)</span>
+    <button class="btn ghost">직접 해보기</button>
+    <button class="btn ghost sm">직접 해보기</button>
+  </div>
+  <div class="row"><span class="spec">Disabled</span>
+    <button class="btn disabled">처리 중…</button>
+  </div>
+  <div class="note"><b>규칙:</b> 버튼에 웜 컬러(#C96F4A) 사용 금지 — 웜은 감정 문장 전용. hover는 한 단계 진한 틸로. radius 14px(sm 11px).</div>
+</body>
+</html>

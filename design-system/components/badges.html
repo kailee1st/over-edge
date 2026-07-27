@@ -1,0 +1,35 @@
+<!-- @dsCard group="Components" name="배지" subtitle="고지 배지 / 신뢰 배지 3종 / 한정 카운터" -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif; background:#F7F9F9; color:#1C2B2E; padding:28px; display:flex; flex-direction:column; gap:16px; }
+  .spec { font-size:11px; font-weight:600; color:#8A979C; font-family:ui-monospace,monospace; }
+  .row { display:flex; gap:10px; flex-wrap:wrap; }
+  .badge { display:inline-flex; align-items:center; gap:6px; padding:7px 14px; border-radius:999px; font-size:13px; font-weight:600; }
+  .b-disc { background:#E8F6F7; color:#0F6D78; }
+  .b-trust { background:#fff; color:#54646A; border:1px solid #E7EDED; }
+  .b-trust b { color:#0F6D78; }
+  .b-limit { background:#1C2B2E; color:#fff; }
+  .note { font-size:12.5px; color:#54646A; background:#fff; border:1px solid #E7EDED; border-radius:12px; padding:12px 14px; line-height:1.6; }
+  .note b { color:#1C2B2E; }
+</style>
+</head>
+<body>
+  <div><div class="spec">고지 배지 — 캡션 크기(12px) 이상, 절대 숨기지 않음. 슬로건 인접 배치 필수</div>
+    <div class="row" style="margin-top:8px"><span class="badge b-disc">진단은 병원에서. 이해는 Dr.Hand가 함께합니다.</span></div></div>
+  <div><div class="spec">신뢰 배지 3종 — 랜딩 S4·덱 05 하단</div>
+    <div class="row" style="margin-top:8px">
+      <span class="badge b-trust"><b>✓</b> 진단·판단하지 않음</span>
+      <span class="badge b-trust"><b>✓</b> 공식 출처만 인용 · 사람 검수</span>
+      <span class="badge b-trust"><b>✓</b> 응급 신호는 119 안내 최우선</span>
+    </div></div>
+  <div><div class="spec">한정 카운터 — 사실 기반 희소성만 (가짜 타이머 금지)</div>
+    <div class="row" style="margin-top:8px"><span class="badge b-limit">이번 달 O건 한정 · 1인이 직접 검수합니다</span></div></div>
+  <div class="note"><b>규칙:</b> 고지 배지는 틸 틴트 고정. 한정 카운터의 숫자는 실제 운영 여력만 기입 — 거짓 긴급성 금지.</div>
+</body>
+</html>

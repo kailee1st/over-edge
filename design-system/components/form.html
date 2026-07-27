@@ -1,0 +1,37 @@
+<!-- @dsCard group="Forms" name="폼" subtitle="인풋·제출 + 성공/에러 상태" -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif; background:#F7F9F9; color:#1C2B2E; padding:28px; display:flex; flex-direction:column; gap:16px; max-width:480px; }
+  .spec { font-size:11px; font-weight:600; color:#8A979C; font-family:ui-monospace,monospace; }
+  label { font-size:13px; font-weight:700; display:block; margin-bottom:6px; }
+  input { font-family:inherit; font-size:15px; width:100%; padding:13px 16px; border-radius:14px; border:1.5px solid #E7EDED; background:#fff; color:#1C2B2E; outline:none; }
+  input:focus { border-color:#128B96; box-shadow:0 0 0 3px rgba(18,139,150,.15); }
+  .err input { border-color:#C0392B; }
+  .msg-err { font-size:12.5px; color:#C0392B; margin-top:5px; }
+  .msg-ok { font-size:13px; color:#1F7A44; background:#EAFFF4; border-radius:12px; padding:12px 14px; font-weight:600; }
+  button { font-family:inherit; font-size:15px; font-weight:700; padding:13px 26px; border-radius:14px; border:none; cursor:pointer; background:linear-gradient(135deg,#128B96,#16A2AF); color:#fff; width:100%; }
+  .note { font-size:12.5px; color:#54646A; background:#fff; border:1px solid #E7EDED; border-radius:12px; padding:12px 14px; line-height:1.6; }
+  .note b { color:#1C2B2E; }
+</style>
+</head>
+<body>
+  <div><span class="spec">기본 + 포커스(틸 링)</span>
+    <label style="margin-top:8px">성함</label>
+    <input type="text" placeholder="예: 김OO">
+  </div>
+  <div class="err"><span class="spec">에러 — 무엇이 잘못됐는지 알려주고 재입력 유도</span>
+    <label style="margin-top:8px">연락처</label>
+    <input type="text" value="010-12">
+    <div class="msg-err">연락처를 끝까지 입력해 주세요 (예: 010-1234-5678)</div>
+  </div>
+  <div class="msg-ok">✓ 접수됐어요. 확인 후 하루 안에 연락드릴게요.</div>
+  <button>무료로 정리 받아보기</button>
+  <div class="note"><b>규칙:</b> 최소 수집(이름·연락처 수준). 빈 제출은 조용히 무시하지 않고 안내. 성공 메시지도 브랜드 보이스(경어·안심)로.</div>
+</body>
+</html>

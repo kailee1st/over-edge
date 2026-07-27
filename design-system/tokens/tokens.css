@@ -1,0 +1,43 @@
+/* Dr.Hand Design Tokens v1 — 출처: 브랜드_가이드라인_v1.md §6 */
+:root {
+  /* Teal — 신뢰의 골격 (라이브 랜딩 승계) */
+  --teal-900: #0B3F47;
+  --teal-700: #0F6D78;
+  --teal-600: #128B96; /* Primary */
+  --teal-500: #16A2AF;
+  --teal-100: #D3EDEF;
+  --teal-50:  #E8F6F7;
+
+  /* Warm — 곁의 온기 (감정 문장·손 곡선 한정) */
+  --warm-600: #C96F4A;
+  --warm-500: #D98159;
+  --warm-100: #F3E0D3;
+  --warm-50:  #FBF3EC;
+
+  /* OK — "괜찮아요" 모먼트 전용 (소견 전달 형식일 때만) */
+  --ok-500: #37C46A;
+  --ok-50:  #EAFFF4;
+
+  /* Neutral */
+  --ink:       #1C2B2E;
+  --ink-soft:  #54646A;
+  --ink-faint: #8A979C;
+  --line:      #E7EDED;
+  --card:      #FFFFFF;
+  --bg:        #F7F9F9;
+
+  /* Shape & Shadow */
+  --radius: 20px;
+  --radius-sm: 14px;
+  --shadow-sm: 0 1px 3px rgba(16,55,60,.06), 0 1px 2px rgba(16,55,60,.04);
+  --shadow-md: 0 8px 30px rgba(16,55,60,.09), 0 2px 8px rgba(16,55,60,.05);
+
+  /* Typography — Pretendard 단일 서체 */
+  --font: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Malgun Gothic", system-ui, sans-serif;
+}
+
+/* 사용 규칙 (브랜드 가이드라인 §6)
+   - 비율: 틸+뉴트럴 ≈85% / 웜 ≈10% / OK 그린 ≈5%
+   - 웜은 감정 문장·손 심볼에만. 버튼·경고·에러 금지
+   - OK 그린은 근거 있는 안심 문장에만. 장식 금지
+   - 수치·데이터 화면은 틸+뉴트럴만 */

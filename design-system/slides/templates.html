@@ -1,0 +1,52 @@
+<!-- @dsCard group="Slides" name="슬라이드 템플릿 4종" subtitle="표지형 / 본문형 / 수치형 / 마무리형 (16:9)" -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif; background:#F7F9F9; padding:24px; display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+  @media (max-width:640px){ body{grid-template-columns:1fr;} }
+  .slide { aspect-ratio:16/9; border-radius:12px; padding:8%; position:relative; overflow:hidden; box-shadow:0 2px 10px rgba(16,55,60,.08); }
+  .lbl { position:absolute; top:8px; left:10px; font-size:9px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; opacity:.5; }
+  .mk { position:absolute; bottom:8%; right:6%; width:22px; height:22px; border-radius:7px; background:linear-gradient(135deg,#128B96,#16A2AF); display:grid; place-items:center; }
+  .mk svg { width:13px; height:13px; }
+  .s1 { background:linear-gradient(160deg,#0B3F47,#0F6D78); color:#fff; display:flex; flex-direction:column; justify-content:center; }
+  .s1 h1 { font-size:15px; font-weight:800; letter-spacing:-.02em; line-height:1.4; }
+  .s1 .disc { font-size:8.5px; opacity:.8; margin-top:6px; }
+  .s2 { background:#fff; color:#1C2B2E; }
+  .s2 h2 { font-size:12px; font-weight:800; margin-bottom:8px; }
+  .s2 .col { display:flex; gap:6px; }
+  .s2 .box { flex:1; height:44px; border-radius:8px; background:#E8F6F7; }
+  .s3 { background:#F7F9F9; color:#1C2B2E; }
+  .s3 h2 { font-size:12px; font-weight:800; margin-bottom:8px; }
+  .s3 .num { font-size:20px; font-weight:800; color:#0F6D78; letter-spacing:-.02em; }
+  .s3 .bar { height:8px; border-radius:4px; background:#D3EDEF; margin-top:6px; position:relative; }
+  .s3 .bar i { position:absolute; inset:0; width:60%; border-radius:4px; background:#128B96; display:block; }
+  .s4 { background:linear-gradient(160deg,#0F6D78,#128B96); color:#fff; display:flex; flex-direction:column; justify-content:center; align-items:center; text-align:center; }
+  .s4 h1 { font-size:13px; font-weight:800; line-height:1.5; }
+  .s4 .sub { font-size:9px; opacity:.85; margin-top:5px; }
+</style>
+</head>
+<body>
+  <div class="slide s1"><span class="lbl" style="color:#fff">01 표지형</span>
+    <h1>집안에 의사 한 명 있었으면 —<br>이제 손안에 있어요, Dr.Hand</h1>
+    <div class="disc">진단은 병원에서. 이해는 Dr.Hand가 함께합니다.</div>
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="2"/></svg></span></div>
+  <div class="slide s2"><span class="lbl">본문형 (텍스트+비주얼)</span>
+    <h2>섹션 제목은 H2 800</h2>
+    <div class="col"><div class="box"></div><div class="box"></div><div class="box"></div></div>
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="2"/></svg></span></div>
+  <div class="slide s3"><span class="lbl">수치형 (틸+뉴트럴만)</span>
+    <h2>수치 슬라이드 — 웜 컬러 금지</h2>
+    <div class="num">1,051만 FCU</div>
+    <div class="bar"><i></i></div><div class="bar" style="width:70%"><i style="width:40%"></i></div>
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="2"/></svg></span></div>
+  <div class="slide s4"><span class="lbl" style="color:#fff">마무리형 (수미상관)</span>
+    <h1>이제 그 걱정,<br>Dr.Hand가 덜어드릴게요</h1>
+    <div class="sub">kailee1st@gmail.com · 랜딩 QR</div>
+    <span class="mk"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="2" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="2"/></svg></span></div>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!-- @dsCard group="Brand" name="로고 시스템" subtitle="청진기 마크 — 라이트/다크/모노 + 금지 규칙" -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family:"Pretendard Variable",Pretendard,"Apple SD Gothic Neo",sans-serif; background:#F7F9F9; color:#1C2B2E; padding:24px; }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr)); gap:12px; }
+  .cell { border-radius:16px; padding:28px 20px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+  .label { font-size:11px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; opacity:.55; }
+  .logo { display:flex; align-items:center; gap:9px; font-weight:800; font-size:19px; letter-spacing:-.02em; }
+  .mark { width:30px; height:30px; border-radius:9px; display:grid; place-items:center; }
+  .mark svg { width:18px; height:18px; }
+  .mk-color { background:linear-gradient(135deg,#128B96,#16A2AF); box-shadow:0 3px 10px rgba(18,139,150,.35); }
+  .mk-dark { background:linear-gradient(135deg,#16A2AF,#2BB8C4); }
+  .mk-mono { background:#1C2B2E; }
+  .rules { margin-top:14px; font-size:12.5px; color:#54646A; background:#fff; border:1px solid #E7EDED; border-radius:12px; padding:12px 14px; line-height:1.7; }
+  .rules b { color:#1C2B2E; }
+  .no { color:#C0392B; font-weight:700; }
+</style>
+</head>
+<body>
+  <div class="grid">
+    <div class="cell" style="background:#fff;border:1px solid #E7EDED">
+      <div class="logo" style="color:#0B3F47">
+        <span class="mark mk-color"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="1.8"/><path d="M12 15v-3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        Dr.Hand
+      </div>
+      <span class="label" style="color:#1C2B2E">Light (기본)</span>
+    </div>
+    <div class="cell" style="background:#0B3F47">
+      <div class="logo" style="color:#F7F9F9">
+        <span class="mark mk-dark"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#0B3F47" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#0B3F47" stroke-width="1.8"/><path d="M12 15v-3" stroke="#0B3F47" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        Dr.Hand
+      </div>
+      <span class="label" style="color:#F7F9F9">Dark</span>
+    </div>
+    <div class="cell" style="background:#fff;border:1px solid #E7EDED">
+      <div class="logo" style="color:#1C2B2E">
+        <span class="mark mk-mono"><svg viewBox="0 0 24 24" fill="none"><path d="M7 4v6a5 5 0 0010 0V4" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/><circle cx="17" cy="16" r="3" stroke="#fff" stroke-width="1.8"/><path d="M12 15v-3" stroke="#fff" stroke-width="1.8" stroke-linecap="round"/></svg></span>
+        Dr.Hand
+      </div>
+      <span class="label" style="color:#1C2B2E">Mono (문서·각인)</span>
+    </div>
+  </div>
+  <div class="rules">
+    <b>구성:</b> 틸 그라디언트(135deg, #128B96→#16A2AF) 라운드 사각(radius 30%) + 흰 청진기 심볼 + 워드마크 "Dr.Hand"(ExtraBold, #0B3F47). 태그라인 "집안에 의사 한 명" 병기 가능.<br>
+    <span class="no">금지:</span> 청진기 심볼 단독 사용(의료기관 오인) · 비율 변형·회전·임의 색 변경 · 배지 없이 심볼만 추출. 최소 단위 = 배지 전체.
+  </div>
+</body>
+</html>
