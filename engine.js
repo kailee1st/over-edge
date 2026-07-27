@@ -50,18 +50,59 @@ export const ENGINE_VERSION = `engine-v1-20260727 (${KB_VERSION} / ${RULES_VERSI
    순서가 중요하다. 위에서 먼저 걸린 것이 이긴다.
    구체적인 단계를 위에, 넓은 단계를 아래에 둔다.
    ------------------------------------------------------------ */
+/* ------------------------------------------------------------
+   ⚠️ 여기가 자유 입력의 성패를 가른다.
+   버튼(시나리오)은 상태가 미리 정의돼 있어 통과하지만,
+   실제 사용자는 직접 친다. 표현이 조금만 달라도 단계 판정이
+   실패하면 룰이 하나도 안 켜진다.
+   그래서 어미 변화("듣는/들으러/들어요")까지 넓게 잡는다.
+   위에서 먼저 걸린 것이 이긴다. 확정된 상태를 위에 둔다.
+   ------------------------------------------------------------ */
 const STAGE_PATTERNS = [
-  { stage: '확진직후', re: /확진|암이라고|암이래|판정.*받았|진단.*받았|진단서 받/ },
-  { stage: '결과대기', re: /결과.*기다|결과.*듣는|결과.*나오면|결과.*언제|검사.*끝났/ },
-  { stage: '조직검사예정', re: /조직검사.*하기로|조직검사.*예정|생검.*예정|내시경.*예정/ },
-  { stage: '입원중', re: /입원해 있|입원 중|병실/ },
-  { stage: '입원예정', re: /입원.*하기로|입원.*예정|수술.*예정/ },
-  { stage: '전원예정', re: /전원|옮기라고|다른 병원.*가라/ },
-  { stage: '상급병원예정', re: /대학병원|상급종합|큰 병원.*가라|서울.*병원/ },
-  { stage: '추가검사권유', re: /추가검사|재검|다시 찍/ },
-  { stage: '검진이상소견', re: /건강검진|검진 결과|결절|이상소견|뭐가 보인다|뭐가 있다/ },
-  { stage: '수납완료', re: /수납|계산|영수증 받|돈 냈/ },
-  { stage: '통원중', re: /통원|다니고 있|외래/ },
+  {
+    stage: '확진직후',
+    re: /확진|암이(라고|래|에요|예요|입니다)|암 진단|판정.*(받|났)|진단.*(받았|나왔|났)|진단서.*(받|나)|양성.*나왔/,
+  },
+  {
+    stage: '입원중',
+    re: /입원해 있|입원 중|입원중|병실|지금.*입원|입원하셨|입원했/,
+  },
+  {
+    stage: '입원예정',
+    re: /입원.*(하기로|예정|한다고|하래|하라고|잡)|수술.*(하기로|예정|잡|날짜)/,
+  },
+  {
+    stage: '전원예정',
+    re: /전원|옮기(라고|래|기로)|다른 병원.*(가라|가래|가기로)|회송/,
+  },
+  {
+    stage: '결과대기',
+    re: /결과.*(기다|듣|들으|보러|나오면|언제|다음)|검사.*(끝났|했|받았|마쳤)|조직검사.*(했|받았|끝)|생검.*(했|받았)|내시경.*(했|받았)/,
+  },
+  {
+    stage: '조직검사예정',
+    re: /조직검사.*(하기로|예정|한다고|하래|잡)|생검.*(하기로|예정)|내시경.*(하기로|예정|잡)/,
+  },
+  {
+    stage: '상급병원예정',
+    re: /대학병원|상급종합|큰 병원.*(가라|가래|가기로|가야)|서울.*병원.*(가|의뢰)|3차 병원/,
+  },
+  {
+    stage: '추가검사권유',
+    re: /추가검사|추가 검사|재검|다시 찍|정밀검사|정밀 검사|더 검사/,
+  },
+  {
+    stage: '검진이상소견',
+    re: /건강검진|검진.*(결과|받았|나왔)|결절|이상소견|이상 소견|뭐가 (보인다|보인대|있다|있대)|소견.*나왔/,
+  },
+  {
+    stage: '수납완료',
+    re: /수납|계산했|영수증.*(받|나)|돈.*(냈|냇)|진료비.*(냈|나왔)/,
+  },
+  {
+    stage: '통원중',
+    re: /통원|다니고 있|외래.*다|치료.*받고 있|항암.*(중|받)/,
+  },
 ];
 
 /* 확진 판정 — 처방전만으로는 하지 않는다 (kb FIELDS.prescription.note) */
@@ -98,14 +139,14 @@ export function extractState(input, opts = {}) {
     if (!sc) return emptyState(today, 'unknown-scenario');
     const st = deepClone(sc.state);
     if (st.confirmDate === 'TODAY') st.confirmDate = fmtDate(today);
-    return {
+    return applyProfile({
       ...st,
       today: fmtDate(today),
       rawText: sc.input,
       inputMode: 'button',
       scenarioId: sc.id,
       confidence: 'defined', // 판정 근거가 정의값
-    };
+    }, opts.profile);
   }
 
   // (b) 자유 입력
@@ -121,7 +162,7 @@ export function extractState(input, opts = {}) {
   // 동행 여부: 같이 간다는 말이 없으면 혼자 가시는 것으로 본다
   const patientGoesAlone = !/같이 가|동행|제가 가|모시고 가|반차/.test(text);
 
-  return {
+  return applyProfile({
     stage,
     confirmed,
     confirmDate,
@@ -136,6 +177,118 @@ export function extractState(input, opts = {}) {
     inputMode: 'free',
     scenarioId: null,
     confidence: stage ? 'matched' : 'weak',
+  }, opts.profile);
+}
+
+/* ------------------------------------------------------------
+   프로필 — 사용자가 직접 채운 정보
+   ------------------------------------------------------------
+   텍스트에서 추출한 값보다 우선한다. 사용자가 직접 적은 것이
+   더 정확하기 때문이다.
+   정보가 채워질수록 발화 가능한 룰이 늘어난다. 그게 이 구조의 목적이다.
+   ------------------------------------------------------------ */
+export const PROFILE_FIELDS = [
+  {
+    key: 'confirmed',
+    label: '확진 진단을 받으셨나요?',
+    type: 'choice',
+    options: [
+      { v: true, t: '받았어요' },
+      { v: null, t: '아직 몰라요' },
+    ],
+    unlocks: ['R1'],
+    why: '확진 여부가 확인되면 기한이 걸린 신청을 짚어드릴 수 있어요',
+  },
+  {
+    key: 'confirmDate',
+    label: '확진일이 언제예요?',
+    type: 'date',
+    hint: '진단서의 "진단 연월일" 칸에 적혀 있어요',
+    dependsOn: { confirmed: true },
+    unlocks: ['R1'],
+    why: '이 날짜가 30일 시계의 시작점이에요',
+  },
+  {
+    key: 'nextVisitDate',
+    label: '다음 진료가 언제예요?',
+    type: 'date',
+    unlocks: [],
+    why: '그날 먼저 연락드릴 수 있어요',
+  },
+  {
+    key: 'patientCanVisit',
+    label: '부모님이 병원 창구에 직접 가실 수 있나요?',
+    type: 'choice',
+    options: [
+      { v: true, t: '갈 수 있어요' },
+      { v: false, t: '어려워요' },
+    ],
+    unlocks: ['R3'],
+    why: '못 가시는 경우엔 자녀분도 못 떼는 서류가 생겨서, 미리 알려드려야 해요',
+  },
+  {
+    key: 'patientGoesAlone',
+    label: '진료실에 부모님 혼자 들어가시나요?',
+    type: 'choice',
+    options: [
+      { v: true, t: '혼자 가세요' },
+      { v: false, t: '같이 가요' },
+    ],
+    unlocks: ['R6'],
+    why: '혼자 가시면 의사 말이 자녀분에게 도달하지 않아요',
+  },
+  {
+    key: 'hasPrivateInsurance',
+    label: '실손보험에 가입돼 있나요?',
+    type: 'choice',
+    options: [
+      { v: true, t: '가입했어요' },
+      { v: false, t: '없어요' },
+      { v: null, t: '모르겠어요' },
+    ],
+    unlocks: ['R4'],
+    why: '가입돼 있으면 수납할 때 챙길 서류가 달라져요',
+  },
+];
+
+export function applyProfile(state, profile) {
+  if (!profile) return state;
+  const out = { ...state };
+  for (const f of PROFILE_FIELDS) {
+    const v = profile[f.key];
+    if (v === undefined || v === '') continue;
+    out[f.key] = v;
+  }
+  // 다음 진료일이 있으면 이벤트로 넣는다 (팔로업 날짜가 됨)
+  if (profile.nextVisitDate) {
+    const others = (out.events || []).filter((e) => e.type !== 'resultVisit');
+    out.events = [
+      ...others,
+      { type: 'resultVisit', label: '다음 진료', date: profile.nextVisitDate, inDays: null },
+    ];
+  }
+  out.profileApplied = true;
+  return out;
+}
+
+/** 아직 안 채운 정보와, 채우면 켜지는 룰 */
+export function profileGaps(profile, state) {
+  const p = profile || {};
+  const gaps = [];
+  for (const f of PROFILE_FIELDS) {
+    if (p[f.key] !== undefined && p[f.key] !== '') continue;
+    if (f.dependsOn) {
+      const ok = Object.entries(f.dependsOn).every(([k, v]) => p[k] === v);
+      if (!ok) continue;
+    }
+    // 이미 발화 중인 룰만 unlock 하는 항목은 세지 않는다
+    const newRules = (f.unlocks || []).filter((id) => !(state.firedIds || []).includes(id));
+    gaps.push({ ...f, newRules });
+  }
+  return {
+    fields: gaps,
+    count: gaps.length,
+    unlockCount: new Set(gaps.flatMap((g) => g.newRules)).size,
   };
 }
 
@@ -427,12 +580,39 @@ export function buildOutput(state, tags, matched, opts = {}) {
         notices: [NOTICES.base],
       };
     }
+    // 단계는 알아냈는데 룰이 없는 경우 — 구체적으로 말한다.
+    // "무릎이 아파요"(단계 판정 실패)와 "입원하셨어요"(단계는 알지만 룰 없음)는
+    // 사용자에게 전혀 다른 상황이다. 같은 문구로 답하면 안 된다.
+    const STAGE_SOON = {
+      입원예정: '입원 준비',
+      입원중: '입원 중에 챌 것',
+      전원예정: '병원 옮길 때',
+      통원중: '치료 받는 동안',
+    };
+    if (state.stage && STAGE_SOON[state.stage]) {
+      return {
+        kind: 'stage-soon',
+        stageSoon: {
+          stage: state.stage,
+          label: STAGE_SOON[state.stage],
+          message: `${STAGE_SOON[state.stage]} 항목은 아직 준비 중이에요`,
+          detail:
+            '지금은 검진에서 뭔가 보인다는 이야기를 들은 시점부터 확진 직후까지를 다뤄요. ' +
+            '이 단계도 곧 넣을 예정이라, 어떤 게 막히셨는지 적어주시면 먼저 만들 순서에 반영해요.',
+        },
+        cards: [],
+        state: renderState(state, tags),
+        notices: [NOTICES.base],
+        logAsUnhandled: true,
+      };
+    }
+
     return {
       kind: 'unhandled',
       unhandled: {
         message: '이 상황은 아직 다루지 않아요',
         detail:
-          '지금은 검진 이상소견부터 확진 직후까지의 서류·기한만 다뤄요. 어떤 상황인지 조금 더 알려주시면 다룰 수 있는지 확인해볼게요',
+          '지금은 검진에서 뭔가 보인다는 이야기를 들은 시점부터 확진 직후까지의 서류·기한을 다뤄요. 부모님 병원 이야기를 조금 더 알려주시면 다룰 수 있는지 확인해볼게요',
         stage: state.stage,
       },
       cards: [],
