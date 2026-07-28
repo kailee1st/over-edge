@@ -19,3 +19,6 @@ design-system
 .gitignore
 .vercelignore
 .env*
+
+# 작업 백업 (배포 제외)
+_backup-*.html
