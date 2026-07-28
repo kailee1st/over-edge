@@ -437,7 +437,7 @@
   .statusbar .more:hover{background:var(--teal-50);}
 
   .rbody{flex:1;overflow-y:auto;min-height:0;}
-  .rbody-in{max-width:760px;margin:0 auto;padding:20px 18px 12px;}
+  .rbody-in{max-width:760px;margin:0 auto;padding:20px 18px 68px;}
 
   .lead{font-size:19px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;
     margin-bottom:4px;display:flex;align-items:center;gap:9px;}
@@ -808,16 +808,16 @@
   .do-prog .pk{margin-top:10px;font-size:12px;color:var(--ink-faint);line-height:1.6;}
 
   /* 체크 가능한 줄 */
-  .ck{display:flex;gap:11px;align-items:flex-start;padding:9px 0;cursor:pointer;
+  .ckrow{display:flex;gap:11px;align-items:flex-start;padding:9px 0;cursor:pointer;
     font-size:14px;line-height:1.65;}
-  .ck .bx2{width:20px;height:20px;flex:0 0 20px;border:1.8px solid var(--line);border-radius:6px;
+  .ckrow .bx2{width:20px;height:20px;flex:0 0 20px;border:1.8px solid var(--line);border-radius:6px;
     margin-top:2px;display:grid;place-items:center;color:#fff;transition:all .18s ease;}
-  .ck .bx2 svg{width:12px;height:12px;opacity:0;}
-  .ck:hover .bx2{border-color:var(--teal-500);}
-  .ck.on .bx2{background:var(--teal-600);border-color:var(--teal-600);}
-  .ck.on .bx2 svg{opacity:1;}
-  .ck.on .ctx{color:var(--ink-faint);text-decoration:line-through;}
-  .ck .nm2{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--teal-50);
+  .ckrow .bx2 svg{width:12px;height:12px;opacity:0;}
+  .ckrow:hover .bx2{border-color:var(--teal-500);}
+  .ckrow.on .bx2{background:var(--teal-600);border-color:var(--teal-600);}
+  .ckrow.on .bx2 svg{opacity:1;}
+  .ckrow.on .ctx{color:var(--ink-faint);text-decoration:line-through;}
+  .ckrow .nm2{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--teal-50);
     color:var(--teal-700);font-size:11.5px;font-weight:800;display:grid;place-items:center;margin-top:2px;}
 
   /* 내 할 일 구획 */
@@ -919,8 +919,8 @@
     line-height:1.55;}
 
   /* ---------- 용어 사전 ---------- */
-  .gt{border-bottom:1.5px dotted var(--teal-500);cursor:help;-webkit-tap-highlight-color:transparent;}
-  .gt:active{background:var(--teal-50);}
+  .gterm{border-bottom:1.5px dotted var(--teal-500);cursor:help;-webkit-tap-highlight-color:transparent;}
+  .gterm:active{background:var(--teal-50);}
   .gpop{position:fixed;inset:0;z-index:95;background:rgba(11,63,71,.4);opacity:0;
     pointer-events:none;transition:opacity .2s ease;display:flex;align-items:flex-end;}
   .gpop.on{opacity:1;pointer-events:auto;}
@@ -942,7 +942,7 @@
     font-size:14px;font-weight:700;color:var(--ink-soft);padding:13px;border-radius:13px;cursor:pointer;}
 
   /* ---------- 맥락 질문 버튼 ---------- */
-  .cfab{position:fixed;right:16px;z-index:60;bottom:calc(94px + env(safe-area-inset-bottom));
+  .cfab{position:fixed;right:16px;z-index:60;bottom:calc(104px + env(safe-area-inset-bottom));
     display:flex;align-items:center;gap:8px;border:1px solid var(--teal-600);
     background:var(--teal-900);color:#fff;font:inherit;font-size:13.5px;font-weight:700;
     padding:11px 16px;border-radius:99px;cursor:pointer;box-shadow:0 6px 20px rgba(11,63,71,.28);
@@ -950,6 +950,8 @@
   .cfab:hover{background:var(--teal-700);}
   .cfab svg{width:16px;height:16px;}
   .app[data-view="idle"] .cfab,.app[data-view="load"] .cfab{display:none;}
+  /* 첨부 줄이 생기면 그만큼 올린다 */
+  .app.has-att .cfab{bottom:calc(178px + env(safe-area-inset-bottom));}
   .cask{position:fixed;inset:0;z-index:96;background:rgba(11,63,71,.4);opacity:0;
     pointer-events:none;transition:opacity .2s ease;display:flex;align-items:flex-end;}
   .cask.on{opacity:1;pointer-events:auto;}
@@ -1863,7 +1865,7 @@ function drawDo(){
     + '</div>';
 
   if (d.bring && d.bring.length) h += '<div class="do-blk"><div class="h4">챙길 것</div>'
-    + d.bring.map((b,i)=>'<div class="ck'+(doneBring.has(i)?' on':'')+'" data-brg="'+i+'">'
+    + d.bring.map((b,i)=>'<div class="ckrow'+(doneBring.has(i)?' on':'')+'" data-brg="'+i+'">'
       + '<span class="bx2">'+svg(I.check)+'</span><span class="ctx">'+esc(b)+'</span></div>').join('')
     + '</div>';
 
@@ -1873,7 +1875,7 @@ function drawDo(){
 
   if (d.steps && d.steps.length) h += '<div class="do-blk">'
     + '<div class="h4">순서 — 끝낸 것을 눌러주세요</div>'
-    + d.steps.map((x,i)=>'<div class="ck'+(doneSteps.has(i)?' on':'')+'" data-stp="'+i+'">'
+    + d.steps.map((x,i)=>'<div class="ckrow'+(doneSteps.has(i)?' on':'')+'" data-stp="'+i+'">'
       + '<span class="bx2">'+svg(I.check)+'</span><span class="ctx">'+esc(x)+'</span></div>').join('')
     + '</div>';
 
@@ -2750,6 +2752,7 @@ let attached = [];   // {name, type, docId}
 function drawAtts(){
   const box = $('atts'), note = $('attNote');
   box.hidden = note.hidden = attached.length === 0;
+  app.classList.toggle('has-att', attached.length > 0);
   if (!attached.length) { box.innerHTML = ''; note.innerHTML = ''; return; }
 
   const opts = DOCS.map(d=>d.id).concat(['other']);
@@ -2834,7 +2837,7 @@ function markTerms(html){
     hits.sort((a,b)=>b.start - a.start);
     for (const h of hits)
       t = t.slice(0, h.start)
-        + '<span class="gt" data-term="' + h.term + '">' + h.word + '</span>'
+        + '<span class="gterm" data-term="' + h.term + '">' + h.word + '</span>'
         + t.slice(h.end);
     parts[i] = t;
   }
@@ -2869,7 +2872,7 @@ $('gpAsk').addEventListener('click', ()=>{
 
 /* 화면 어디서든 용어를 누르면 뜬다. 길게 눌러도 같다 */
 document.addEventListener('click', e=>{
-  const t = e.target.closest('.gt');
+  const t = e.target.closest('.gterm');
   if (t) { e.preventDefault(); openTerm(t.dataset.term); }
 });
 
