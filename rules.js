@@ -100,8 +100,12 @@ export const CATEGORIES = [
     // ⚠ 여기 들어오는 것은 "생활의 행정"만이다.
     // 영양·운동·통증·부작용 같은 몸 관리는 무면허 의료행위에 닿는다.
     // 그건 국립암센터 암환자 생활백서로 넘긴다 (kb.js SOURCES['cancer-life'])
-    onlyAdmin: true,
+    // 이 칸은 법령 근거가 있는 항목이 적다. 경험 기반이 많아질 칸이라
+    // 화면에서 그 사실을 먼저 말한다
+    mostlyOps: true,
+    opsNote: '이 영역은 법령보다 경험에서 나온 것이 많아요. 그건 그렇다고 표시해 드려요',
     handoff: 'cancer-life',
+    handoffNote: '먹는 것·운동·통증 관리는 국립암센터 암환자 생활백서가 훨씬 나아요',
   },
   {
     id: 'ask',
