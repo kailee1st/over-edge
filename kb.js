@@ -618,6 +618,35 @@ export const SOURCES = {
     tel: '1577-1000',
     verifiedAt: '2026-07-22',
   },
+  'catastrophic-medical': {
+    tier: 1,
+    org: '국립암센터 국가암지식정보센터',
+    label: '재난적의료비 지원사업',
+    url: 'https://www.cancer.go.kr/lay1/S1T549C683/contents.do',
+    tel: '1577-1000',
+    verifiedAt: '2026-07-28',
+    // 원문에서 확인한 것만 적는다
+    verified: {
+      deadline: '최종 진료일이나 퇴원일의 다음날부터 180일 이내에 지급신청',
+      where: '국민건강보험공단 지사 방문 신청 원칙 (필요시 우편·팩스)',
+      cap: '연간 최대 5천만 원까지 지원',
+      eligibility: '중위소득 100% 이하 · 재산 7억 원(재산과표액) 이하 · 최근 1년 이내 입원 또는 외래진료',
+      rate: '소득 구간별 60~80% 차등',
+    },
+    limit: '소득·재산 요건 판정은 우리가 하지 않는다. 기한만 말하고 요건은 공단으로 넘긴다',
+  },
+  easylaw: {
+    tier: 1,
+    org: '법제처 찾기쉬운 생활법령정보',
+    label: '암환자에 대한 지원',
+    url: 'https://easylaw.go.kr/CSP/CnpClsMain.laf?popMenu=ov&csmSeq=733&ccfNo=3&cciNo=1&cnpClsNo=2',
+    verifiedAt: '2026-07-28',
+    verified: {
+      specialCopay: '암환자 등록일부터 5년간 외래 또는 입원진료시 요양급여비용의 5%만 부담',
+      basis: '국민건강보험법 시행령 제19조 · 본인일부부담금 산정특례에 관한 기준 제4조',
+      reRegister: '종료예정일 1개월 전부터 암환자 재등록',
+    },
+  },
   bokjiro: { tier: 1, org: '복지로', label: '복지서비스 찾기', url: 'https://www.bokjiro.go.kr', verifiedAt: '2026-07-22' },
   mohw: { tier: 1, org: '보건복지부', label: '보건복지부', url: 'https://www.mohw.go.kr', verifiedAt: '2026-07-22' },
   nts: { tier: 1, org: '국세청', label: '국세청', url: 'https://www.nts.go.kr', verifiedAt: '2026-07-27' },
@@ -711,10 +740,12 @@ export const JOURNEY = [
     label: '입원·치료',
     short: '입원',
     stages: ['입원예정', '입원중', '전원예정', '통원중'],
-    ready: false,
+    // 2026-07-28 R7(재난적의료비) 로 돈 관련은 시작됐다. 입원 실무는 아직이다
+    ready: 'partial',
     what: '실제로 치료를 받는 구간',
-    typical: ['간호간병통합서비스 병동이 있는지', '상급병실 차액', '타병원 자료·영상 CD'],
-    gapNote: '이 구간은 아직 준비 중이에요. 물어보시면 안 다룬다고 말씀드려요',
+    typical: ['치료가 끝나면 재난적의료비 180일 시계가 돌아요', '영수증과 세부내역서를 모아두세요'],
+    gapNote: '돈 관련은 시작했어요. 다만 간호간병통합서비스·병실 차액·수술 전 준비 같은 '
+      + '입원 실무는 아직 준비 중이에요',
   },
   {
     id: 'after',

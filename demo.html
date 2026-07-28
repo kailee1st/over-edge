@@ -3065,13 +3065,14 @@ function jmapHtml(ph){
     + (idx >= 0 ? '전체 여정에서 지금 어디인지' : '보통 이런 순서로 가요')
     + '</div>'
     + JOURNEY.map((p,i)=>{
-        const cls = i < idx ? 'past' : i === idx ? 'now' : (p.ready ? '' : 'soon');
+        const cls = i < idx ? 'past' : i === idx ? 'now'
+          : (p.ready === true ? '' : 'soon');
         return '<div class="jrow '+cls+'"><span class="jdot"></span><div class="jbd">'
           + '<div class="jl">'+esc(p.label)
           + (i === idx ? '<span class="jnow">지금 여기</span>' : '') + '</div>'
-          + (i === idx || !p.ready ? '<div class="jw">'+esc(p.what)+'</div>' : '')
+          + (i === idx || p.ready !== true ? '<div class="jw">'+esc(p.what)+'</div>' : '')
           + (i === idx ? '<div class="jt">'+(p.typical||[]).map(t=>'<span>'+esc(t)+'</span>').join('')+'</div>' : '')
-          + (!p.ready && p.gapNote ? '<div class="jgap">'+esc(p.gapNote)+'</div>' : '')
+          + (p.ready !== true && p.gapNote ? '<div class="jgap">'+esc(p.gapNote)+'</div>' : '')
           + '</div></div>';
       }).join('')
     + '</div>';
