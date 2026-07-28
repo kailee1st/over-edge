@@ -781,6 +781,11 @@ function renderCard(rule, state, today) {
     caution: rule.caution || null,
     breakdown: rule.breakdown || null,
 
+    // 실행 화면 — 무엇을 해야 하는지 알아도 무슨 말로 요청할지 몰라서 못 한다
+    doIt: rule.doIt || null,
+    // 이 일을 끝내면 손에 들어오는 서류. 완료 시 상태에 반영한다
+    yields: rule.yields || null,
+
     // 미검증 수치는 숫자를 내보내지 않는다
     numbersHidden: !!rule.unverifiedNumbers,
     numbersNote: rule.unverifiedNumbers ? NOTICES.unverifiedNumber : null,

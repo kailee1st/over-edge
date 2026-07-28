@@ -395,7 +395,10 @@
   .app[data-view="seq"]     .view-seq,
   .app[data-view="todo"]    .view-todo,
   .app[data-view="profile"] .view-profile,
-  .app[data-view="people"]  .view-people{display:flex;}
+  .app[data-view="people"]  .view-people,
+  .app[data-view="load"]    .view-load,
+  .app[data-view="do"]      .view-do,
+  .app[data-view="wrap"]    .view-wrap{display:flex;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
   @keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
@@ -524,7 +527,8 @@
   .toast.on{opacity:1;transform:translateX(-50%);}
 
   /* ---------- 내 할 일 / 내 정보 / 함께 보는 사람 ---------- */
-  .view-todo,.view-profile,.view-people{flex:1;flex-direction:column;min-height:0;}
+  .view-todo,.view-profile,.view-people,.view-do,.view-wrap{flex:1;flex-direction:column;min-height:0;}
+  .view-load{flex:1;flex-direction:column;align-items:center;justify-content:center;padding:30px 22px;}
 
   .subhd{position:sticky;top:52px;z-index:30;background:rgba(255,255,255,.94);
     backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
@@ -738,6 +742,91 @@
   .altbox .aw{margin-top:9px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
   .altbox .au{margin-top:11px;font-size:12px;color:var(--warm-600);font-weight:700;}
 
+  /* ---------- 로딩 — 무엇을 확인하고 있는지 ----------
+     결과를 즉시 던지면 어디서 나온 판단인지 안 보인다.
+     엔진이 실제로 하는 단계를 그대로 읽어준다 */
+  .load-wrap{width:100%;max-width:400px;}
+  .load-mark{width:60px;height:60px;margin:0 auto 24px;animation:pulse 1.5s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.62;transform:scale(.94);}}
+  .load-steps{display:flex;flex-direction:column;gap:3px;}
+  .load-st{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:12px;
+    font-size:14px;color:var(--ink-faint);transition:all .3s ease;}
+  .load-st .lic{width:19px;height:19px;flex:0 0 19px;border-radius:50%;border:2px solid var(--line);
+    display:grid;place-items:center;transition:all .3s ease;}
+  .load-st .lic svg{width:11px;height:11px;opacity:0;transition:opacity .2s;}
+  .load-st.now{background:var(--teal-50);color:var(--teal-900);font-weight:700;}
+  .load-st.now .lic{border-color:var(--teal-600);border-top-color:transparent;
+    animation:spin .7s linear infinite;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .load-st.ok{color:var(--ink-soft);}
+  .load-st.ok .lic{background:var(--teal-600);border-color:var(--teal-600);color:#fff;animation:none;}
+  .load-st.ok .lic svg{opacity:1;}
+  .load-note{margin-top:22px;text-align:center;font-size:12px;color:var(--ink-faint);line-height:1.6;}
+
+  /* ---------- 실행 화면 ---------- */
+  .do-hero{background:var(--teal-900);color:#fff;border-radius:var(--radius);padding:18px 19px;}
+  .do-hero .k{font-size:11.5px;font-weight:700;opacity:.72;letter-spacing:.02em;}
+  .do-hero .t2{margin-top:7px;font-size:16.5px;font-weight:800;line-height:1.5;letter-spacing:-.02em;}
+  .do-blk{margin-top:13px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:15px 16px;}
+  .do-blk .h4{font-size:11.5px;font-weight:800;color:var(--ink-faint);letter-spacing:.02em;
+    margin-bottom:10px;}
+  .do-say{background:var(--warm-50);border:1px solid var(--warm-600);border-radius:13px;
+    padding:15px 16px;margin-top:13px;}
+  .do-say .h4{color:var(--warm-600);}
+  .do-say .q2{font-size:16px;font-weight:700;color:var(--ink);line-height:1.65;}
+  .do-say .cp{margin-top:11px;border:1px solid var(--warm-600);background:#fff;font:inherit;
+    font-size:12.5px;font-weight:700;color:var(--warm-600);padding:8px 13px;border-radius:9px;cursor:pointer;}
+  .do-say .cp:hover{background:var(--warm-50);}
+  .do-li{display:flex;gap:10px;font-size:14px;line-height:1.65;padding:6px 0;}
+  .do-li .num{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--teal-50);
+    color:var(--teal-700);font-size:11.5px;font-weight:800;display:grid;place-items:center;margin-top:2px;}
+  .do-li .bx{width:17px;height:17px;flex:0 0 17px;border:1.8px solid var(--teal-500);border-radius:5px;
+    margin-top:3px;}
+  .do-after{margin-top:13px;border-radius:13px;background:var(--teal-50);padding:13px 14px;
+    font-size:13.5px;line-height:1.65;color:var(--teal-900);}
+  .do-stuck{margin-top:11px;border-radius:12px;background:#f2f6f6;padding:12px 13px;
+    font-size:13px;line-height:1.65;color:var(--ink-soft);}
+  .do-stuck b{color:var(--ink);}
+  .do-tel{display:inline-flex;align-items:center;gap:6px;margin-top:11px;border:1px solid var(--teal-500);
+    background:#fff;font:inherit;font-size:13.5px;font-weight:700;color:var(--teal-700);
+    padding:10px 15px;border-radius:10px;text-decoration:none;}
+  .do-tel svg{width:15px;height:15px;}
+
+  /* ---------- 사이클 종료 ---------- */
+  .wrap-hd{text-align:center;padding:8px 0 4px;}
+  .wrap-hd .ico3{width:56px;height:56px;margin:0 auto 15px;border-radius:18px;background:var(--teal-50);
+    display:grid;place-items:center;color:var(--teal-600);}
+  .wrap-hd .ico3 svg{width:28px;height:28px;}
+  .wrap-hd .t3{font-size:21px;font-weight:800;color:var(--teal-900);letter-spacing:-.03em;line-height:1.4;}
+  .wrap-hd .s3{margin-top:10px;font-size:14px;color:var(--ink-soft);line-height:1.7;}
+  .wrap-sum{margin-top:20px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:15px 16px;}
+  .wrap-row{display:flex;align-items:baseline;gap:10px;font-size:13.5px;padding:6px 0;}
+  .wrap-row .wn{font-size:17px;font-weight:800;color:var(--teal-700);min-width:26px;}
+  .wrap-row .wt{color:var(--ink-soft);}
+  .reco{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);overflow:hidden;}
+  .reco-top{background:linear-gradient(135deg,var(--teal-700),var(--teal-900));color:#fff;
+    padding:15px 17px;}
+  .reco-top .rk{font-size:11px;font-weight:700;opacity:.75;letter-spacing:.03em;}
+  .reco-top .rt{margin-top:6px;font-size:16.5px;font-weight:800;letter-spacing:-.02em;}
+  .reco-top .ro{margin-top:5px;font-size:12.5px;opacity:.86;}
+  .reco-bd{padding:15px 17px;}
+  .reco-bd .rd{font-size:13.5px;line-height:1.7;color:var(--ink-soft);}
+  .reco-tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+  .reco-tags span{font-size:12px;font-weight:700;color:var(--teal-700);background:var(--teal-50);
+    padding:5px 11px;border-radius:999px;}
+  .reco-go{display:inline-flex;align-items:center;gap:7px;margin-top:14px;background:var(--teal-600);
+    color:#fff;font-size:14px;font-weight:700;padding:11px 17px;border-radius:11px;text-decoration:none;}
+  .reco-go:hover{background:var(--teal-700);}
+  .reco-go svg{width:14px;height:14px;}
+  .reco-why{margin-top:12px;font-size:12.5px;color:var(--ink-faint);line-height:1.65;}
+  .wrap-ask{margin-top:22px;border:1px dashed var(--teal-500);border-radius:var(--radius);
+    background:#f7fcfc;padding:17px;}
+  .wrap-ask .at2{font-size:16px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
+  .wrap-ask .as2{margin-top:8px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;}
+
   /* ---------- 함께 보는 사람 ---------- */
   .pp{border:1px solid var(--line);border-radius:var(--radius);background:#fff;
     box-shadow:var(--shadow-sm);padding:15px 16px;margin-bottom:11px;}
@@ -934,6 +1023,34 @@
     </div></div>
   </section>
 
+  <!-- ===== 로딩 ===== -->
+  <section class="view view-load" id="viewLoad">
+    <div class="load-wrap">
+      <div class="load-mark" id="loadMark"></div>
+      <div class="load-steps" id="loadSteps"></div>
+      <div class="load-note">같은 내용을 다시 넣으면 같은 결과가 나와요.<br>
+        매번 다르게 대답하지 않는 게 이 도구의 약속이에요.</div>
+    </div>
+  </section>
+
+  <!-- ===== 실행 화면 ===== -->
+  <section class="view view-do" id="viewDo">
+    <div class="subhd">
+      <div class="subhd-in">
+        <button class="back" id="doBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>돌아가기
+        </button>
+        <span class="tt">지금 하실 일</span>
+      </div>
+    </div>
+    <div class="rbody"><div class="rbody-in" id="doBody"></div></div>
+  </section>
+
+  <!-- ===== 사이클 종료 ===== -->
+  <section class="view view-wrap" id="viewWrap">
+    <div class="rbody"><div class="rbody-in" id="wrapBody"></div></div>
+  </section>
+
   <div class="bar">
     <div class="bar-in">
       <button class="rec" id="recBtn" type="button" aria-label="녹음">
@@ -950,7 +1067,7 @@
 
 <!-- ===== 메뉴 드로어 ===== -->
 <div class="scrim" id="scrim"></div>
-  <!-- ===== 함께 보는 사람 ===== -->
+
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="dr-hd">
     <span class="t">메뉴</span>
@@ -1037,7 +1154,7 @@
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
 import { SCENARIOS, RULE_BACKLOG, findRule, CATEGORIES, WHO, groupByCategory } from './rules.js';
-import { TIERS, OUT_OF_SCOPE, findDoc, DOCS } from './kb.js';
+import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES } from './kb.js';
 
 const $ = id => document.getElementById(id);
 const app = $('app');
@@ -1054,6 +1171,16 @@ const MARK = `<svg viewBox="0 0 64 64" fill="none" role="img" aria-label="Dr.Han
 $('mkSlot').innerHTML = MARK;
 $('bigSlot').innerHTML = MARK;
 $('drVer').textContent = ENGINE_VERSION;
+
+/* 조사 — 받침이 있으면 앞쪽, 없으면 뒤쪽.
+   한글 음절은 0xAC00 부터 28개 종성 단위로 배열돼 있다 */
+function josa(word, pair){
+  const w = String(word || '');
+  const c = w.charCodeAt(w.length - 1);
+  if (!(c >= 0xAC00 && c <= 0xD7A3)) return w + pair[1];
+  const hasFinal = (c - 0xAC00) % 28 !== 0;
+  return w + (hasFinal ? pair[0] : pair[1]);
+}
 
 const esc = s => String(s==null?'':s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const I = {
@@ -1084,6 +1211,8 @@ const card = (ic,title,sub,body,cls,attr) =>
 const outcomes = new Map();
 let seq = null;
 let docsOpen = false;
+let stateDirty = false;   // 실행 완료로 서류가 늘었다. 다음에 목록을 다시 계산해야 한다
+let doCard = null;        // 실행 화면이 보여주고 있는 카드
 
 let cur = null;                       // 마지막 run 결과
 let lastPayload = null;               // 재판정용
@@ -1257,6 +1386,8 @@ function seqNext(){
 }
 function backToCats(){
   seq = null;
+  // 실행을 끝내 서류가 늘었으면 목록을 다시 계산한다. 그게 "상태가 자란다"는 뜻이다
+  if (stateDirty && lastPayload) { handle(lastPayload, { quiet:true }); return; }
   app.dataset.view = 'result';
   if (cur) render(cur);
 }
@@ -1285,7 +1416,9 @@ function drawSeq(){
       + '<div class="bt">'+esc(cat.label)+' 영역은 다 보셨어요</div>'
       + '<div class="bs">'+(bits.length?esc(bits.join(' · ')):'확인만 하셨어요')+'</div>'
       + '<div class="acts" style="max-width:300px;margin:22px auto 0">'
-      + '<button class="act prim" data-seq="back" type="button">다른 영역 보기</button></div></div>';
+      + '<button class="act prim" data-seq="back" type="button">다른 영역 보기</button></div></div>'
+      // 영역이 끝난 자리가 다음 질문을 받기 제일 좋은 자리다
+      + (cur ? seqAsk(cur) : '');
     return;
   }
 
@@ -1329,7 +1462,115 @@ $('cats').addEventListener('click', e=>{
   openCat(b.dataset.cat);
 });
 $('seqBack').addEventListener('click', backToCats);
+
+/* 완료 화면에 붙는 질문 추천. nextQuestions 를 그대로 쓴다 */
+function seqAsk(r){
+  const qs = nextQuestions(r);
+  if (!qs.length) return '';
+  window.__seqQs = qs;
+  return '<div class="next" style="margin-top:26px"><div class="next-t">이런 것도 물어보실 수 있어요</div>'
+    + '<div class="chips" id="seqChips">'
+    + qs.map((x,i)=>'<button class="chip'+(x.soon?' soon':'')+'" data-sq="'+i+'" type="button">'
+        + esc(x.q)+'</button>').join('')
+    + '</div></div>';
+}
+
+/* ==========================================================
+   실행 화면 — 무엇을 해야 하는지 알아도 무슨 말로 요청할지 몰라서 못 한다
+   그래서 창구에서 그대로 읽을 문장이 이 화면의 중심이다
+   ========================================================== */
+function openDo(c){
+  doCard = c;
+  drawDo();
+  app.dataset.view = 'do';
+  window.scrollTo(0,0);
+}
+
+function drawDo(){
+  const c = doCard, d = c.doIt || {};
+  let h = '<div class="do-hero"><div class="k">지금 하실 일</div>'
+    + '<div class="t2">'+esc(c.title)+'</div></div>';
+
+  if (d.where) h += '<div class="do-blk"><div class="h4">어디로</div>'
+    + '<div style="font-size:14.5px;line-height:1.6">'+esc(d.where)+'</div>'
+    + (c.source && c.source.tel
+        ? '<a class="do-tel" href="tel:'+esc(c.source.tel.replace(/-/g,''))+'">'
+          + svg(I.bell)+esc(c.source.org)+' '+esc(c.source.tel)+'</a>' : '')
+    + '</div>';
+
+  if (d.bring && d.bring.length) h += '<div class="do-blk"><div class="h4">챙길 것</div>'
+    + d.bring.map(b=>'<div class="do-li"><span class="bx"></span><span>'+esc(b)+'</span></div>').join('')
+    + '</div>';
+
+  if (d.say) h += '<div class="do-say"><div class="h4">이렇게 말하시면 돼요</div>'
+    + '<div class="q2">'+esc(d.say)+'</div>'
+    + '<button class="cp" type="button" id="doCopy">이 문장 복사</button></div>';
+
+  if (d.steps && d.steps.length) h += '<div class="do-blk"><div class="h4">순서</div>'
+    + d.steps.map((x,i)=>'<div class="do-li"><span class="num">'+(i+1)+'</span><span>'+esc(x)+'</span></div>').join('')
+    + '</div>';
+
+  if (d.after) h += '<div class="do-after">'+esc(d.after)+'</div>';
+  if (d.askIfStuck) h += '<div class="do-stuck"><b>막히면 이렇게 물어보세요</b><br>'+esc(d.askIfStuck)+'</div>';
+
+  if (c.yields && c.yields.length) {
+    const nm = c.yields.map(id=>(findDoc(id)||{}).name).filter(Boolean).join(' · ');
+    if (nm) h += '<div class="do-stuck">끝내시면 <b>'+esc(nm)+'</b>을 확보한 것으로 표시할게요. '
+      + '그러면 그 서류가 필요했던 다른 항목도 같이 내려가요.</div>';
+  }
+
+  h += '<div class="acts">'
+    + '<button class="act prim" data-do="done" type="button">했어요</button>'
+    + '<button class="act" data-do="later" type="button">아직이요. 내 할 일에 두세요</button>'
+    + '</div>';
+
+  $('doBody').innerHTML = h;
+}
+
+$('doBack').addEventListener('click', ()=>{
+  if (seq) { app.dataset.view = 'seq'; drawSeq(); } else backToCats();
+});
+$('doBody').addEventListener('click', e=>{
+  if (e.target.closest('#doCopy')) {
+    const t = (doCard.doIt||{}).say || '';
+    if (navigator.clipboard) navigator.clipboard.writeText(t).catch(()=>{});
+    toast('복사했어요. 창구에서 그대로 보여드려도 돼요');
+    return;
+  }
+  const b = e.target.closest('[data-do]'); if (!b) return;
+  const c = doCard;
+
+  if (b.dataset.do === 'done') {
+    outcomes.set(c.ruleId, 'done');
+    const v = adopted.get(c.ruleId); if (v) v.status = 'done';
+    // 끝낸 일로 손에 들어온 서류를 상태에 반영한다. 여기서 상태가 자연스레 자란다
+    if (c.yields && c.yields.length) {
+      const list = new Set(profile.docs || []);
+      c.yields.forEach(id => list.add(id));
+      profile.docs = [...list];
+      saveProfile();
+      stateDirty = true;
+      const nm = c.yields.map(id=>(findDoc(id)||{}).name).filter(Boolean).join(' · ');
+      toast(nm ? nm + '을 확보한 것으로 넣었어요' : '완료로 표시했어요');
+    } else {
+      toast('완료로 표시했어요');
+    }
+  } else {
+    outcomes.set(c.ruleId, 'later');
+    const v = adopted.get(c.ruleId); if (v) v.status = 'todo';
+    toast('내 할 일에 뒀어요. 진행 상황은 거기서 체크해요');
+  }
+  syncTodoBadge();
+  doCard = null;
+  if (seq) { app.dataset.view = 'seq'; seqNext(); } else backToCats();
+});
 $('seqBody').addEventListener('click', e=>{
+  const sq = e.target.closest('[data-sq]');
+  if (sq) {
+    const q = (window.__seqQs || [])[+sq.dataset.sq];
+    if (q) handle({ text: q.text });
+    return;
+  }
   const b = e.target.closest('[data-seq]'); if (!b) return;
   const c = seq.list[seq.idx];
   switch (b.dataset.seq) {
@@ -1337,17 +1578,25 @@ $('seqBody').addEventListener('click', e=>{
     case 'done':
       outcomes.set(c.ruleId, 'done'); toast('이미 하셨으니 목록에서 뺐어요'); seqNext(); break;
     case 'later':
-      outcomes.set(c.ruleId, 'later');
-      adopted.set(c.ruleId, { card:c, status:'todo' });
-      syncTodoBadge(); toast('내 할 일에 넣었어요'); seqNext(); break;
+      // 담기만 하고 넘어가면 "그래서 뭘 하지"가 남는다. 실행 화면으로 보낸다
+      adopted.set(c.ruleId, { card:c, status:'doing' });
+      syncTodoBadge();
+      openDo(c);
+      break;
     case 'cant':
       if (c.alt) { seq.alt = true; drawSeq(); }
       else { outcomes.set(c.ruleId, 'cant'); seqNext(); }
       break;
-    case 'alt-todo':
-      outcomes.set(c.ruleId, 'later');
-      adopted.set(c.ruleId, { card:{...c, step:c.alt.step, title:c.alt.title}, status:'todo' });
-      syncTodoBadge(); toast('대신 이 방법을 담았어요'); seqNext(); break;
+    case 'alt-todo': {
+      const altCard = { ...c, step:c.alt.step, title:c.alt.title,
+        doIt: { where:null, bring:[], say:null, steps:[c.alt.step],
+                after:c.alt.why || null, askIfStuck:null },
+        yields: null };
+      adopted.set(c.ruleId, { card:altCard, status:'doing' });
+      syncTodoBadge();
+      openDo(altCard);
+      break;
+    }
     case 'alt-skip':
       outcomes.set(c.ruleId, 'cant'); seqNext(); break;
   }
@@ -1368,7 +1617,7 @@ function nextQuestions(r){
 
   // 2. 미확보 서류
   ((o.state&&o.state.docsMissing)||[]).slice(0,2).forEach(d=>{
-    out.push({ q: d.name+'는 어떻게 떼요?', text: d.name+'를 제가 떼야 하는데요' });
+    out.push({ q: josa(d.name,'은는')+' 어떻게 떼요?', text: josa(d.name,'을를')+' 제가 떼야 하는데요' });
   });
 
   // 3. 다음 단계 예상
@@ -1381,7 +1630,7 @@ function nextQuestions(r){
 
   // 4. 아직 안 다루는 것 — 정직하게 노출
   RULE_BACKLOG.slice(0,1).forEach(b=>{
-    out.push({ q: b.name+'은요?', text: b.name+' 되나요?', soon:true });
+    out.push({ q: josa(b.name,'은는')+'요?', text: b.name+' 되나요?', soon:true });
   });
 
   return out.slice(0,4);
@@ -1443,6 +1692,20 @@ function render(r){
   $('cats').innerHTML = '';
   if (isCards && n > 0) drawCats(r);
   document.querySelector('.tools').hidden = !isCards;
+
+  // 짚어드린 게 있고 남은 게 하나도 없으면 한 바퀴가 끝났다
+  const needTotal = isCards
+    ? CATEGORIES.reduce((a,c)=>a + needInfo(r, c.id).length, 0) : 0;
+  if (isCards && n === 0 && needTotal === 0 && seenIds.length > 0) {
+    (r.matched.fired||[]).forEach(x=>{ if(!seenIds.includes(x.id)) seenIds.push(x.id); });
+    drawState(s);
+    syncTodoBadge();
+    drawWrap();
+    app.dataset.view = 'wrap';
+    window.scrollTo(0, 0);
+    saveLog(r.log);
+    return;
+  }
 
   // 가진 서류 — 기본은 접어둔다. 첫 화면을 조용하게 유지한다
   if (isCards) {
@@ -1532,12 +1795,58 @@ function toast(msg){
 /* ==========================================================
    입력
    ========================================================== */
-function handle(payload){
+/* 로딩 — 엔진이 실제로 하는 단계를 그대로 읽어준다.
+   결과를 즉시 던지면 어디서 나온 판단인지 안 보인다.
+   판정은 이미 끝나 있고(순수 함수라 즉시 끝난다) 순서만 보여주는 것이다.  */
+const sleep = ms => new Promise(r => setTimeout(r, ms));
+
+function loadingSteps(r){
+  const o = r.output, st = r.state, tg = r.tags || {};
+  const nHave = (tg.have || []).length;
+  const nFired = (r.matched.fired || []).length;
+  const nAll = (r.matched.fired || []).length + (r.matched.skipped || []).length;
+  const hard = (o.cards || []).find(c => c.deadline && c.deadline.dueDate);
+  const out = [
+    { t:'적어주신 내용에서 상황을 읽고 있어요',
+      d: st.stage ? '지금은 ' + st.stage + ' 단계로 보여요' : '단계를 특정하지 못했어요' },
+    { t:'서류를 누가 뗄 수 있는지 나누고 있어요',
+      d: nHave ? '확보한 서류 ' + nHave + '종' : '아직 확보한 서류가 없어요' },
+    { t:'기준 ' + nAll + '가지와 하나씩 대조하고 있어요',
+      d: nFired ? nFired + '가지가 걸렸어요' : '걸리는 게 없어요' },
+  ];
+  if (hard) out.push({ t:'기한을 날짜로 계산하고 있어요', d: hard.deadline.dueDate + '까지' });
+  return out;
+}
+
+function drawLoading(steps, at){
+  $('loadSteps').innerHTML = steps.map((x,i)=>
+    '<div class="load-st '+(i<at?'ok':i===at?'now':'')+'">'
+    + '<span class="lic">'+svg(I.check)+'</span>'
+    + '<span>'+esc(i<at && x.d ? x.d : x.t)+'</span></div>').join('');
+}
+
+async function handle(payload, opt){
+  opt = opt || {};
   lastPayload = payload;
   seq = null;
-  render(run(payload, { prevRuleIds: seenIds, profile }));
+  const r = run(payload, { prevRuleIds: seenIds, profile });
+  stateDirty = false;
+
+  if (!opt.quiet) {
+    const steps = loadingSteps(r);
+    $('loadMark').innerHTML = MARK;
+    drawLoading(steps, 0);
+    app.dataset.view = 'load';
+    window.scrollTo(0,0);
+    for (let i = 0; i < steps.length; i++) {
+      await sleep(i === 0 ? 380 : 300);
+      drawLoading(steps, i + 1);
+    }
+    await sleep(260);
+  }
+  render(r);
 }
-function requery(){ if (lastPayload) handle(lastPayload); }
+function requery(){ if (lastPayload) handle(lastPayload, { quiet:true }); }
 function submit(){
   const text = $('input').value.trim(); if (!text) return;
   $('input').value = ''; $('input').style.height = 'auto';
@@ -1760,6 +2069,90 @@ $('todoBody').addEventListener('click', e=>{
   const dr = e.target.closest('[data-drop]');
   if (dr) { adopted.delete(dr.dataset.drop); drawTodo(); syncTodoBadge(); toast('목록에서 뺐어요'); }
 });
+
+/* ==========================================================
+   사이클 종료 — 여기서 데모의 한 바퀴가 끝난다
+
+   0을 말할 수 있는 도구만 3을 말할 자격이 있다.
+   그리고 환자 본인의 일상(영양·운동·심리·증상관리)은 우리가 안 다루는
+   영역이다. 안 다룬다고 말하고 더 나은 곳으로 넘긴다.
+   ========================================================== */
+function drawWrap(){
+  const done  = [...outcomes.values()].filter(v=>v==='done').length;
+  const later = [...adopted.values()].filter(v=>v.status!=='done').length;
+  const cant  = [...outcomes.values()].filter(v=>v==='cant').length;
+
+  let h = '<div class="wrap-hd"><div class="ico3">'+svg(I.check)+'</div>'
+    + '<div class="t3">지금은 이 정도면<br>충분해요</div>'
+    + '<div class="s3">확인할 것을 다 보셨어요. 새 진료나 검사가 생기면<br>그때 다시 짚어드릴게요.</div></div>';
+
+  h += '<div class="wrap-sum">'
+    + '<div class="wrap-row"><span class="wn">'+seenIds.length+'</span>'
+      + '<span class="wt">가지를 짚어드렸어요</span></div>'
+    + (done  ? '<div class="wrap-row"><span class="wn">'+done+'</span><span class="wt">가지는 처리하셨어요</span></div>' : '')
+    + (later ? '<div class="wrap-row"><span class="wn">'+later+'</span><span class="wt">가지는 내 할 일에 남아 있어요</span></div>' : '')
+    + (cant  ? '<div class="wrap-row"><span class="wn">'+cant+'</span><span class="wt">가지는 다른 길을 안내했어요</span></div>' : '')
+    + '</div>';
+
+  // 우리가 안 다루는 영역 — 환자 본인의 일상
+  const src = SOURCES['cancer-life'];
+  h += '<div class="reco"><div class="reco-top"><div class="rk">여기서부터는 제가 안 다뤄요</div>'
+    + '<div class="rt">'+esc(src.label)+'</div>'
+    + '<div class="ro">'+esc(src.org)+'</div></div>'
+    + '<div class="reco-bd"><div class="rd">저는 절차와 기한을 봐요. 부모님이 <b>어떻게 지내실지</b>는 '
+    + '제 영역이 아니에요. 먹는 것, 몸 쓰는 것, 잠, 통증 같은 건 여기가 훨씬 낫습니다.</div>'
+    + '<div class="reco-tags">'+(src.covers||[]).map(c=>'<span>'+esc(c)+'</span>').join('')+'</div>'
+    + '<a class="reco-go" href="'+esc(src.url)+'" target="_blank" rel="noopener">'
+    + '열어보기'+svg(I.arrow)+'</a>'
+    + '<div class="reco-why">국립암센터가 운영하는 공공 사이트예요. 회원가입 없이 볼 수 있어요.<br>'
+    + '치료를 마치신 뒤에는 <b>암생존자 통합지지센터</b>(운동·심리·직업복귀)도 있어요. '
+    + '지금은 아직 대상이 아니라 링크만 남겨둘게요.</div>'
+    + '</div></div>';
+
+  h += '<div class="wrap-ask"><div class="at2">더 궁금하거나 불안한 게 있으세요?</div>'
+    + '<div class="as2">아래에 그냥 적어주세요. 정리된 문장이 아니어도 돼요.<br>'
+    + '제가 안 다루는 거면 안 다룬다고 말씀드릴게요.</div>'
+    + (function(){
+        const qs = cur ? nextQuestions(cur) : [];
+        window.__wrapQs = qs;
+        return qs.length
+          ? '<div class="chips" style="margin-top:14px">'
+            + qs.map((x,i)=>'<button class="chip'+(x.soon?' soon':'')+'" data-wq="'+i+'" type="button">'
+                + esc(x.q)+'</button>').join('') + '</div>'
+          : '';
+      })()
+    + '</div>';
+
+  h += '<div class="tools" style="margin-top:22px">'
+    + '<button class="tool" id="wrapCats" type="button">지나온 영역 다시 보기</button>'
+    + '<button class="tool" id="wrapTodo" type="button">내 할 일 보기</button></div>';
+
+  $('wrapBody').innerHTML = h;
+}
+
+$('wrapBody').addEventListener('click', e=>{
+  if (e.target.closest('#wrapCats')) {
+    app.dataset.view = 'result';
+    if (cur) { const keep = cur; renderCats(keep); }
+    return;
+  }
+  if (e.target.closest('#wrapTodo')) { drawTodo(); app.dataset.view='todo'; return; }
+  const wq = e.target.closest('[data-wq]');
+  if (wq) {
+    const q = (window.__wrapQs || [])[+wq.dataset.wq];
+    if (q) handle({ text: q.text });
+  }
+});
+
+/* 사이클이 끝났어도 지나온 영역은 볼 수 있어야 한다.
+   render 를 다시 부르면 또 종료 화면으로 튕기므로 카테고리만 그린다 */
+function renderCats(r){
+  drawCats(r);
+  $('lead').querySelector('.n').textContent = '0';
+  $('leadTxt').textContent = '지금은 다 보셨어요';
+  $('leadSub').textContent = '처리한 것은 ✓로 표시했어요. 새로 생긴 게 있으면 아래에 적어주세요.';
+  window.scrollTo(0,0);
+}
 
 /* ==========================================================
    함께 보는 사람 — 원래 개념의 가족 정보공유 다리

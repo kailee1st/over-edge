@@ -623,6 +623,28 @@ export const SOURCES = {
   nts: { tier: 1, org: '국세청', label: '국세청', url: 'https://www.nts.go.kr', verifiedAt: '2026-07-27' },
   ncc: { tier: 1, org: '국립암센터', label: '국립암센터', url: 'https://www.ncc.re.kr', verifiedAt: '2026-07-27' },
 
+  // 우리가 안 다루는 영역 — 환자 본인의 일상(영양·운동·심리·증상관리).
+  // 우리는 절차와 기한을 보고, 삶은 여기가 훨씬 낫다. 넘길 곳을 알고 넘긴다
+  'cancer-life': {
+    tier: 1,
+    org: '국립암센터 국가암지식정보센터',
+    label: '암환자 생활백서',
+    url: 'https://www.cancer.go.kr',
+    verifiedAt: '2026-07-28',
+    covers: ['암환자의 생활', '암환자 증상관리', '암환자 식생활'],
+    note: '페이지에 상담 전화번호가 명시돼 있지 않아 번호는 출력하지 않는다',
+  },
+  'cancer-survivor': {
+    tier: 1,
+    org: '국립암센터 암생존자통합지지사업',
+    label: '암생존자 통합지지센터',
+    url: 'https://www.ncc.re.kr/main.ncc?uri=manage01_10',
+    tel: '1577-9740',
+    verifiedAt: '2026-07-28',
+    covers: ['운동·피로·림프부종', '심리지지·수면·재발 두려움', '영양·식생활', '직업복귀'],
+    note: '이용 대상이 "완치 목적의 주요 치료를 마친 암환자와 가족"이다. 확진 초기에는 아직 대상이 아니라는 점을 같이 말해야 한다',
+  },
+
   // Tier 2 — 실무 관행 파악용. 근거란에 넣지 않는다
   'hospital-guide': {
     tier: 2,
