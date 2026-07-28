@@ -48,7 +48,16 @@ header{position:sticky;top:0;z-index:20;backdrop-filter:blur(10px);background:rg
 @media(min-width:1120px){.chipnav{display:none;}}
 
 /* 히어로 */
-.hero{padding:46px 0 10px;text-align:center;}
+.hero{padding:44px 0 10px;text-align:center;}
+.hero-top{display:flex;flex-direction:column;align-items:center;gap:14px;}
+.hero-top .htext{display:flex;flex-direction:column;align-items:center;}
+@media(min-width:820px){
+  .hero-top{flex-direction:row;justify-content:center;gap:38px;text-align:left;}
+  .hero-top .htext{align-items:flex-start;}
+  .hero-top .sub,.hero-top .guard{margin-left:0;text-align:left;}
+  .hero-top .cta-row{justify-content:flex-start;}
+  .hero-top .mascot-row{flex:none;}
+}
 .badge{display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:600;color:var(--teal-700);background:var(--teal-50);border:1px solid var(--teal-100);padding:7px 14px;border-radius:999px;margin-bottom:16px;}
 .hero h1{font-size:32px;line-height:1.28;letter-spacing:-.02em;font-weight:800;color:var(--teal-900);}
 .hero h1 .hl{color:var(--teal-600);}
@@ -352,4 +361,11 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 @media(min-width:760px){
   .hero h1{font-size:42px;}
   .phead h1{font-size:33px;}
+}
+
+/* 히어로 2단 정렬 보정 (파일 끝에 두어 우선순위 확보) */
+@media(min-width:820px){
+  .hero .hero-top .sub{margin:12px 0 0;text-align:left;}
+  .hero .hero-top .guard{text-align:left;}
+  .hero .hero-top .cta-row{justify-content:flex-start;}
 }
