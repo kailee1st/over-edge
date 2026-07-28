@@ -2147,10 +2147,13 @@ function render(r){
     leadSub.textContent = '';
     html = cEdge('아직 다루지 않아요', o.unhandled.message, o.unhandled.detail);
   } else if (o.kind === 'zero' || n === 0) {
-    leadTxt.textContent = '새로 놓치고 있는 것 없어요';
+    leadTxt.textContent = '저희가 보는 범위에는 없어요';
     leadSub.textContent = '뭔가 생기면 먼저 알려드릴게요.';
-    html = cEdge('지금은 괜찮아요', '새로 놓치고 있는 것 0개',
-      '지금까지 안내한 것 외에 새로 생긴 건 없어요. 새 진료나 검사가 생기면 다시 알려주세요.');
+    html = cEdge('저희가 보는 범위에는 새로 걸리는 게 없어요',
+      '"아무 문제 없다"는 뜻이 아니에요',
+      '저희가 지금 확인할 수 있는 항목에서는 새로 걸리는 게 없다는 뜻이에요. '
+      + '아직 저희가 못 보는 영역이 있고, 몸 상태에 대한 판단은 저희가 하지 않아요. '
+      + '새 진료나 검사가 생기면 다시 알려주세요.');
   } else {
     leadTxt.textContent = '확인할 게 있어요';
     leadSub.textContent = '영역을 하나 골라주세요. 한 번에 한 가지만 보여드려요.';
@@ -2669,8 +2672,9 @@ function drawWrap(){
   const cant  = [...outcomes.values()].filter(v=>v==='cant').length;
 
   let h = '<div class="wrap-hd"><div class="ico3">'+svg(I.check)+'</div>'
-    + '<div class="t3">지금은 이 정도면<br>충분해요</div>'
-    + '<div class="s3">확인할 것을 다 보셨어요. 새 진료나 검사가 생기면<br>그때 다시 짚어드릴게요.</div></div>';
+    + '<div class="t3">저희가 보는 범위는<br>다 보셨어요</div>'
+    + '<div class="s3">저희가 확인할 수 있는 항목을 다 짚어드렸어요.<br>'
+    + '<b>"이제 안심하셔도 된다"는 뜻은 아니에요.</b> 아직 저희가 못 보는 영역이 있어요.</div></div>';
 
   h += '<div class="wrap-sum">'
     + '<div class="wrap-row"><span class="wn">'+seenIds.length+'</span>'
@@ -2678,6 +2682,11 @@ function drawWrap(){
     + (done  ? '<div class="wrap-row"><span class="wn">'+done+'</span><span class="wt">가지는 처리하셨어요</span></div>' : '')
     + (later ? '<div class="wrap-row"><span class="wn">'+later+'</span><span class="wt">가지는 내 할 일에 남아 있어요</span></div>' : '')
     + (cant  ? '<div class="wrap-row"><span class="wn">'+cant+'</span><span class="wt">가지는 다른 길을 안내했어요</span></div>' : '')
+    // 분모를 밝힌다. 밝히지 않으면 "다 봤다"로 읽힌다
+    + '<div class="wrap-row" style="border-top:1px solid var(--line);margin-top:9px;padding-top:12px">'
+      + '<span class="wn" style="color:var(--warm-600)">'+openBacklog().length+'</span>'
+      + '<span class="wt">가지는 <b>저희가 아직 못 보는 영역</b>이에요 '
+      + '(입원 실무·간병·회사 문제 등). 그건 확인되면 알려드릴게요</span></div>'
     + '</div>';
 
   // 우리가 안 다루는 영역 — 환자 본인의 일상

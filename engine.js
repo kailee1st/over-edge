@@ -640,8 +640,10 @@ export function buildOutput(state, tags, matched, opts = {}) {
       return {
         kind: 'zero',
         zero: {
-          message: '새로 놓치고 있는 것 0개',
-          detail: '지난번에 안내한 것들 외에 새로 생긴 건 없어요',
+          // "없다"고 단정하지 않는다. 우리 룰은 유한하고 그 사실을 매번 밝힌다
+          message: '저희가 보는 범위에는 새로 놓친 게 없어요',
+          detail: '지난번에 안내한 것들 외에 새로 걸리는 게 없어요. '
+            + '다만 저희가 아직 못 보는 영역이 있어요',
           prevCount: prevRuleIds.length,
         },
         cards: [],
