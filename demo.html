@@ -272,9 +272,10 @@
   .miss-badge.is-gate{background:var(--teal-50);color:var(--teal-700);}
 
   .miss-rows{display:flex;flex-direction:column;gap:11px;margin-top:12px;}
-  .miss-row{display:grid;grid-template-columns:74px 1fr;gap:10px;align-items:start;}
+  .miss-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;align-items:start;}
   .miss-row .lb{font-size:12px;font-weight:700;color:var(--ink-faint);padding-top:2px;letter-spacing:-.01em;}
-  .miss-row .vl{font-size:14px;color:var(--ink);line-height:1.62;}
+  /* grid 아이템은 기본 min-width:auto 라서 긴 링크·문장이 칸을 밀어낸다 */
+  .miss-row .vl{font-size:14px;color:var(--ink);line-height:1.62;min-width:0;overflow-wrap:anywhere;}
   .miss-row .vl b{color:var(--teal-900);}
 
   .due{display:inline-block;font-weight:800;color:var(--urgent);}
@@ -283,7 +284,8 @@
   .step-box{background:var(--teal-50);border-radius:var(--radius-sm);padding:11px 13px;}
   .step-box .why{display:block;margin-top:5px;font-size:12.5px;color:var(--ink-soft);}
 
-  .src{display:inline-flex;align-items:center;gap:6px;font-size:13px;}
+  .src{display:flex;flex-wrap:wrap;align-items:center;gap:6px;font-size:13px;min-width:0;}
+  .src a{overflow-wrap:anywhere;}
   .src a{color:var(--teal-700);text-decoration:none;border-bottom:1px solid var(--teal-100);}
   .src a:hover{border-bottom-color:var(--teal-600);}
   .src .tel{color:var(--ink-faint);font-size:12.5px;}
@@ -400,6 +402,7 @@
   .app[data-view="do"]      .view-do,
   .app[data-view="wrap"]    .view-wrap,
   .app[data-view="vault"]   .view-vault,
+  .app[data-view="sched"]   .view-sched,
   .app[data-view="status"]  .view-status{display:flex;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
   @keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
@@ -1069,6 +1072,42 @@
   .vhonest{margin-top:18px;border-radius:13px;background:#f2f6f6;padding:14px 15px;
     font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
 
+  /* ---------- 다음 일정 (폼 → 목록 → 삭제 → 빈 상태) ---------- */
+  .scf{border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:15px 16px;margin-top:14px;}
+  .scf-row{display:flex;flex-direction:column;gap:5px;margin-bottom:11px;}
+  .scf-row label{font-size:12.5px;font-weight:700;color:var(--ink-soft);}
+  .scf-row label .rq{color:#c0392b;margin-left:2px;}
+  .scf-in{width:100%;font-family:inherit;font-size:16px;color:var(--ink);background:#fff;
+    border:1px solid var(--line);border-radius:11px;padding:11px 12px;min-height:46px;outline:none;
+    transition:border-color .15s,box-shadow .15s;}
+  .scf-in:focus{border-color:var(--teal-500);box-shadow:0 0 0 3px rgba(18,139,150,.13);}
+  .scf-in.bad{border-color:#c0392b;background:#fffafa;}
+  select.scf-in{appearance:none;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2354646a' stroke-width='2'><path d='M6 9l6 6 6-6'/></svg>");
+    background-repeat:no-repeat;background-position:right 12px center;background-size:17px;padding-right:36px;}
+  .scf-err{min-height:15px;font-size:12px;font-weight:700;color:#c0392b;}
+  .scf-add{width:100%;min-height:50px;border:none;border-radius:13px;cursor:pointer;
+    font-family:inherit;font-size:15.5px;font-weight:800;color:#fff;
+    background:linear-gradient(135deg,var(--teal-600),var(--teal-500));
+    box-shadow:0 5px 14px rgba(18,139,150,.28);margin-top:3px;}
+  .scf-add:disabled{opacity:.6;cursor:default;box-shadow:none;}
+  .scok{display:none;margin-top:12px;border-radius:12px;padding:11px 13px;font-size:13.5px;font-weight:700;
+    background:#e9f8ee;border:1px solid #b9e6c4;color:#1f7a3f;}
+  .scok.on{display:block;}
+  .sci{display:flex;align-items:flex-start;gap:11px;border:1px solid var(--line);border-radius:14px;
+    background:#fff;box-shadow:var(--shadow-sm);padding:13px 14px;margin-bottom:9px;}
+  .sci.soon{border-color:var(--teal-500);background:var(--teal-50);}
+  .sci-m{min-width:0;flex:1;}
+  .sci-t{font-size:14.5px;font-weight:800;color:var(--ink);display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+  .sci-d{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
+  .sci-n{font-size:12.5px;color:var(--ink-faint);margin-top:5px;word-break:break-word;}
+  .sci-dd{font-size:11px;font-weight:800;color:var(--teal-700);background:#fff;
+    border:1px solid var(--teal-100);border-radius:999px;padding:2px 9px;}
+  .sci-del{flex:none;min-width:44px;min-height:44px;border:none;background:transparent;cursor:pointer;
+    font-family:inherit;font-size:12.5px;font-weight:700;color:var(--ink-faint);border-radius:10px;}
+  .sci-del:hover{color:#c0392b;background:#fbecec;}
+
   /* ---------- 함께 보는 사람 ---------- */
   .pp{border:1px solid var(--line);border-radius:var(--radius);background:#fff;
     box-shadow:var(--shadow-sm);padding:15px 16px;margin-bottom:11px;}
@@ -1120,6 +1159,12 @@
   .seqdone .ico2 svg{width:26px;height:26px;}
   .seqdone .bt{font-size:19px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
   .seqdone .bs{margin-top:8px;font-size:13.5px;color:var(--ink-soft);line-height:1.6;}
+
+  /* 좁은 화면에서는 라벨을 위로. 74px 을 값에 돌려준다 */
+  @media (max-width:400px){
+    .miss-row{grid-template-columns:1fr;gap:4px;}
+    .miss-row .lb{padding-top:0;}
+  }
 
   @media (max-width:520px){
     .bigmark{width:84px;height:84px;}
@@ -1272,6 +1317,45 @@
     </div></div>
   </section>
 
+  <section class="view view-sched" id="viewSched">
+    <div class="subhd">
+      <div class="subhd-in">
+        <button class="back" id="scBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>돌아가기
+        </button>
+        <span class="tt">다음 일정</span>
+      </div>
+    </div>
+    <div class="rbody"><div class="rbody-in">
+      <div class="lead-sub" id="scLead"></div>
+
+      <div class="scf">
+        <div class="scf-row">
+          <label for="scType">무슨 일정인가요<span class="rq">*</span></label>
+          <select class="scf-in" id="scType">
+            <option value="">골라주세요</option>
+          </select>
+          <div class="scf-err" id="scErrType"></div>
+        </div>
+        <div class="scf-row">
+          <label for="scDate">날짜<span class="rq">*</span></label>
+          <input class="scf-in" type="date" id="scDate">
+          <div class="scf-err" id="scErrDate"></div>
+        </div>
+        <div class="scf-row">
+          <label for="scNote">메모 <span style="font-weight:500;color:var(--ink-faint)">(선택)</span></label>
+          <input class="scf-in" type="text" id="scNote" maxlength="40" placeholder="예: 오전 10시, 3층 호흡기내과">
+          <div class="scf-err" id="scErrNote"></div>
+        </div>
+        <button class="scf-add" id="scAdd" type="button">일정 담기</button>
+        <div class="scok" id="scOk"></div>
+      </div>
+
+      <div id="scList"></div>
+      <div class="vhonest" id="scHonest"></div>
+    </div></div>
+  </section>
+
   <section class="view view-people" id="viewPeople">
     <div class="subhd">
       <div class="subhd-in">
@@ -1405,6 +1489,10 @@
       <button class="dr-item" id="drToVault" type="button">
         <div class="it">서류 보관함 <span id="drVaultN"></span></div>
         <div class="id2">무엇을 가지고 있고 무엇이 없는지</div>
+      </button>
+      <button class="dr-item" id="drToSched" type="button">
+        <div class="it">다음 일정 <span id="drSchN"></span></div>
+        <div class="id2">진료·검사·퇴원 날짜를 담아두면 기한을 같이 봐요</div>
       </button>
       <button class="dr-item" id="drToPeople" type="button">
         <div class="it">함께 보는 사람 <span id="drPpN"></span></div>
@@ -2469,7 +2557,7 @@ function setWho(name){
   who = (name||'').trim().slice(0,20);
   try{ who ? localStorage.setItem('drhand.who', who) : localStorage.removeItem('drhand.who'); }catch(e){}
   loadProfile(); loadPeople(); loadTodo(); drawWho(); closeLogin(); syncPeopleBadge();
-  syncTodoBadge();
+  syncTodoBadge(); syncVaultBadge(); syncSchedBadge();
   if (who) toast(who + '님, 담아두신 건 다음에도 그대로 있어요');
   if (cur) render(cur);
 }
@@ -2482,6 +2570,7 @@ $('loginWrap').addEventListener('click', e=>{ if(e.target===$('loginWrap')) clos
 drawWho();
 syncPeopleBadge();
 syncVaultBadge();
+syncSchedBadge();
 syncStatusBadge();
 
 /* ==========================================================
@@ -3199,6 +3288,190 @@ $('viewVault').addEventListener('click', e=>{
   saveProfile();
   stateDirty = true;
   drawVault();
+});
+
+/* ==========================================================
+   다음 일정 — 폼으로 담고, 목록에서 지운다
+
+   엔진은 events 를 처음부터 받는데 넣을 입구가 없었다.
+   시나리오 버튼이 미리 채워주거나, 자유 입력에서 "다음 주 결과" 같은 말을
+   잡아낼 때만 생겼다. 손으로 넣을 방법이 없으니 엔진의 절반이 안 돌았다.
+
+   담은 일정은 profile.schedule 에 들어가고 applyProfile 이 events 로 합친다.
+   resultVisit 은 R1-pre 의 팔로업 기준일, discharge 는 R7 의 기산점이 된다.
+   즉 이 화면은 표시용이 아니라 판정을 바꾼다.
+
+   날짜만 저장한다. 병원 이름·진료과·병명은 받지 않는다 —
+   메모는 사용자가 알아볼 표시용이고 서버로 보내지 않는다.
+   ========================================================== */
+const SCHED_TYPES = [
+  { k:'resultVisit', t:'결과 듣는 진료', d:'검사 결과를 듣는 날' },
+  { k:'visit',       t:'진료',          d:'일반 외래 진료' },
+  { k:'test',        t:'검사',          d:'CT·조직검사 등' },
+  { k:'admission',   t:'입원',          d:'입원 예정일' },
+  { k:'surgery',     t:'수술·시술',      d:'수술이나 시술 예정일' },
+  { k:'discharge',   t:'퇴원',          d:'퇴원 예정일 또는 퇴원한 날' },
+];
+function schedType(k){ return SCHED_TYPES.find(x=>x.k===k) || null; }
+function schedList(){
+  return (profile.schedule || [])
+    .filter(s => s && s.date)
+    .slice()
+    .sort((a,b) => a.date < b.date ? -1 : a.date > b.date ? 1 : 0);
+}
+function syncSchedBadge(){
+  const el = $('drSchN'); if (!el) return;
+  const n = schedList().length;
+  el.textContent = n ? n + '건' : '';
+}
+function openSched(){ drawSched(); app.dataset.view = 'sched'; window.scrollTo(0,0); }
+
+/* 오늘 기준 남은 날. 지난 것은 음수 */
+function daysFromToday(ymd){
+  const t = new Date(); t.setHours(0,0,0,0);
+  const d = new Date(ymd + 'T00:00:00');
+  return Math.round((d - t) / 86400000);
+}
+function dueLabel(n){
+  if (n === 0) return '오늘';
+  if (n === 1) return '내일';
+  if (n > 1)  return n + '일 뒤';
+  return Math.abs(n) + '일 지남';
+}
+
+function scItem(s, i){
+  const ty = schedType(s.type);
+  const n  = daysFromToday(s.date);
+  const soon = n >= 0 && n <= 7;
+  return '<div class="sci'+(soon?' soon':'')+'">'
+    + '<div class="sci-m">'
+      + '<div class="sci-t">'+esc(ty ? ty.t : '일정')
+        + '<span class="sci-dd">'+esc(dueLabel(n))+'</span></div>'
+      + '<div class="sci-d">'+esc(s.date)+'</div>'
+      + (s.note ? '<div class="sci-n">'+esc(s.note)+'</div>' : '')
+    + '</div>'
+    + '<button class="sci-del" type="button" data-scdel="'+i+'" aria-label="이 일정 지우기">지우기</button>'
+    + '</div>';
+}
+
+function drawSched(){
+  const list = schedList();
+
+  // 종류 select — 한 번만 채운다
+  const sel = $('scType');
+  if (sel && sel.options.length <= 1) {
+    sel.innerHTML = '<option value="">골라주세요</option>'
+      + SCHED_TYPES.map(x=>'<option value="'+x.k+'">'+esc(x.t)+' — '+esc(x.d)+'</option>').join('');
+  }
+
+  $('scLead').innerHTML = list.length
+    ? '<b>'+list.length+'건</b>을 담아두셨어요. 기한이 걸린 항목은 이 날짜를 기준으로 계산해요.'
+    : '아직 담아두신 일정이 없어요. 다음 진료나 퇴원 날짜를 넣어주시면 기한을 같이 봐드려요.';
+
+  // 빈 상태 / 목록
+  setHTML('scList', list.length
+    ? '<div class="tsec"><div class="tsec-h">담아둔 일정<span class="cnt">'+list.length+'</span></div>'
+      + list.map((s,i)=>scItem(s,i)).join('') + '</div>'
+    : '<div class="dr-empty" style="padding:22px 4px;text-align:center">아직 담아둔 일정이 없어요. 위에서 하나 넣어보세요.</div>');
+
+  $('scHonest').innerHTML = '<b>날짜만 담아요.</b> 병원 이름·진료과·병명은 받지 않아요. '
+    + '메모는 자녀분이 알아보시려고 적는 것이고 서버로 보내지 않아요.<br>'
+    + '결과 진료 날짜를 넣으면 그 날짜를 기준으로 알려드릴 시점을 잡고, 퇴원 날짜를 넣으면 퇴원 뒤에 기한이 도는 항목을 같이 봐요.';
+
+  syncSchedBadge();
+}
+
+/* 유효성 — 빈 칸·과거 날짜·중복을 막고 이유를 한국어로 말한다 */
+function scClearErr(){
+  ['scType','scDate','scNote'].forEach(id=>$(id).classList.remove('bad'));
+  ['scErrType','scErrDate','scErrNote'].forEach(id=>$(id).textContent='');
+}
+function scValidate(){
+  scClearErr();
+  const type = $('scType').value;
+  const date = $('scDate').value;
+  const note = $('scNote').value.trim();
+  let first = null;
+
+  if (!type) { $('scErrType').textContent = '필수 항목입니다'; $('scType').classList.add('bad'); first = first||$('scType'); }
+  if (!date) { $('scErrDate').textContent = '필수 항목입니다'; $('scDate').classList.add('bad'); first = first||$('scDate'); }
+  else {
+    const n = daysFromToday(date);
+    if (n < -365 || n > 365*2) {
+      $('scErrDate').textContent = '날짜를 다시 확인해주세요';
+      $('scDate').classList.add('bad'); first = first||$('scDate');
+    } else if ((profile.schedule || []).some(s => s.type===type && s.date===date)) {
+      $('scErrDate').textContent = '같은 일정이 이미 담겨 있어요';
+      $('scDate').classList.add('bad'); first = first||$('scDate');
+    }
+  }
+  if (first) { first.focus(); return null; }
+  return { type, date, note, label: (schedType(type)||{}).t || '일정' };
+}
+
+$('scAdd').addEventListener('click', ()=>{
+  const v = scValidate(); if (!v) return;
+
+  const btn = $('scAdd');
+  btn.disabled = true; btn.textContent = '담는 중…';
+
+  // 저장은 즉시 끝나지만, 눌린 것이 반영됐다는 것을 보여준다
+  setTimeout(()=>{
+    profile.schedule = [...(profile.schedule || []), v];
+    saveProfile();
+    stateDirty = true;            // 돌아갈 때 다시 판정한다
+
+    $('scType').value = ''; $('scDate').value = ''; $('scNote').value = '';
+    btn.disabled = false; btn.textContent = '일정 담기';
+
+    const ok = $('scOk');
+    ok.textContent = (schedType(v.type)||{}).t + ' · ' + v.date + ' 담았어요. 돌아가면 이 날짜로 다시 봐드려요.';
+    ok.classList.add('on');
+    clearTimeout(ok._t); ok._t = setTimeout(()=>ok.classList.remove('on'), 3000);
+
+    drawSched();
+  }, 320);
+});
+
+/* 삭제 — 두 번 눌러야 지워진다.
+   confirm() 을 쓰지 않는 이유: 네이티브 창은 화면을 덮어 무엇을 지우는지 안 보이고,
+   모바일에서 오터치로 넘기기 쉽다. 버튼 자체가 물어보게 한다. */
+$('viewSched').addEventListener('click', e=>{
+  const b = e.target.closest('[data-scdel]'); if (!b) return;
+  const list = schedList();
+  const s = list[Number(b.dataset.scdel)]; if (!s) return;
+
+  // 1단계 — 되묻는다. 3초 안에 다시 누르지 않으면 되돌린다
+  if (b.dataset.armed !== '1') {
+    $('viewSched').querySelectorAll('[data-scdel]').forEach(x=>{
+      x.dataset.armed = ''; x.textContent = '지우기'; x.style.color = '';
+    });
+    b.dataset.armed = '1';
+    b.textContent = '정말 지울까요?';
+    b.style.color = '#c0392b';
+    clearTimeout(b._t);
+    b._t = setTimeout(()=>{ b.dataset.armed=''; b.textContent='지우기'; b.style.color=''; }, 3000);
+    return;
+  }
+
+  // 2단계 — 지운다. 판정도 되돌아간다
+  profile.schedule = (profile.schedule || []).filter(x => !(x.type===s.type && x.date===s.date));
+  saveProfile();
+  stateDirty = true;
+  toast(((schedType(s.type)||{}).t || '일정') + ' 일정을 지웠어요');
+  drawSched();
+});
+
+['scType','scDate','scNote'].forEach(id=>{
+  $(id).addEventListener('input',  scClearErr);
+  $(id).addEventListener('change', scClearErr);
+});
+
+$('drToSched').addEventListener('click', ()=>{ closeDrawer(); openSched(); });
+$('scBack').addEventListener('click', ()=>{
+  if (stateDirty && lastPayload) { handle(lastPayload, { quiet:true }); return; }
+  app.dataset.view = cur ? 'result' : 'idle';
+  if (cur) render(cur);
 });
 
 /* ==========================================================
