@@ -302,7 +302,7 @@ export const RULES = [
     // 예고한 날짜에 우리가 먼저 연락한다 (F7)
     followUp: {
       enabled: true,
-      anchorEvent: 'resultVisitDate',
+      anchorEvent: 'resultVisit',
       offsetDays: 0,
       message: '오늘 결과 들으셨죠? 확진이면 오늘부터 30일이에요',
       why: '한 번 쓰고 안 돌아오는 게 이 제품의 최대 위험이다. 사용자가 우리를 기억하지 않아도 되게 만든다',
@@ -838,6 +838,33 @@ export const SCENARIOS = [
     expectRules: ['R1', 'R3', 'R4'],
     expectNotFired: [],
     note: 'R1이 맨 위에 떠야 한다. 30일 계산이 확진일 기준으로 맞아야 한다',
+  },
+  {
+    id: 'S4',
+    label: '부모님이 진료실에서 들은 걸 적어 보내셨어요',
+    // 환자 → 보호자 방향. 나머지 세 개는 전부 보호자가 직접 겪은 것이다
+    from: 'patient',
+    input:
+      '어머니가 혼자 진료 다녀오셨는데 이렇게 보내셨어요. ' +
+      '"의사 선생님이 조직검사 결과 나왔다고 하시고 큰 병원 가보라고 하셨어. ' +
+      '종이 두 장 받았는데 뭔지 모르겠다." 사진도 두 장 보내주셨어요. ' +
+      '저는 지금 회사라 같이 못 갔어요.',
+    state: {
+      stage: '상급병원예정',
+      confirmed: null,
+      confirmDate: null,
+      docs: ['prescription', 'receipt'],
+      events: [],
+      patientCanVisit: true,
+      patientGoesAlone: true,
+      // 부모님이 전달한 내용이라 자녀분이 직접 확인한 것이 아니다
+      relayedByPatient: true,
+    },
+    expect: ['R2', 'R5', 'R6'],
+    expectNotFired: ['R1', 'R3'],
+    note:
+      '부모님이 보낸 내용은 원문으로 저장하지 않는다. 판정에 쓰는 것은 ' +
+      '단계·확진여부·서류 종류뿐이다. 민감정보의 주인은 부모님 본인이다.',
   },
 ];
 

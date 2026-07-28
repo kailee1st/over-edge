@@ -399,7 +399,8 @@
   .app[data-view="load"]    .view-load,
   .app[data-view="do"]      .view-do,
   .app[data-view="wrap"]    .view-wrap,
-  .app[data-view="vault"]   .view-vault{display:flex;}
+  .app[data-view="vault"]   .view-vault,
+  .app[data-view="status"]  .view-status{display:flex;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
   @keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
@@ -528,7 +529,8 @@
   .toast.on{opacity:1;transform:translateX(-50%);}
 
   /* ---------- 내 할 일 / 내 정보 / 함께 보는 사람 ---------- */
-  .view-todo,.view-profile,.view-people,.view-do,.view-wrap,.view-vault{flex:1;flex-direction:column;min-height:0;}
+  .view-todo,.view-profile,.view-people,.view-do,.view-wrap,.view-vault,
+  .view-status{flex:1;flex-direction:column;min-height:0;}
   .view-load{flex:1;flex-direction:column;align-items:center;justify-content:center;padding:30px 22px;}
 
   .subhd{position:sticky;top:52px;z-index:30;background:rgba(255,255,255,.94);
@@ -903,6 +905,140 @@
   .wrap-ask .at2{font-size:16px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
   .wrap-ask .as2{margin-top:8px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;}
 
+  /* ---------- 첨부 ---------- */
+  .atts{max-width:760px;margin:0 auto;padding:0 18px 9px;display:flex;gap:7px;flex-wrap:wrap;}
+  .att{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--teal-500);
+    background:var(--teal-50);border-radius:11px;padding:7px 11px;font-size:12.5px;font-weight:700;
+    color:var(--teal-700);max-width:100%;}
+  .att .an{max-width:110px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;}
+  .att .ax{border:none;background:none;cursor:pointer;color:var(--teal-700);padding:0 2px;
+    font-size:15px;line-height:1;}
+  .att select{border:1px solid var(--teal-500);border-radius:8px;background:#fff;font:inherit;
+    font-size:12px;font-weight:700;color:var(--teal-700);padding:3px 5px;max-width:130px;}
+  .att-note{max-width:760px;margin:0 auto;padding:0 18px 8px;font-size:11.5px;color:var(--ink-faint);
+    line-height:1.55;}
+
+  /* ---------- 용어 사전 ---------- */
+  .gt{border-bottom:1.5px dotted var(--teal-500);cursor:help;-webkit-tap-highlight-color:transparent;}
+  .gt:active{background:var(--teal-50);}
+  .gpop{position:fixed;inset:0;z-index:95;background:rgba(11,63,71,.4);opacity:0;
+    pointer-events:none;transition:opacity .2s ease;display:flex;align-items:flex-end;}
+  .gpop.on{opacity:1;pointer-events:auto;}
+  .gpop-in{width:100%;max-width:520px;margin:0 auto;background:#fff;border-radius:22px 22px 0 0;
+    padding:22px 20px calc(22px + env(safe-area-inset-bottom));transform:translateY(100%);
+    transition:transform .28s cubic-bezier(.16,.84,.44,1);max-height:80vh;overflow-y:auto;}
+  .gpop.on .gpop-in{transform:none;}
+  .gpop .gk{font-size:11px;font-weight:800;color:var(--teal-600);letter-spacing:.03em;}
+  .gpop .gw{margin-top:7px;font-size:22px;font-weight:800;color:var(--teal-900);letter-spacing:-.03em;}
+  .gpop .gp{margin-top:12px;font-size:16px;font-weight:700;color:var(--ink);line-height:1.65;}
+  .gpop .gd{margin-top:12px;font-size:14px;color:var(--ink-soft);line-height:1.8;}
+  .gpop .gmeta{margin-top:15px;display:flex;gap:7px;flex-wrap:wrap;}
+  .gpop .gmeta span{font-size:12px;font-weight:700;background:var(--teal-50);color:var(--teal-700);
+    padding:5px 11px;border-radius:99px;}
+  .gpop .gmeta span.unv{background:var(--warm-50);color:var(--warm-600);}
+  .gpop .gx{width:100%;margin-top:19px;border:none;background:var(--teal-900);color:#fff;font:inherit;
+    font-size:15px;font-weight:700;padding:14px;border-radius:13px;cursor:pointer;}
+  .gpop .gask{width:100%;margin-top:8px;border:1px solid var(--line);background:#fff;font:inherit;
+    font-size:14px;font-weight:700;color:var(--ink-soft);padding:13px;border-radius:13px;cursor:pointer;}
+
+  /* ---------- 맥락 질문 버튼 ---------- */
+  .cfab{position:fixed;right:16px;z-index:60;bottom:calc(94px + env(safe-area-inset-bottom));
+    display:flex;align-items:center;gap:8px;border:1px solid var(--teal-600);
+    background:var(--teal-900);color:#fff;font:inherit;font-size:13.5px;font-weight:700;
+    padding:11px 16px;border-radius:99px;cursor:pointer;box-shadow:0 6px 20px rgba(11,63,71,.28);
+    transition:all .2s ease;}
+  .cfab:hover{background:var(--teal-700);}
+  .cfab svg{width:16px;height:16px;}
+  .app[data-view="idle"] .cfab,.app[data-view="load"] .cfab{display:none;}
+  .cask{position:fixed;inset:0;z-index:96;background:rgba(11,63,71,.4);opacity:0;
+    pointer-events:none;transition:opacity .2s ease;display:flex;align-items:flex-end;}
+  .cask.on{opacity:1;pointer-events:auto;}
+  .cask-in{width:100%;max-width:520px;margin:0 auto;background:#fff;border-radius:22px 22px 0 0;
+    padding:22px 20px calc(22px + env(safe-area-inset-bottom));transform:translateY(100%);
+    transition:transform .28s cubic-bezier(.16,.84,.44,1);max-height:82vh;overflow-y:auto;}
+  .cask.on .cask-in{transform:none;}
+  .cask .ck2{font-size:11px;font-weight:800;color:var(--teal-600);letter-spacing:.03em;}
+  .cask .ct2{margin-top:7px;font-size:19px;font-weight:800;color:var(--teal-900);letter-spacing:-.03em;
+    line-height:1.4;}
+  .cask .cs2{margin-top:8px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;}
+  .cask .cqs{margin-top:16px;display:flex;flex-direction:column;gap:7px;}
+  .cask .cq2{border:1px solid var(--line);background:#fff;font:inherit;font-size:14.5px;
+    font-weight:700;color:var(--ink);text-align:left;padding:14px 15px;border-radius:13px;cursor:pointer;
+    line-height:1.5;}
+  .cask .cq2:hover{border-color:var(--teal-500);background:var(--teal-50);}
+  .cask textarea{width:100%;margin-top:14px;border:1px solid var(--line);border-radius:13px;
+    padding:13px 14px;font:inherit;font-size:15px;line-height:1.6;resize:none;min-height:78px;
+    background:#fff;}
+  .cask textarea:focus{outline:none;border-color:var(--teal-500);}
+  .cask .cgo{width:100%;margin-top:9px;border:none;background:var(--teal-600);color:#fff;font:inherit;
+    font-size:15px;font-weight:700;padding:14px;border-radius:13px;cursor:pointer;}
+  .cask .cgo:disabled{background:var(--line);color:var(--ink-faint);cursor:not-allowed;}
+  .cask .cx2{width:100%;margin-top:8px;border:none;background:none;font:inherit;font-size:13.5px;
+    font-weight:600;color:var(--ink-faint);padding:11px;cursor:pointer;}
+
+  /* ---------- 상태 화면 ----------
+     여정 지도가 핵심이다. 지금 할 일만 주면 앞으로 뭐가 남았는지 몰라
+     계속 불안하다. 전체를 보여주고 지금 어디인지 찍어준다 */
+  .jmap{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:17px 16px;}
+  .jmap-h{font-size:11.5px;font-weight:800;color:var(--ink-faint);letter-spacing:.02em;margin-bottom:14px;}
+  .jrow{display:flex;gap:12px;position:relative;padding-bottom:16px;}
+  .jrow:last-child{padding-bottom:0;}
+  .jrow .jdot{width:15px;height:15px;flex:0 0 15px;border-radius:50%;border:2.5px solid var(--line);
+    background:#fff;margin-top:3px;position:relative;z-index:2;}
+  .jrow:not(:last-child):before{content:'';position:absolute;left:6.5px;top:16px;bottom:0;
+    width:2px;background:var(--line);}
+  .jrow.past .jdot{background:var(--teal-500);border-color:var(--teal-500);}
+  .jrow.past:before{background:var(--teal-500);}
+  .jrow.now .jdot{background:var(--teal-700);border-color:var(--teal-700);
+    box-shadow:0 0 0 5px rgba(18,139,150,.16);}
+  .jrow.soon .jdot{border-style:dashed;}
+  .jrow .jbd{flex:1;min-width:0;}
+  .jrow .jl{font-size:14.5px;font-weight:800;color:var(--ink-faint);letter-spacing:-.02em;}
+  .jrow.past .jl{color:var(--ink-soft);}
+  .jrow.now .jl{color:var(--teal-900);font-size:16px;}
+  .jrow .jnow{display:inline-block;margin-left:7px;font-size:10.5px;font-weight:800;
+    background:var(--teal-700);color:#fff;padding:2px 8px;border-radius:99px;vertical-align:middle;}
+  .jrow .jw{margin-top:5px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .jrow .jt{margin-top:8px;display:flex;flex-direction:column;gap:4px;}
+  .jrow .jt span{font-size:12.5px;color:var(--ink-soft);line-height:1.55;padding-left:11px;
+    position:relative;}
+  .jrow .jt span:before{content:'';position:absolute;left:0;top:8px;width:4px;height:4px;
+    border-radius:50%;background:var(--teal-500);}
+  .jrow .jgap{margin-top:8px;border-radius:10px;background:var(--warm-50);padding:9px 11px;
+    font-size:12px;color:var(--warm-600);line-height:1.6;font-weight:600;}
+
+  .sfacts{display:flex;gap:9px;margin-top:16px;}
+  .sfacts>div{flex:1;border-radius:14px;padding:13px;text-align:center;border:1px solid var(--line);
+    background:#fff;box-shadow:var(--shadow-sm);}
+  .sfacts .sn{font-size:22px;font-weight:800;letter-spacing:-.03em;}
+  .sfacts .sl{margin-top:4px;font-size:11.5px;font-weight:700;color:var(--ink-faint);line-height:1.4;}
+  .sfacts .known .sn{color:var(--teal-600);}
+  .sfacts .unknown .sn{color:var(--warm-600);}
+
+  .slist{margin-top:9px;}
+  .sli{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-bottom:1px solid var(--line);
+    font-size:14px;line-height:1.6;}
+  .sli:last-child{border-bottom:none;}
+  .sli .si{width:17px;height:17px;flex:0 0 17px;border-radius:50%;display:grid;place-items:center;
+    margin-top:2px;color:#fff;}
+  .sli .si svg{width:10px;height:10px;}
+  .sli.yes .si{background:var(--teal-600);}
+  .sli.no .si{background:var(--warm-50);color:var(--warm-600);border:1.5px solid var(--warm-600);}
+  .sli .sx{flex:1;}
+  .sli .sq{font-size:12px;color:var(--ink-faint);margin-top:3px;}
+  .sli button{border:1px solid var(--teal-500);background:#fff;font:inherit;font-size:12px;
+    font-weight:700;color:var(--teal-700);padding:6px 11px;border-radius:8px;cursor:pointer;
+    flex:0 0 auto;margin-top:1px;}
+  .sli button:hover{background:var(--teal-50);}
+
+  .sev{margin-top:9px;border:1px solid var(--teal-500);border-radius:14px;background:var(--teal-50);
+    padding:13px 14px;display:flex;align-items:center;gap:12px;}
+  .sev .sd{font-size:15px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
+  .sev .sk{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
+  .sev .sdd{margin-left:auto;font-size:12px;font-weight:800;color:var(--teal-700);
+    background:#fff;padding:5px 11px;border-radius:99px;}
+
   /* ---------- 서류 보관함 ---------- */
   .vsum{display:flex;gap:9px;margin-top:14px;}
   .vsum div{flex:1;border:1px solid var(--line);border-radius:14px;background:#fff;
@@ -1102,6 +1238,19 @@
   </section>
 
   <!-- ===== 입력 바 ===== -->
+  <!-- ===== 지금 상황 ===== -->
+  <section class="view view-status" id="viewStatus">
+    <div class="subhd">
+      <div class="subhd-in">
+        <button class="back" id="stBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>돌아가기
+        </button>
+        <span class="tt">지금 상황</span>
+      </div>
+    </div>
+    <div class="rbody"><div class="rbody-in" id="stBody"></div></div>
+  </section>
+
   <!-- ===== 서류 보관함 ===== -->
   <section class="view view-vault" id="viewVault">
     <div class="subhd">
@@ -1174,10 +1323,21 @@
     <div class="rbody"><div class="rbody-in" id="wrapBody"></div></div>
   </section>
 
+  <button class="cfab" id="cfab" type="button">
+    <svg viewBox="0 0 24 24" fill="none"><path d="M21 12a8 8 0 01-8 8H8l-4 3v-4.5A8 8 0 018 4h5a8 8 0 018 8z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 11h7M9 14h4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
+    이거 물어보기
+  </button>
+
+  <div class="atts" id="atts" hidden></div>
+  <div class="att-note" id="attNote" hidden></div>
+  <input type="file" id="fileIn" accept="image/*,.pdf" multiple hidden>
   <div class="bar">
     <div class="bar-in">
       <button class="rec" id="recBtn" type="button" aria-label="녹음">
         <svg viewBox="0 0 24 24" fill="none"><rect x="9" y="3" width="6" height="11" rx="3" stroke="currentColor" stroke-width="1.9"/><path d="M5 11a7 7 0 0014 0M12 18v3" stroke="currentColor" stroke-width="1.9" stroke-linecap="round"/></svg>
+      </button>
+      <button class="rec" id="clipBtn" type="button" aria-label="사진·서류 첨부">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5l-7.8 7.8a4.5 4.5 0 01-6.4-6.4l8-8a3 3 0 014.3 4.3l-8 8a1.5 1.5 0 01-2.2-2.2l7.1-7.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
       <textarea id="input" rows="1" placeholder="예: 어머니 조직검사 했고 다음 주에 결과 들으러 가요"></textarea>
       <button class="go" id="send" type="button" aria-label="보내기">
@@ -1190,6 +1350,32 @@
 
 <!-- ===== 메뉴 드로어 ===== -->
 <div class="scrim" id="scrim"></div>
+
+<!-- 용어 사전 -->
+<div class="gpop" id="gpop" aria-hidden="true">
+  <div class="gpop-in">
+    <div class="gk">이게 무슨 말이냐면</div>
+    <div class="gw" id="gpWord"></div>
+    <div class="gp" id="gpPlain"></div>
+    <div class="gd" id="gpDetail"></div>
+    <div class="gmeta" id="gpMeta"></div>
+    <button class="gask" id="gpAsk" type="button">이거에 대해 더 물어보기</button>
+    <button class="gx" id="gpClose" type="button">알겠어요</button>
+  </div>
+</div>
+
+<!-- 맥락 질문 -->
+<div class="cask" id="cask" aria-hidden="true">
+  <div class="cask-in">
+    <div class="ck2" id="caKind">지금 보고 계신 것</div>
+    <div class="ct2" id="caTitle"></div>
+    <div class="cs2" id="caSub"></div>
+    <div class="cqs" id="caQs"></div>
+    <textarea id="caText" placeholder="직접 적으셔도 돼요. 정리된 문장이 아니어도 괜찮아요" rows="3"></textarea>
+    <button class="cgo" id="caGo" type="button" disabled>물어보기</button>
+    <button class="cx2" id="caClose" type="button">닫기</button>
+  </div>
+</div>
 
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="dr-hd">
@@ -1209,6 +1395,10 @@
       <button class="dr-item" id="drToProfile" type="button">
         <div class="it">내 정보</div>
         <div class="id2">채울수록 더 깊게 확인할 수 있어요</div>
+      </button>
+      <button class="dr-item" id="drToStatus" type="button">
+        <div class="it">지금 상황 <span id="drStN"></span></div>
+        <div class="id2">어디까지 왔고 앞으로 뭐가 남았는지</div>
       </button>
       <button class="dr-item" id="drToVault" type="button">
         <div class="it">서류 보관함 <span id="drVaultN"></span></div>
@@ -1281,7 +1471,8 @@
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
 import { SCENARIOS, RULE_BACKLOG, findRule, CATEGORIES, WHO, groupByCategory, asksFor } from './rules.js';
-import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES } from './kb.js';
+import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES,
+         JOURNEY, phaseOf, GLOSSARY, findTerm, glossaryTerms } from './kb.js';
 
 const $ = id => document.getElementById(id);
 const app = $('app');
@@ -1571,14 +1762,14 @@ function drawSeq(){
     if (done)  bits.push('이미 하신 것 '+done+'가지');
     if (later) bits.push('내 할 일에 담은 것 '+later+'가지');
     if (cant)  bits.push('다른 길을 안내한 것 '+cant+'가지');
-    $('seqBody').innerHTML = '<div class="seqdone">'
+    setHTML('seqBody', '<div class="seqdone">'
       + '<div class="ico2">'+svg(I.check)+'</div>'
       + '<div class="bt">'+esc(cat.label)+' 영역은 다 보셨어요</div>'
       + '<div class="bs">'+(bits.length?esc(bits.join(' · ')):'확인만 하셨어요')+'</div>'
       + '<div class="acts" style="max-width:300px;margin:22px auto 0">'
       + '<button class="act prim" data-seq="back" type="button">다른 영역 보기</button></div></div>'
       // 영역이 끝난 자리가 다음 질문을 받기 제일 좋은 자리다
-      + (cur ? seqAsk(cur) : '');
+      + (cur ? seqAsk(cur) : ''));
     return;
   }
 
@@ -1587,7 +1778,7 @@ function drawSeq(){
   // 분기 B — "이건 못 해요"를 눌렀을 때
   if (seq.alt) {
     const a = c.alt;
-    $('seqBody').innerHTML = '<div class="altbox">'
+    setHTML('seqBody', '<div class="altbox">'
       + '<div class="at">'+esc(a.title)+'</div>'
       + '<div class="as">'+esc(a.step)+'</div>'
       + (a.why ? '<div class="aw">'+esc(a.why)+'</div>' : '')
@@ -1598,7 +1789,7 @@ function drawSeq(){
       + '<div class="acts">'
       + '<button class="act prim" data-seq="alt-todo" type="button">이 방법으로 해볼게요</button>'
       + '<button class="act weak" data-seq="alt-skip" type="button">이것도 어려워요. 넘어갈게요</button>'
-      + '</div>';
+      + '</div>');
     return;
   }
 
@@ -1612,8 +1803,8 @@ function drawSeq(){
       + (c.alt ? '이건 못 해요. 다른 방법 있어요?' : '이건 건너뛸게요') + '</button>'
     + '</div>';
 
-  $('seqBody').innerHTML = cMissing(c, { seq:true, whoTag:
-      '<span class="whotag '+whoCls+'">'+esc(w.label||'')+'</span>' }) + acts;
+  setHTML('seqBody', cMissing(c, { seq:true, whoTag:
+      '<span class="whotag '+whoCls+'">'+esc(w.label||'')+'</span>' }) + acts);
 }
 
 $('cats').addEventListener('click', e=>{
@@ -1706,7 +1897,7 @@ function drawDo(){
       + (doneSteps.size ? '여기까지 하고 나중에 이어서' : '아직이요. 내 할 일에 두세요') + '</button>'
     + '</div>';
 
-  $('doBody').innerHTML = h;
+  setHTML('doBody', h);
 }
 
 /* 질문 목록. 상태에 따라 켜지는 것만 나온다.
@@ -1963,7 +2154,7 @@ function render(r){
     leadSub.textContent = '영역을 하나 골라주세요. 한 번에 한 가지만 보여드려요.';
     if (o.followUp) html = cFollowUp(o.followUp);
   }
-  $('cards').innerHTML = html;
+  setHTML('cards', html);
 
   // 카테고리 — 정상 출력에서만
   const isCards = (o.kind === 'cards' || o.kind === 'zero');
@@ -2009,6 +2200,7 @@ function render(r){
   // 배지
   syncTodoBadge();
   syncVaultBadge();
+  syncStatusBadge();
 
   // 그다음에는?
   const qs = nextQuestions(r);
@@ -2208,6 +2400,9 @@ const EXAMPLES = [
   { scn:'S3',
     t:'확진 들었고 진단서 받아왔어요',
     d:'30일 마감이 실제로 계산돼요' },
+  { scn:'S4',
+    t:'어머니가 혼자 다녀오셔서 저한테 적어 보내셨어요',
+    d:'부모님이 보낸 내용만으로도 판정해요' },
 ];
 $('egList').innerHTML = EXAMPLES.map((e,i)=>
   '<button class="eg'+(e.best?' best':'')+'" data-eg="'+i+'" type="button">'
@@ -2282,6 +2477,7 @@ $('loginWrap').addEventListener('click', e=>{ if(e.target===$('loginWrap')) clos
 drawWho();
 syncPeopleBadge();
 syncVaultBadge();
+syncStatusBadge();
 
 /* ==========================================================
    내 할 일 — 채택한 것의 진행 상황
@@ -2361,7 +2557,7 @@ function drawTodo(){
        +  sec('다 하신 것', fin, 'done')
        +  sec('건너뛴 것', skip, 'skip');
 
-  $('todoBody').innerHTML = html;
+  setHTML('todoBody', html);
 }
 
 function sec(title, items, kind){
@@ -2515,7 +2711,7 @@ function drawWrap(){
     + '<button class="tool" id="wrapCats" type="button">지나온 영역 다시 보기</button>'
     + '<button class="tool" id="wrapTodo" type="button">내 할 일 보기</button></div>';
 
-  $('wrapBody').innerHTML = h;
+  setHTML('wrapBody', h);
 }
 
 $('wrapBody').addEventListener('click', e=>{
@@ -2541,6 +2737,369 @@ function renderCats(r){
   $('leadSub').textContent = '처리한 것은 ✓로 표시했어요. 새로 생긴 게 있으면 아래에 적어주세요.';
   window.scrollTo(0,0);
 }
+
+/* ==========================================================
+   사진·서류 첨부
+
+   파일을 서버로 보내지 않는다. 파일명과 "어떤 서류인지"만 쓴다.
+   판독은 다음 단계이고, 지금 없는 것을 있는 척하지 않는다.
+   서류 종류를 고르면 그게 보관함과 판정에 반영된다 — 그게 첨부의 값이다.
+   ========================================================== */
+let attached = [];   // {name, type, docId}
+
+function drawAtts(){
+  const box = $('atts'), note = $('attNote');
+  box.hidden = note.hidden = attached.length === 0;
+  if (!attached.length) { box.innerHTML = ''; note.innerHTML = ''; return; }
+
+  const opts = DOCS.map(d=>d.id).concat(['other']);
+  box.innerHTML = attached.map((a,i)=>
+    '<span class="att"><span class="an">'+esc(a.name)+'</span>'
+    + '<select data-attsel="'+i+'" aria-label="어떤 서류인가요">'
+    + '<option value="">어떤 서류예요?</option>'
+    + DOCS.map(d=>'<option value="'+esc(d.id)+'"'+(a.docId===d.id?' selected':'')+'>'
+        + esc(d.name)+'</option>').join('')
+    + '<option value="other"'+(a.docId==='other'?' selected':'')+'>잘 모르겠어요</option>'
+    + '</select>'
+    + '<button class="ax" data-attdel="'+i+'" type="button" aria-label="빼기">×</button></span>').join('');
+
+  const named = attached.filter(a=>a.docId && a.docId !== 'other').length;
+  const unknown = attached.filter(a=>!a.docId || a.docId === 'other').length;
+  note.innerHTML = '<b>사진은 서버로 보내지 않아요.</b> 어떤 서류인지만 판정에 써요. '
+    + (named ? named+'장은 종류를 알려주셨어요. ' : '')
+    + (unknown ? unknown+'장은 아직 모르겠다고 하셨어요 — 그건 그냥 두셔도 돼요.' : '');
+}
+
+$('clipBtn').addEventListener('click', ()=>$('fileIn').click());
+$('fileIn').addEventListener('change', e=>{
+  const files = [...(e.target.files || [])].slice(0, 6);
+  if (!files.length) return;
+  files.forEach(f=>attached.push({ name: f.name, type: f.type, docId: '' }));
+  e.target.value = '';
+  drawAtts();
+  toast(files.length + '장 붙였어요. 어떤 서류인지 골라주시면 판정에 써요');
+});
+$('atts').addEventListener('change', e=>{
+  const sel = e.target.closest('[data-attsel]'); if (!sel) return;
+  attached[+sel.dataset.attsel].docId = sel.value;
+  // 종류를 알려주면 그 자리에서 보관함에 넣는다. 두 번 말할 이유가 없다
+  if (sel.value && sel.value !== 'other') {
+    const list = new Set(profile.docs || []);
+    list.add(sel.value);
+    profile.docs = [...list];
+    saveProfile();
+    stateDirty = true;
+    syncVaultBadge();
+    const d = findDoc(sel.value);
+    toast((d ? d.name : '서류') + '을 보관함에 넣었어요');
+    if (cur) requery();
+  }
+  drawAtts();
+});
+$('atts').addEventListener('click', e=>{
+  const del = e.target.closest('[data-attdel]'); if (!del) return;
+  attached.splice(+del.dataset.attdel, 1);
+  drawAtts();
+});
+
+/* ==========================================================
+   용어 사전 — 꾹 누르면 그 자리에서 풀어준다
+
+   "무엇을 모르는지 모르는 사람"이 ICP다. 그 사람에게 산정특례라는
+   단어를 던지면 그게 또 하나의 모르는 것이 된다.
+   ========================================================== */
+const GTERMS = glossaryTerms();
+
+/* 용어를 감싸서 대입한다. 대입 시점에만 통과시켜 중첩을 막는다 */
+function setHTML(id, html){ $(id).innerHTML = markTerms(html); }
+
+/* 이미 만들어진 HTML 에서 용어를 찾아 감싼다.
+   태그 안(속성값)은 건드리지 않는다. 긴 용어부터 봐서 짧은 것이 먼저
+   걸려 긴 용어를 쪼개는 것을 막는다 */
+function markTerms(html){
+  const parts = String(html).split(/(<[^>]*>)/);
+  for (let i = 0; i < parts.length; i++) {
+    if (parts[i].startsWith('<')) continue;      // 태그는 건너뛴다
+    let t = parts[i];
+    const hits = [];
+    for (const g of GTERMS) {
+      let from = 0, at;
+      while ((at = t.indexOf(g.word, from)) !== -1) {
+        if (!hits.some(h => at < h.end && at + g.word.length > h.start))
+          hits.push({ start: at, end: at + g.word.length, term: g.term, word: g.word });
+        from = at + g.word.length;
+      }
+    }
+    if (!hits.length) continue;
+    hits.sort((a,b)=>b.start - a.start);
+    for (const h of hits)
+      t = t.slice(0, h.start)
+        + '<span class="gt" data-term="' + h.term + '">' + h.word + '</span>'
+        + t.slice(h.end);
+    parts[i] = t;
+  }
+  return parts.join('');
+}
+
+function openTerm(name){
+  const g = findTerm(name);
+  if (!g) return;
+  $('gpWord').textContent = g.term;
+  $('gpPlain').textContent = g.plain;
+  $('gpDetail').textContent = g.detail || '';
+  const src = g.src ? SOURCES[g.src] : null;
+  $('gpMeta').innerHTML = (g.who ? '<span>'+esc(g.who)+'</span>' : '')
+    + (src && src.url ? '<span>'+esc(src.label)+'</span>' : '')
+    + (g.unverified ? '<span class="unv">저희가 아직 원문 확인 못 한 항목이에요</span>' : '');
+  $('gpop').dataset.term = g.term;
+  $('gpop').classList.add('on');
+  $('gpop').setAttribute('aria-hidden','false');
+}
+function closeTerm(){
+  $('gpop').classList.remove('on');
+  $('gpop').setAttribute('aria-hidden','true');
+}
+$('gpClose').addEventListener('click', closeTerm);
+$('gpop').addEventListener('click', e=>{ if (e.target === $('gpop')) closeTerm(); });
+$('gpAsk').addEventListener('click', ()=>{
+  const t = $('gpop').dataset.term || '';
+  closeTerm();
+  handle({ text: t + '이 뭔지 더 알려주세요' });
+});
+
+/* 화면 어디서든 용어를 누르면 뜬다. 길게 눌러도 같다 */
+document.addEventListener('click', e=>{
+  const t = e.target.closest('.gt');
+  if (t) { e.preventDefault(); openTerm(t.dataset.term); }
+});
+
+/* ==========================================================
+   맥락 질문 — 지금 보고 있는 것에 대해 물을 수 있게
+
+   첫 입력은 챗봇으로 시작하지만, 카드가 나온 뒤에는 물어볼 곳이
+   사라진 것처럼 느껴진다. 어느 화면에 있어도 따라다니게 한다.
+   ========================================================== */
+function askContext(){
+  const view = app.dataset.view;
+  const st = (cur && cur.state) || {};
+
+  if (view === 'do' && doCard)
+    return { kind:'지금 하고 계신 일', title: doCard.title,
+      sub:'이 일에 대해 궁금한 걸 물어보세요.',
+      qs:[ doCard.name + ' 준비물을 다시 알려주세요',
+           '이거 안 하면 어떻게 되나요?',
+           (doCard.doIt && doCard.doIt.where ? doCard.doIt.where + '에 뭐라고 말해야 해요?' : '어디로 가야 해요?') ] };
+
+  if (view === 'seq' && seq && seq.list[seq.idx]) {
+    const c = seq.list[seq.idx];
+    return { kind:'지금 보고 계신 카드', title: c.title,
+      sub:'이 항목에 대해 궁금한 걸 물어보세요.',
+      qs:[ c.name + '이 정확히 뭐예요?', '이거 제가 대신 할 수 있어요?', '언제까지 해야 해요?' ] };
+  }
+
+  if (view === 'vault')
+    return { kind:'서류 보관함', title:'서류에 대해 물어보기',
+      sub:'어떤 서류가 왜 필요한지 물어보실 수 있어요.',
+      qs:['진단서는 왜 제가 못 떼요?','의무기록 사본은 어떻게 떼요?','실손 청구에 뭐가 필요해요?'] };
+
+  if (view === 'status')
+    return { kind:'지금 상황', title: (st.stage || '상황') + ' 구간에 대해',
+      sub:'지금 구간이나 앞으로 남은 것에 대해 물어보세요.',
+      qs:['이 구간에서 제일 많이 놓치는 게 뭐예요?','다음 구간에는 뭐가 있어요?','지금 안 해도 되는 건 뭐예요?'] };
+
+  if (view === 'todo')
+    return { kind:'내 할 일', title:'담아두신 일에 대해',
+      sub:'순서나 우선순위가 궁금하시면 물어보세요.',
+      qs:['뭐부터 해야 해요?','한꺼번에 할 수 있는 건 없어요?','기한이 급한 게 뭐예요?'] };
+
+  if (view === 'people')
+    return { kind:'함께 보는 사람', title:'가족과 나누는 것에 대해',
+      sub:'무엇까지 공유해도 되는지 물어보실 수 있어요.',
+      qs:['형제한테 뭘 공유해야 해요?','부모님 서류를 제가 보관해도 돼요?'] };
+
+  // 결과·종료 화면
+  const cats = cur ? CATEGORIES.filter(c=>(cur.output.cards||[]).some(x=>(x.cat||'docs')===c.id)) : [];
+  return { kind:'지금 보고 계신 것', title:'상황에 대해 물어보기',
+    sub: st.stage ? '지금은 '+st.stage+' 구간으로 보고 있어요.' : '무슨 일이 있었는지 적어주셔도 돼요.',
+    qs: (cur ? nextQuestions(cur).map(q=>q.q) : [])
+        .concat(cats.length ? [cats[0].label+' 영역에 또 뭐가 있어요?'] : []).slice(0,4) };
+}
+
+function openAsk(){
+  const c = askContext();
+  $('caKind').textContent = c.kind;
+  $('caTitle').textContent = c.title;
+  $('caSub').textContent = c.sub;
+  $('caQs').innerHTML = (c.qs||[]).filter(Boolean).map((q,i)=>
+    '<button class="cq2" data-caq="'+i+'" type="button">'+esc(q)+'</button>').join('');
+  window.__caQs = (c.qs||[]).filter(Boolean);
+  $('caText').value = '';
+  $('caGo').disabled = true;
+  $('cask').classList.add('on');
+  $('cask').setAttribute('aria-hidden','false');
+}
+function closeAsk(){
+  $('cask').classList.remove('on');
+  $('cask').setAttribute('aria-hidden','true');
+}
+$('cfab').addEventListener('click', openAsk);
+$('caClose').addEventListener('click', closeAsk);
+$('cask').addEventListener('click', e=>{ if (e.target === $('cask')) closeAsk(); });
+$('caText').addEventListener('input', e=>{ $('caGo').disabled = !e.target.value.trim(); });
+$('caGo').addEventListener('click', ()=>{
+  const t = $('caText').value.trim(); if (!t) return;
+  closeAsk(); handle({ text: t });
+});
+$('caQs').addEventListener('click', e=>{
+  const b = e.target.closest('[data-caq]'); if (!b) return;
+  const q = (window.__caQs || [])[+b.dataset.caq]; if (!q) return;
+  closeAsk(); handle({ text: q });
+});
+
+/* ==========================================================
+   지금 상황
+
+   드로어의 공감 문장 한 줄이 전부였다. 그건 상태가 아니라 인사다.
+
+   여정 지도가 이 화면의 핵심이다. 지금 할 일만 주면 앞으로 뭐가 남았는지
+   몰라서 계속 불안하다. 전체를 보여주고 지금 어디인지 찍어주면, 남은 게
+   많아도 예측이 가능해진다.
+
+   룰이 없는 구간은 없다고 적는다. 있는 척하면 그 구간에서 신뢰를 잃는다.
+   ========================================================== */
+
+/* 아는 것 / 모르는 것. 모르는 것은 채울 수 있는 자리로 연결한다 */
+function statusFacts(){
+  const st = (cur && cur.state) || {};
+  const det = st.detected || {};
+  const yes = [], no = [];
+
+  const push = (ok, t, q, act) => (ok ? yes : no).push({ t, q, act });
+
+  push(!!st.stage, st.stage ? '지금은 '+st.stage+' 구간이에요' : '어느 구간인지 모르겠어요',
+    st.stage ? null : '무슨 일이 있었는지 적어주시면 알 수 있어요', st.stage ? null : 'ask');
+
+  push(st.confirmed === true || st.confirmed === false,
+    st.confirmed === true ? '확진 진단을 받으셨어요' : '확진은 아니라고 하셨어요',
+    '확진 여부를 아직 몰라요', 'profile');
+
+  push(!!st.confirmDate, '확진일 '+(st.confirmDate||''),
+    '확진일을 몰라요. 이 날짜가 30일 시계의 시작점이에요', 'profile');
+
+  const nDoc = (st.docsHave || []).length;
+  push(nDoc > 0, nDoc+'종 서류를 확보하셨어요',
+    '가지고 계신 서류를 몰라요', 'vault');
+
+  const ev = (st.events || []).filter(e=>e.date);
+  push(ev.length > 0, '다음 일정이 잡혀 있어요',
+    '다음 진료가 언제인지 몰라요', 'profile');
+
+  push(st.hasInsurance !== undefined && st.hasInsurance !== null,
+    '실손보험 가입 여부를 알아요', '실손보험 가입 여부를 몰라요', 'profile');
+
+  return { yes, no, det };
+}
+
+function drawStatus(){
+  const st = (cur && cur.state) || {};
+  const ph = phaseOf(st.stage);
+
+  if (!cur) {
+    $('stBody').innerHTML = '<div class="lead-sub" style="margin-top:16px">'
+      + '아직 입력이 없어요. 무슨 일이 있었는지 적어주시면 여기에 정리해 드려요.</div>'
+      + jmapHtml(null);
+    return;
+  }
+
+  let h = '';
+  if (st.empathy || (cur.output.state && cur.output.state.empathy))
+    h += '<div class="lead-sub" style="margin-top:14px">'
+      + esc((cur.output.state && cur.output.state.empathy) || '') + '</div>';
+
+  h += jmapHtml(ph);
+
+  // 다가오는 일정
+  const ev = (st.events || []).filter(e=>e.date).sort((a,b)=>a.date<b.date?-1:1);
+  if (ev.length) {
+    h += '<div class="tsec"><div class="tsec-h">다가오는 것<span class="cnt">'+ev.length+'</span></div>'
+      + ev.map(e=>{
+          const d = e.inDays != null ? e.inDays : null;
+          return '<div class="sev"><div><div class="sd">'+esc(e.label||'일정')+'</div>'
+            + '<div class="sk">'+esc(e.date)+'</div></div>'
+            + (d != null ? '<span class="sdd">'+(d>=0?'D-'+d:(-d)+'일 지남')+'</span>' : '')
+            + '</div>';
+        }).join('') + '</div>';
+  }
+
+  // 아는 것 / 모르는 것
+  const f = statusFacts();
+  h += '<div class="sfacts">'
+    + '<div class="known"><div class="sn">'+f.yes.length+'</div><div class="sl">확인된 것</div></div>'
+    + '<div class="unknown"><div class="sn">'+f.no.length+'</div><div class="sl">아직 모르는 것</div></div>'
+    + '</div>';
+
+  if (f.yes.length) h += '<div class="tsec"><div class="tsec-h">확인된 것'
+    + '<span class="cnt">'+f.yes.length+'</span></div><div class="slist">'
+    + f.yes.map(x=>'<div class="sli yes"><span class="si">'+svg(I.check)+'</span>'
+      + '<span class="sx">'+esc(x.t)+'</span></div>').join('') + '</div></div>';
+
+  if (f.no.length) h += '<div class="tsec"><div class="tsec-h">아직 모르는 것 — 채우면 더 깊게 봐요'
+    + '<span class="cnt">'+f.no.length+'</span></div><div class="slist">'
+    + f.no.map(x=>'<div class="sli no"><span class="si">?</span>'
+      + '<span class="sx">'+esc(x.q)
+      + '</span>'
+      + (x.act ? '<button data-stgo="'+esc(x.act)+'" type="button">알려주기</button>' : '')
+      + '</div>').join('') + '</div></div>';
+
+  setHTML('stBody', h);
+}
+
+/* 여정 지도 */
+function jmapHtml(ph){
+  const curId = ph ? ph.id : null;
+  const idx = curId ? JOURNEY.findIndex(p=>p.id===curId) : -1;
+  return '<div class="jmap"><div class="jmap-h">'
+    + (idx >= 0 ? '전체 여정에서 지금 어디인지' : '보통 이런 순서로 가요')
+    + '</div>'
+    + JOURNEY.map((p,i)=>{
+        const cls = i < idx ? 'past' : i === idx ? 'now' : (p.ready ? '' : 'soon');
+        return '<div class="jrow '+cls+'"><span class="jdot"></span><div class="jbd">'
+          + '<div class="jl">'+esc(p.label)
+          + (i === idx ? '<span class="jnow">지금 여기</span>' : '') + '</div>'
+          + (i === idx || !p.ready ? '<div class="jw">'+esc(p.what)+'</div>' : '')
+          + (i === idx ? '<div class="jt">'+(p.typical||[]).map(t=>'<span>'+esc(t)+'</span>').join('')+'</div>' : '')
+          + (!p.ready && p.gapNote ? '<div class="jgap">'+esc(p.gapNote)+'</div>' : '')
+          + '</div></div>';
+      }).join('')
+    + '</div>';
+}
+
+function syncStatusBadge(){
+  const el = $('drStN');
+  if (!el) return;
+  const st = (cur && cur.state) || {};
+  const ph = phaseOf(st.stage);
+  el.textContent = ph ? ph.short : '';
+}
+
+function openStatus(){ drawStatus(); app.dataset.view = 'status'; window.scrollTo(0,0); }
+
+$('drToStatus').addEventListener('click', ()=>{ closeDrawer(); openStatus(); });
+$('stBack').addEventListener('click', ()=>{
+  if (stateDirty && lastPayload) { handle(lastPayload, { quiet:true }); return; }
+  app.dataset.view = cur ? 'result' : 'idle';
+  if (cur) render(cur);
+});
+$('stBody').addEventListener('click', e=>{
+  const b = e.target.closest('[data-stgo]'); if (!b) return;
+  if (b.dataset.stgo === 'profile') openProfile();
+  else if (b.dataset.stgo === 'vault') openVault();
+  else {
+    app.dataset.view = cur ? 'result' : 'idle';
+    if (cur) render(cur);
+    setTimeout(()=>$('input').focus(), 250);
+  }
+});
 
 /* ==========================================================
    서류 보관함
@@ -2594,13 +3153,13 @@ function drawVault(){
     + '<div><div class="vn">'+miss.filter(d=>d.tier==='T3-blocked').length+'</div>'
     + '<div class="vl">부모님만 뗄 수 있어요</div></div>';
 
-  $('vHave').innerHTML = got.length
+  setHTML('vHave', got.length
     ? '<div class="tsec"><div class="tsec-h">가지고 있어요<span class="cnt">'+got.length+'</span></div>'
-      + got.map(d=>vItem(d,true)).join('') + '</div>' : '';
-  $('vNeed').innerHTML = miss.length
+      + got.map(d=>vItem(d,true)).join('') + '</div>' : '');
+  setHTML('vNeed', miss.length
     ? '<div class="tsec"><div class="tsec-h">아직 없어요 — 가지고 계시면 눌러주세요'
       + '<span class="cnt">'+miss.length+'</span></div>'
-      + miss.map(d=>vItem(d,false)).join('') + '</div>' : '';
+      + miss.map(d=>vItem(d,false)).join('') + '</div>' : '');
 
   $('vHonest').innerHTML = '<b>사진은 저장하지 않아요.</b> 무엇을 가지고 계신지만 표시해요. '
     + '기능이 없어서가 아니라 그렇게 만들었어요 — 부모님 서류의 주인은 부모님 본인이고, '

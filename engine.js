@@ -138,6 +138,14 @@ export function extractState(input, opts = {}) {
     if (!sc) return emptyState(today, 'unknown-scenario');
     const st = deepClone(sc.state);
     if (st.confirmDate === 'TODAY') st.confirmDate = fmtDate(today);
+    // inDays 만 있는 이벤트에 실제 날짜를 채운다. 없으면 일정을 표시할 수 없다
+    if (Array.isArray(st.events)) {
+      st.events = st.events.map((e) =>
+        !e.date && typeof e.inDays === 'number'
+          ? { ...e, date: fmtDate(addDays(today, e.inDays)) }
+          : e
+      );
+    }
     return applyProfile({
       ...st,
       // 시나리오는 정의된 상태다. 표시할 때 근거 있는 값으로 취급한다
