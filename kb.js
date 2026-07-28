@@ -705,6 +705,25 @@ export const SOURCES = {
       reRegister: '종료예정일 1개월 전부터 암환자 재등록',
     },
   },
+  'fss-proxy-claim': {
+    tier: 1,
+    org: '금융감독원',
+    label: '보험금 지정대리청구인 지정 제도',
+    url: 'https://www.fss.or.kr',
+    verifiedAt: '2026-07-29',
+    verified: {
+      what: '보험사고 발생으로 본인이 보험금 청구가 어려운 상황에 대비해 대신 청구할 사람을 미리 지정하는 제도',
+      who: '계약자의 주민등록상 배우자 또는 3촌 이내의 친족',
+      when: '보험 가입 시 또는 보험기간 중',
+      how: '회사별 신청서류 작성 또는 지정대리청구서비스 특약 가입 (제도성 특약, 가입비용 없음)',
+      whyNow: '위임이나 성년후견인 선임이 없으면 피보험자가 의식이 없는 경우에도 가족이 대신 청구할 수 없다',
+      lateCost: '성년후견인 제도는 의학적 평가와 법원 심사를 거쳐야 하며 수개월의 시간과 상당한 비용이 소요된다',
+    },
+    limit: 'URL 은 기관 대표 주소다. 개별 안내 페이지 원문은 재확인 필요',
+    note: '약관 개별 사항이 아니라 금감원이 전 보험사 공통으로 권장하는 제도다. '
+      + '그래서 PLAN.md §7.2 의 "사보험 제외" 근거(약관 사항이라 공공 원문이 없다)가 '
+      + '이 항목에는 성립하지 않는다',
+  },
   bokjiro: { tier: 1, org: '복지로', label: '복지서비스 찾기', url: 'https://www.bokjiro.go.kr', verifiedAt: '2026-07-22' },
   mohw: { tier: 1, org: '보건복지부', label: '보건복지부', url: 'https://www.mohw.go.kr', verifiedAt: '2026-07-22' },
   nts: { tier: 1, org: '국세청', label: '국세청', url: 'https://www.nts.go.kr', verifiedAt: '2026-07-27' },

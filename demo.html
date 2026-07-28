@@ -264,12 +264,15 @@
   .miss.is-hard{border-left-color:var(--urgent);background:linear-gradient(180deg,var(--urgent-50),#fff 60%);}
   .miss.is-preview{border-left-color:var(--teal-600);}
   .miss.is-gate{border-left-color:var(--line);}
+  /* 기한이 없어서 급하지 않게. 다만 놓치면 되돌릴 수 없다는 것만 표시 */
+  .miss.is-ready{border-left-color:var(--warm-600);background:linear-gradient(180deg,#fffaf7,#fff 60%);}
 
   .miss-badge{display:inline-flex;align-items:center;gap:5px;font-size:11.5px;font-weight:700;
     padding:3px 9px;border-radius:999px;letter-spacing:-.01em;}
   .miss-badge.is-hard{background:var(--urgent);color:#fff;}
   .miss-badge.is-preview{background:var(--teal-600);color:#fff;}
   .miss-badge.is-gate{background:var(--teal-50);color:var(--teal-700);}
+  .miss-badge.is-ready{background:var(--warm-50);color:var(--warm-600);}
 
   .miss-rows{display:flex;flex-direction:column;gap:11px;margin-top:12px;}
   .miss-row{display:grid;grid-template-columns:74px minmax(0,1fr);gap:10px;align-items:start;}
@@ -1694,7 +1697,10 @@ loadTodo();
 function cMissing(c, opt){
   opt = opt || {};
   const kind = c.type;
-  const ic = kind==='hard' ? I.alert : kind==='preview' ? I.clock : I.note;
+  const ic = kind==='hard' ? I.alert
+    : kind==='preview' ? I.clock
+    : kind==='ready' ? I.heart
+    : I.note;
   const done = adopted.has(c.ruleId);
 
   let dl = esc(c.deadline.text||'');
@@ -3450,7 +3456,7 @@ $('viewSched').addEventListener('click', e=>{
     b.textContent = '정말 지울까요?';
     b.style.color = '#c0392b';
     clearTimeout(b._t);
-    b._t = setTimeout(()=>{ b.dataset.armed=''; b.textContent='지우기'; b.style.color=''; }, 3000);
+    b._t = setTimeout(()=>{ b.dataset.armed=''; b.textContent='지우기'; b.style.color=''; }, 5000);
     return;
   }
 
