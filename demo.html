@@ -398,7 +398,8 @@
   .app[data-view="people"]  .view-people,
   .app[data-view="load"]    .view-load,
   .app[data-view="do"]      .view-do,
-  .app[data-view="wrap"]    .view-wrap{display:flex;}
+  .app[data-view="wrap"]    .view-wrap,
+  .app[data-view="vault"]   .view-vault{display:flex;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
   @keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
@@ -527,7 +528,7 @@
   .toast.on{opacity:1;transform:translateX(-50%);}
 
   /* ---------- 내 할 일 / 내 정보 / 함께 보는 사람 ---------- */
-  .view-todo,.view-profile,.view-people,.view-do,.view-wrap{flex:1;flex-direction:column;min-height:0;}
+  .view-todo,.view-profile,.view-people,.view-do,.view-wrap,.view-vault{flex:1;flex-direction:column;min-height:0;}
   .view-load{flex:1;flex-direction:column;align-items:center;justify-content:center;padding:30px 22px;}
 
   .subhd{position:sticky;top:52px;z-index:30;background:rgba(255,255,255,.94);
@@ -902,6 +903,34 @@
   .wrap-ask .at2{font-size:16px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
   .wrap-ask .as2{margin-top:8px;font-size:13.5px;color:var(--ink-soft);line-height:1.7;}
 
+  /* ---------- 서류 보관함 ---------- */
+  .vsum{display:flex;gap:9px;margin-top:14px;}
+  .vsum div{flex:1;border:1px solid var(--line);border-radius:14px;background:#fff;
+    box-shadow:var(--shadow-sm);padding:13px;text-align:center;}
+  .vsum .vn{font-size:22px;font-weight:800;color:var(--teal-700);letter-spacing:-.03em;}
+  .vsum .vl{margin-top:4px;font-size:11.5px;font-weight:700;color:var(--ink-faint);line-height:1.4;}
+  .vsum div.have .vn{color:var(--teal-600);}
+  .vsum div.need .vn{color:var(--warm-600);}
+
+  .vitem{border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:14px 15px;margin-bottom:9px;cursor:pointer;
+    transition:all .18s ease;}
+  .vitem:hover{border-color:var(--teal-500);}
+  .vitem.on{border-color:var(--teal-600);background:var(--teal-50);}
+  .vitem-t{display:flex;gap:11px;align-items:center;}
+  .vitem .bx3{width:21px;height:21px;flex:0 0 21px;border:1.8px solid var(--line);border-radius:6px;
+    display:grid;place-items:center;color:#fff;transition:all .18s ease;}
+  .vitem .bx3 svg{width:13px;height:13px;opacity:0;}
+  .vitem.on .bx3{background:var(--teal-600);border-color:var(--teal-600);}
+  .vitem.on .bx3 svg{opacity:1;}
+  .vitem .vnm{flex:1;font-size:15px;font-weight:700;color:var(--ink);}
+  .vitem .vplain{margin-top:8px;margin-left:32px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .vitem .vmeta{margin-top:9px;margin-left:32px;display:flex;gap:6px;flex-wrap:wrap;}
+  .vitem .vmeta span{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;}
+  .vitem .vwho{background:#f2f6f6;color:var(--ink-soft);}
+  .vhonest{margin-top:18px;border-radius:13px;background:#f2f6f6;padding:14px 15px;
+    font-size:12.5px;color:var(--ink-soft);line-height:1.7;}
+
   /* ---------- 함께 보는 사람 ---------- */
   .pp{border:1px solid var(--line);border-radius:var(--radius);background:#fff;
     box-shadow:var(--shadow-sm);padding:15px 16px;margin-bottom:11px;}
@@ -1073,6 +1102,25 @@
   </section>
 
   <!-- ===== 입력 바 ===== -->
+  <!-- ===== 서류 보관함 ===== -->
+  <section class="view view-vault" id="viewVault">
+    <div class="subhd">
+      <div class="subhd-in">
+        <button class="back" id="vBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>돌아가기
+        </button>
+        <span class="tt">서류 보관함</span>
+      </div>
+    </div>
+    <div class="rbody"><div class="rbody-in">
+      <div class="lead-sub" id="vLead"></div>
+      <div class="vsum" id="vSum"></div>
+      <div id="vHave"></div>
+      <div id="vNeed"></div>
+      <div class="vhonest" id="vHonest"></div>
+    </div></div>
+  </section>
+
   <section class="view view-people" id="viewPeople">
     <div class="subhd">
       <div class="subhd-in">
@@ -1161,6 +1209,10 @@
       <button class="dr-item" id="drToProfile" type="button">
         <div class="it">내 정보</div>
         <div class="id2">채울수록 더 깊게 확인할 수 있어요</div>
+      </button>
+      <button class="dr-item" id="drToVault" type="button">
+        <div class="it">서류 보관함 <span id="drVaultN"></span></div>
+        <div class="id2">무엇을 가지고 있고 무엇이 없는지</div>
       </button>
       <button class="dr-item" id="drToPeople" type="button">
         <div class="it">함께 보는 사람 <span id="drPpN"></span></div>
@@ -1460,7 +1512,7 @@ function drawCats(r){
     // 켤 수 있는 카드가 없고 물어볼 것만 남은 영역 → 내 정보로 보낸다
     const askOnly = g.rules.length === 0 && g.need.length > 0;
     return '<button class="cat'+(hard?' urgent':'')+(clear?' clear':'')+(askOnly?' needinfo':'')
-      + '" data-cat="'+esc(g.id)+'" data-ask="'+(askOnly?'1':'')+'" type="button">'
+      + '" data-cat="'+esc(g.id)+'" data-needinfo="'+(askOnly?'1':'')+'" type="button">'
       + '<span class="ci">'+svg(I[g.icon]||I.note)+'</span>'
       + '<span class="cb"><span class="cl">'+esc(g.label)+'</span>'
       + '<span class="cd">'+esc(clear ? '이 영역은 다 보셨어요' : g.desc)+'</span>'
@@ -1566,7 +1618,7 @@ function drawSeq(){
 
 $('cats').addEventListener('click', e=>{
   const b = e.target.closest('[data-cat]'); if (!b) return;
-  if (b.dataset.ask) { openProfile(); return; }
+  if (b.dataset.needinfo) { openProfile(); return; }
   openCat(b.dataset.cat);
 });
 $('seqBack').addEventListener('click', backToCats);
@@ -1954,8 +2006,9 @@ function render(r){
   $('toolDocs').textContent = docsOpen ? '서류 목록 접기' : '가진 서류 알려주기';
   $('toolProfile').hidden = !!document.getElementById('gapBtn');
 
-  // 할 일 배지
+  // 배지
   syncTodoBadge();
+  syncVaultBadge();
 
   // 그다음에는?
   const qs = nextQuestions(r);
@@ -2228,6 +2281,7 @@ $('loginName').addEventListener('keydown', e=>{ if(e.key==='Enter') setWho($('lo
 $('loginWrap').addEventListener('click', e=>{ if(e.target===$('loginWrap')) closeLogin(); });
 drawWho();
 syncPeopleBadge();
+syncVaultBadge();
 
 /* ==========================================================
    내 할 일 — 채택한 것의 진행 상황
@@ -2487,6 +2541,93 @@ function renderCats(r){
   $('leadSub').textContent = '처리한 것은 ✓로 표시했어요. 새로 생긴 게 있으면 아래에 적어주세요.';
   window.scrollTo(0,0);
 }
+
+/* ==========================================================
+   서류 보관함
+
+   서류가 이 제품의 재료다. 그런데 "내가 무슨 서류를 가지고 있나"를
+   보러 갈 곳이 없었다 — 결과 화면 밑에 접힌 칩 묶음이 전부였다.
+
+   사진을 저장하지 않는 것은 기능 부족이 아니라 설계다.
+   민감정보의 주인은 부모님 본인이다.
+   ========================================================== */
+function vaultList(){
+  const have = new Set(profile.docs || []);
+  // 엔진이 자유 입력에서 잡아낸 것도 합친다. 사용자가 두 번 말할 이유가 없다
+  if (cur && cur.state && Array.isArray(cur.state.docs)) cur.state.docs.forEach(d=>have.add(d));
+  return { have, docs: DOCS };
+}
+
+function syncVaultBadge(){
+  const el = $('drVaultN');
+  if (!el) return;
+  const n = vaultList().have.size;
+  el.textContent = n ? n + '종' : '';
+}
+
+function openVault(){ drawVault(); app.dataset.view = 'vault'; window.scrollTo(0,0); }
+
+function vItem(d, got){
+  const t = TIERS[d.tier] || {};
+  return '<div class="vitem'+(got?' on':'')+'" data-vdoc="'+esc(d.id)+'">'
+    + '<div class="vitem-t"><span class="bx3">'+svg(I.check)+'</span>'
+    + '<span class="vnm">'+esc(d.name)+'</span>'
+    + '<span class="tier '+tierCls(d.tier)+'">'+esc(d.tier||'')+'</span></div>'
+    + (d.plain ? '<div class="vplain">'+esc(d.plain)+'</div>' : '')
+    + '<div class="vmeta"><span class="vwho">'+esc(t.whoCanGet || '')+'</span>'
+    + (t.friction ? '<span class="vwho">'+esc(t.friction)+'</span>' : '')
+    + '</div></div>';
+}
+
+function drawVault(){
+  const { have, docs } = vaultList();
+  const got  = docs.filter(d=>have.has(d.id));
+  const miss = docs.filter(d=>!have.has(d.id));
+
+  $('vLead').innerHTML = got.length
+    ? '<b>'+got.length+'종</b>을 가지고 계세요. 가진 것을 알려주시면 이미 해결된 항목이 목록에서 빠져요.'
+    : '아직 알려주신 서류가 없어요. 가진 것을 눌러주시면 판정이 정확해져요.';
+
+  $('vSum').innerHTML =
+      '<div class="have"><div class="vn">'+got.length+'</div><div class="vl">가지고 있어요</div></div>'
+    + '<div class="need"><div class="vn">'+miss.length+'</div><div class="vl">아직 없어요</div></div>'
+    + '<div><div class="vn">'+miss.filter(d=>d.tier==='T3-blocked').length+'</div>'
+    + '<div class="vl">부모님만 뗄 수 있어요</div></div>';
+
+  $('vHave').innerHTML = got.length
+    ? '<div class="tsec"><div class="tsec-h">가지고 있어요<span class="cnt">'+got.length+'</span></div>'
+      + got.map(d=>vItem(d,true)).join('') + '</div>' : '';
+  $('vNeed').innerHTML = miss.length
+    ? '<div class="tsec"><div class="tsec-h">아직 없어요 — 가지고 계시면 눌러주세요'
+      + '<span class="cnt">'+miss.length+'</span></div>'
+      + miss.map(d=>vItem(d,false)).join('') + '</div>' : '';
+
+  $('vHonest').innerHTML = '<b>사진은 저장하지 않아요.</b> 무엇을 가지고 계신지만 표시해요. '
+    + '기능이 없어서가 아니라 그렇게 만들었어요 — 부모님 서류의 주인은 부모님 본인이고, '
+    + '자녀분이 대신 보관하기로 정할 문제가 아니에요.<br>'
+    + '병명·주민번호·서류 사진은 서버로 보내지 않아요. 이 브라우저 안에만 있어요.';
+
+  syncVaultBadge();
+}
+
+$('drToVault').addEventListener('click', ()=>{ closeDrawer(); openVault(); });
+$('vBack').addEventListener('click', ()=>{
+  if (stateDirty && lastPayload) { handle(lastPayload, { quiet:true }); return; }
+  app.dataset.view = cur ? 'result' : 'idle';
+  if (cur) render(cur);
+});
+$('viewVault').addEventListener('click', e=>{
+  const b = e.target.closest('[data-vdoc]'); if (!b) return;
+  const id = b.dataset.vdoc;
+  const list = new Set(profile.docs || []);
+  // 엔진이 텍스트에서 잡은 것도 여기서 끌 수 있어야 한다. 잘못 잡았을 수 있으니까
+  if (cur && cur.state && (cur.state.docs||[]).includes(id) && !list.has(id)) list.add(id);
+  list.has(id) ? list.delete(id) : list.add(id);
+  profile.docs = [...list];
+  saveProfile();
+  stateDirty = true;
+  drawVault();
+});
 
 /* ==========================================================
    함께 보는 사람 — 원래 개념의 가족 정보공유 다리
