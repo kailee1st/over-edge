@@ -388,13 +388,14 @@
      앱 구조 (2026-07-27) — 스레드를 버리고 화면 전환으로
      ========================================================== */
 
-  /* 화면 전환 */
-  .app[data-view="idle"] .view-result{display:none;}
-  .app[data-view="result"] .view-idle{display:none;}
-  .app[data-view="seq"] .view-idle,.app[data-view="seq"] .view-result,
-  .app[data-view="seq"] .view-todo,.app[data-view="seq"] .view-profile{display:none;}
-  .app[data-view="idle"] .view-seq,.app[data-view="result"] .view-seq,
-  .app[data-view="todo"] .view-seq,.app[data-view="profile"] .view-seq{display:none;}
+  /* 화면 전환 — 기본은 전부 숨김, data-view 와 이름이 맞는 것만 보인다 */
+  .view{display:none;}
+  .app[data-view="idle"]    .view-idle,
+  .app[data-view="result"]  .view-result,
+  .app[data-view="seq"]     .view-seq,
+  .app[data-view="todo"]    .view-todo,
+  .app[data-view="profile"] .view-profile,
+  .app[data-view="people"]  .view-people{display:flex;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
   @keyframes viewIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:none;}}
 
@@ -410,7 +411,7 @@
   .hd .menu svg{width:20px;height:20px;}
 
   /* ---------- 대기 화면 ---------- */
-  .view-idle{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  .view-idle{flex:1;flex-direction:column;align-items:center;justify-content:center;
     padding:32px 22px;text-align:center;}
   .bigmark{width:104px;height:104px;margin-bottom:22px;}
   .ask{font-size:23px;font-weight:800;color:var(--teal-900);letter-spacing:-.03em;line-height:1.4;}
@@ -418,7 +419,7 @@
   .idle-note{margin-top:20px;font-size:12.5px;color:var(--ink-faint);}
 
   /* ---------- 결과 화면 ---------- */
-  .view-result{flex:1;display:flex;flex-direction:column;min-height:0;}
+  .view-result{flex:1;flex-direction:column;min-height:0;}
   .statusbar{position:sticky;top:52px;z-index:30;background:rgba(255,255,255,.92);
     backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
   .statusbar-in{max-width:760px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:9px;
@@ -522,14 +523,8 @@
     box-shadow:0 8px 24px rgba(11,63,71,.3);max-width:88vw;text-align:center;line-height:1.5;}
   .toast.on{opacity:1;transform:translateX(-50%);}
 
-  /* ---------- 내 할 일 / 내 정보 화면 ---------- */
-  .app[data-view="todo"] .view-idle,.app[data-view="todo"] .view-result,
-  .app[data-view="todo"] .view-profile{display:none;}
-  .app[data-view="profile"] .view-idle,.app[data-view="profile"] .view-result,
-  .app[data-view="profile"] .view-todo{display:none;}
-  .app[data-view="idle"] .view-todo,.app[data-view="idle"] .view-profile{display:none;}
-  .app[data-view="result"] .view-todo,.app[data-view="result"] .view-profile{display:none;}
-  .view-todo,.view-profile{flex:1;display:flex;flex-direction:column;min-height:0;}
+  /* ---------- 내 할 일 / 내 정보 / 함께 보는 사람 ---------- */
+  .view-todo,.view-profile,.view-people{flex:1;flex-direction:column;min-height:0;}
 
   .subhd{position:sticky;top:52px;z-index:30;background:rgba(255,255,255,.94);
     backdrop-filter:blur(8px);border-bottom:1px solid var(--line);}
@@ -743,6 +738,51 @@
   .altbox .aw{margin-top:9px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
   .altbox .au{margin-top:11px;font-size:12px;color:var(--warm-600);font-weight:700;}
 
+  /* ---------- 함께 보는 사람 ---------- */
+  .pp{border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:15px 16px;margin-bottom:11px;}
+  .pp.me{border-color:var(--teal-500);background:var(--teal-50);}
+  .pp-top{display:flex;align-items:center;gap:11px;}
+  .pp-av{width:38px;height:38px;flex:0 0 38px;border-radius:50%;background:var(--teal-600);
+    color:#fff;font-size:15px;font-weight:800;display:grid;place-items:center;}
+  .pp.me .pp-av{background:var(--warm-600);}
+  .pp-nm{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .pp-nm .n2{font-size:15px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
+  .pp-nm .r2{font-size:12.5px;color:var(--ink-soft);margin-top:3px;}
+  .pp-x{border:none;background:none;cursor:pointer;color:var(--ink-faint);font:inherit;
+    font-size:12px;padding:6px 8px;border-radius:8px;}
+  .pp-x:hover{background:#f2f6f6;color:var(--ink);}
+  .pp-inv{margin-top:11px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;
+    font-size:12.5px;color:var(--ink-soft);}
+  .pp-inv .dot{width:7px;height:7px;border-radius:50%;background:var(--line);flex:0 0 7px;}
+  .pp-inv.sent .dot{background:var(--warm-600);}
+  .pp-inv.open .dot{background:var(--teal-500);}
+  .pp-inv button{margin-left:auto;border:1px solid var(--teal-500);background:#fff;font:inherit;
+    font-size:12.5px;font-weight:700;color:var(--teal-700);padding:7px 12px;border-radius:9px;cursor:pointer;}
+  .pp-inv button:hover{background:var(--teal-50);}
+  .pp-fake{margin-top:9px;text-align:right;}
+  .pp-fake button{border:1px dashed var(--line);background:none;font:inherit;font-size:11.5px;
+    color:var(--ink-faint);padding:6px 10px;border-radius:8px;cursor:pointer;}
+  .pp-fake button:hover{border-color:var(--teal-500);color:var(--teal-700);}
+
+  .pp-add{border:1px dashed var(--teal-500);border-radius:var(--radius);background:#f7fcfc;
+    padding:15px 16px;}
+  .pp-add .h3{font-size:14px;font-weight:800;color:var(--teal-900);margin-bottom:11px;}
+  .pp-add input{width:100%;border:1px solid var(--line);border-radius:10px;padding:11px 12px;
+    font:inherit;font-size:14.5px;background:#fff;}
+  .pp-add input:focus{outline:none;border-color:var(--teal-500);}
+  .pp-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:9px;}
+  .pp-row button{border:1px solid var(--line);background:#fff;font:inherit;font-size:12.5px;
+    font-weight:700;color:var(--ink-soft);padding:8px 12px;border-radius:999px;cursor:pointer;}
+  .pp-row button.on{background:var(--teal-600);border-color:var(--teal-600);color:#fff;}
+  .pp-lb{font-size:11.5px;font-weight:700;color:var(--ink-faint);margin:13px 0 5px;}
+  .pp-go{width:100%;margin-top:13px;border:none;background:var(--teal-600);color:#fff;font:inherit;
+    font-size:14.5px;font-weight:700;padding:13px;border-radius:12px;cursor:pointer;}
+  .pp-go:hover{background:var(--teal-700);}
+  .pp-go:disabled{background:var(--line);color:var(--ink-faint);cursor:not-allowed;}
+  .pp-honest{margin-top:16px;border-radius:12px;background:#f2f6f6;padding:12px 13px;
+    font-size:12.5px;color:var(--ink-soft);line-height:1.65;}
+
   .seqdone{text-align:center;padding:34px 20px;}
   .seqdone .ico2{width:52px;height:52px;margin:0 auto 14px;border-radius:16px;
     background:var(--teal-50);display:grid;place-items:center;color:var(--teal-600);}
@@ -869,6 +909,31 @@
   </section>
 
   <!-- ===== 입력 바 ===== -->
+  <section class="view view-people" id="viewPeople">
+    <div class="subhd">
+      <div class="subhd-in">
+        <button class="back" id="ppBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>돌아가기
+        </button>
+        <span class="tt">함께 보는 사람</span>
+      </div>
+    </div>
+    <div class="rbody"><div class="rbody-in">
+      <div class="lead-sub" id="ppLead"></div>
+      <div id="ppList"></div>
+      <div class="pp-add">
+        <div class="h3">사람 추가</div>
+        <input type="text" id="ppName" placeholder="이름 또는 부르는 말 (예: 누나)" maxlength="20">
+        <div class="pp-lb">부모님과의 관계</div>
+        <div class="pp-row" id="ppRel"></div>
+        <div class="pp-lb">주로 맡는 일</div>
+        <div class="pp-row" id="ppRole"></div>
+        <button class="pp-go" id="ppGo" type="button" disabled>추가하고 링크 만들기</button>
+      </div>
+      <div class="pp-honest" id="ppHonest"></div>
+    </div></div>
+  </section>
+
   <div class="bar">
     <div class="bar-in">
       <button class="rec" id="recBtn" type="button" aria-label="녹음">
@@ -885,6 +950,7 @@
 
 <!-- ===== 메뉴 드로어 ===== -->
 <div class="scrim" id="scrim"></div>
+  <!-- ===== 함께 보는 사람 ===== -->
 <aside class="drawer" id="drawer" aria-hidden="true">
   <div class="dr-hd">
     <span class="t">메뉴</span>
@@ -903,6 +969,10 @@
       <button class="dr-item" id="drToProfile" type="button">
         <div class="it">내 정보</div>
         <div class="id2">채울수록 더 깊게 확인할 수 있어요</div>
+      </button>
+      <button class="dr-item" id="drToPeople" type="button">
+        <div class="it">함께 보는 사람 <span id="drPpN"></span></div>
+        <div class="id2">형제·배우자와 같은 목록을 봐요</div>
       </button>
     </div>
 
@@ -1034,7 +1104,19 @@ function loadProfile(){
   try { Object.assign(profile, JSON.parse(localStorage.getItem(pkey()) || '{}')); } catch(e){}
 }
 function saveProfile(){ try{ localStorage.setItem(pkey(), JSON.stringify(profile)); }catch(e){} }
+
+/* 함께 보는 사람. 부모님 이름·연락처는 받지 않는다.
+   부르는 말과 관계만 받는다 — 그것만으로 목록을 나누는 데 충분하다 */
+const ppkey = () => 'drhand.people.' + (who || '_guest');
+let people = [];
+function loadPeople(){
+  try { people = JSON.parse(localStorage.getItem(ppkey()) || '[]'); } catch(e){ people = []; }
+  if (!Array.isArray(people)) people = [];
+}
+function savePeople(){ try{ localStorage.setItem(ppkey(), JSON.stringify(people)); }catch(e){} }
+
 loadProfile();
+loadPeople();
 
 /* ==========================================================
    카드
@@ -1598,7 +1680,7 @@ function closeLogin(){ $('loginWrap').classList.remove('on'); }
 function setWho(name){
   who = (name||'').trim().slice(0,20);
   try{ who ? localStorage.setItem('drhand.who', who) : localStorage.removeItem('drhand.who'); }catch(e){}
-  loadProfile(); drawWho(); closeLogin();
+  loadProfile(); loadPeople(); drawWho(); closeLogin(); syncPeopleBadge();
   adopted.clear(); syncTodoBadge();
   if (who) toast(who + '님, 담아두신 건 다음에도 그대로 있어요');
   if (cur) render(cur);
@@ -1610,6 +1692,7 @@ $('loginSkip').addEventListener('click', ()=>{ closeLogin(); });
 $('loginName').addEventListener('keydown', e=>{ if(e.key==='Enter') setWho($('loginName').value); });
 $('loginWrap').addEventListener('click', e=>{ if(e.target===$('loginWrap')) closeLogin(); });
 drawWho();
+syncPeopleBadge();
 
 /* ==========================================================
    내 할 일 — 채택한 것의 진행 상황
@@ -1676,6 +1759,143 @@ $('todoBody').addEventListener('click', e=>{
   }
   const dr = e.target.closest('[data-drop]');
   if (dr) { adopted.delete(dr.dataset.drop); drawTodo(); syncTodoBadge(); toast('목록에서 뺐어요'); }
+});
+
+/* ==========================================================
+   함께 보는 사람 — 원래 개념의 가족 정보공유 다리
+
+   컷된 건 진료실 녹음이고 이건 아니다. 형제가 각자 뭘 하는지 몰라서
+   중복하거나 통째로 빠뜨리는 게 이 구간의 실제 손해다.
+
+   다만 데모에는 서버가 없어서 링크가 실제로 가지 않는다.
+   그 사실을 화면에 적는다. 되는 척하면 발표에서 들킨다.
+   ========================================================== */
+const RELATIONS = ['아들', '딸', '배우자', '사위·며느리', '그 외'];
+const PP_ROLES = [
+  { k:'docs',  t:'서류 담당' },
+  { k:'visit', t:'병원 동행' },
+  { k:'money', t:'돈·행정' },
+  { k:'none',  t:'아직 정하지 않음' },
+];
+let ppDraft = { name:'', rel:'', role:'' };
+
+function syncPeopleBadge(){
+  const el = $('drPpN');
+  if (el) el.textContent = people.length ? people.length + '명' : '';
+}
+
+function openPeople(){ drawPeople(); app.dataset.view = 'people'; window.scrollTo(0,0); }
+
+function ppInitial(n){ return (n||'?').trim().slice(0,1); }
+function roleLabel(k){ const r = PP_ROLES.find(x=>x.k===k); return r ? r.t : ''; }
+
+function drawPeople(){
+  const total = people.length + (who ? 1 : 0);
+  $('ppLead').innerHTML = who
+    ? (people.length
+        ? '<b>'+total+'명</b>이 같은 목록을 봐요. 누가 무엇을 맡는지 여기서 정해요.'
+        : '아직 '+esc(who)+'님 혼자예요. 형제나 배우자를 추가하면 같은 목록을 같이 봐요.')
+    : '먼저 <b>누구세요?</b>를 눌러 이름을 알려주세요. 그래야 나를 목록에 넣을 수 있어요.';
+
+  // 나 — 로그인한 이름. 관계·역할은 내 정보가 아니라 여기서 따로 두지 않는다
+  let html = '';
+  if (who) {
+    html += '<div class="pp me"><div class="pp-top">'
+      + '<span class="pp-av">'+esc(ppInitial(who))+'</span>'
+      + '<span class="pp-nm"><span class="n2">'+esc(who)+' (나)</span>'
+      + '<span class="r2">이 화면을 보고 있는 사람</span></span></div></div>';
+  }
+
+  html += people.map(p=>{
+    const st = p.opened ? 'open' : p.invited ? 'sent' : '';
+    const stTxt = p.opened ? '링크를 열었어요'
+      : p.invited ? '링크 보냄 · 아직 안 열었어요'
+      : '아직 링크를 안 보냈어요';
+    return '<div class="pp"><div class="pp-top">'
+      + '<span class="pp-av">'+esc(ppInitial(p.name))+'</span>'
+      + '<span class="pp-nm"><span class="n2">'+esc(p.name)+'</span>'
+      + '<span class="r2">'+esc([p.rel, roleLabel(p.role)].filter(Boolean).join(' · '))+'</span></span>'
+      + '<button class="pp-x" data-ppdel="'+esc(p.id)+'" type="button">빼기</button></div>'
+      + '<div class="pp-inv '+st+'"><span class="dot"></span><span>'+esc(stTxt)+'</span>'
+      + '<button data-ppinv="'+esc(p.id)+'" type="button">'
+      + (p.invited ? '링크 다시 복사' : '링크 복사') + '</button></div>'
+      // 데모에는 서버가 없으니 상대가 열었다는 신호가 올 곳이 없다.
+      // 화면을 보여주기 위한 스위치라는 걸 버튼에 그대로 적는다
+      + (p.invited && !p.opened
+          ? '<div class="pp-fake"><button data-ppopen="'+esc(p.id)+'" type="button">'
+            + '데모용: 상대가 열었다고 치기</button></div>' : '')
+      + '</div>';
+  }).join('');
+
+  $('ppList').innerHTML = html;
+
+  // 추가 폼
+  $('ppName').value = ppDraft.name;
+  $('ppRel').innerHTML = RELATIONS.map(r=>
+    '<button type="button" data-pprel="'+esc(r)+'" class="'+(ppDraft.rel===r?'on':'')+'">'+esc(r)+'</button>').join('');
+  $('ppRole').innerHTML = PP_ROLES.map(r=>
+    '<button type="button" data-pprole="'+esc(r.k)+'" class="'+(ppDraft.role===r.k?'on':'')+'">'+esc(r.t)+'</button>').join('');
+  $('ppGo').disabled = !(ppDraft.name.trim() && ppDraft.rel);
+
+  $('ppHonest').innerHTML = '데모에서는 <b>링크가 실제로 가지 않아요.</b> 서버가 없어서 '
+    + '이 브라우저 안에만 저장돼요. 상대가 열었다는 표시는 아래 데모용 버튼으로 바꿔요.<br>'
+    + '실제로 만들 때도 <b>부모님 이름·주민번호·서류 사진은 공유하지 않습니다.</b> '
+    + '민감정보의 주인은 부모님 본인이고, 자녀들끼리 나눌 것은 "무엇을 해야 하는지"까지예요.';
+
+  syncPeopleBadge();
+}
+
+$('drToPeople').addEventListener('click', ()=>{ closeDrawer(); openPeople(); });
+$('ppBack').addEventListener('click', ()=>{
+  app.dataset.view = cur ? 'result' : 'idle';
+  if (cur) render(cur);
+});
+$('ppName').addEventListener('input', e=>{
+  ppDraft.name = e.target.value;
+  $('ppGo').disabled = !(ppDraft.name.trim() && ppDraft.rel);
+});
+$('ppRel').addEventListener('click', e=>{
+  const b = e.target.closest('[data-pprel]'); if (!b) return;
+  ppDraft.rel = (ppDraft.rel === b.dataset.pprel) ? '' : b.dataset.pprel;
+  drawPeople();
+});
+$('ppRole').addEventListener('click', e=>{
+  const b = e.target.closest('[data-pprole]'); if (!b) return;
+  ppDraft.role = (ppDraft.role === b.dataset.pprole) ? '' : b.dataset.pprole;
+  drawPeople();
+});
+$('ppGo').addEventListener('click', ()=>{
+  const nm = ppDraft.name.trim();
+  if (!nm || !ppDraft.rel) return;
+  people.push({ id:'p'+Date.now(), name:nm.slice(0,20), rel:ppDraft.rel,
+    role:ppDraft.role || 'none', invited:false, opened:false });
+  ppDraft = { name:'', rel:'', role:'' };
+  savePeople(); drawPeople();
+  toast(nm + '님을 추가했어요. 링크를 복사해서 보내주세요');
+});
+$('ppList').addEventListener('click', e=>{
+  const d = e.target.closest('[data-ppdel]');
+  if (d) {
+    people = people.filter(p=>p.id !== d.dataset.ppdel);
+    savePeople(); drawPeople(); toast('목록에서 뺐어요');
+    return;
+  }
+  const op = e.target.closest('[data-ppopen]');
+  if (op) {
+    const p = people.find(x=>x.id === op.dataset.ppopen);
+    if (p) { p.opened = true; savePeople(); drawPeople(); toast(p.name+'님이 목록을 보고 있어요'); }
+    return;
+  }
+  const iv = e.target.closest('[data-ppinv]');
+  if (iv) {
+    const p = people.find(x=>x.id === iv.dataset.ppinv);
+    if (!p) return;
+    p.invited = true;
+    savePeople(); drawPeople();
+    const link = location.origin + location.pathname + '?join=' + p.id;
+    if (navigator.clipboard) navigator.clipboard.writeText(link).catch(()=>{});
+    toast('링크를 복사했어요. 데모라서 열어도 이 화면이 나와요');
+  }
 });
 
 /* ==========================================================
