@@ -793,6 +793,81 @@
     padding:10px 15px;border-radius:10px;text-decoration:none;}
   .do-tel svg{width:15px;height:15px;}
 
+  /* 진행률 */
+  .pbar{height:6px;border-radius:99px;background:var(--line);overflow:hidden;}
+  .pbar i{display:block;height:100%;border-radius:99px;background:var(--teal-600);
+    transition:width .35s cubic-bezier(.16,.84,.44,1);}
+  .do-prog{margin-top:13px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);padding:14px 16px;}
+  .do-prog .pt{display:flex;align-items:baseline;gap:8px;margin-bottom:10px;}
+  .do-prog .pn2{font-size:19px;font-weight:800;color:var(--teal-700);letter-spacing:-.03em;}
+  .do-prog .px{font-size:12.5px;color:var(--ink-soft);}
+  .do-prog .pk{margin-top:10px;font-size:12px;color:var(--ink-faint);line-height:1.6;}
+
+  /* 체크 가능한 줄 */
+  .ck{display:flex;gap:11px;align-items:flex-start;padding:9px 0;cursor:pointer;
+    font-size:14px;line-height:1.65;}
+  .ck .bx2{width:20px;height:20px;flex:0 0 20px;border:1.8px solid var(--line);border-radius:6px;
+    margin-top:2px;display:grid;place-items:center;color:#fff;transition:all .18s ease;}
+  .ck .bx2 svg{width:12px;height:12px;opacity:0;}
+  .ck:hover .bx2{border-color:var(--teal-500);}
+  .ck.on .bx2{background:var(--teal-600);border-color:var(--teal-600);}
+  .ck.on .bx2 svg{opacity:1;}
+  .ck.on .ctx{color:var(--ink-faint);text-decoration:line-through;}
+  .ck .nm2{width:20px;height:20px;flex:0 0 20px;border-radius:50%;background:var(--teal-50);
+    color:var(--teal-700);font-size:11.5px;font-weight:800;display:grid;place-items:center;margin-top:2px;}
+
+  /* 내 할 일 구획 */
+  .tsec{margin-top:22px;}
+  .tsec:first-of-type{margin-top:14px;}
+  .tsec-h{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;
+    color:var(--ink-faint);letter-spacing:.02em;margin-bottom:10px;}
+  .tsec-h .cnt{background:#f2f6f6;color:var(--ink-soft);font-size:11.5px;padding:2px 8px;border-radius:99px;}
+  .todo-item.st-skipped{opacity:.6;border-style:dashed;}
+  .todo-item.st-skipped .tt2{color:var(--ink-faint);}
+  .todo-prog{margin-top:11px;}
+  .todo-prog .pl2{display:flex;justify-content:space-between;font-size:11.5px;font-weight:700;
+    color:var(--ink-faint);margin-bottom:6px;}
+  .todo-acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
+  .todo-acts button{flex:1 1 auto;border:1px solid var(--line);background:#fff;font:inherit;
+    font-size:13px;font-weight:700;color:var(--ink);padding:10px 12px;border-radius:10px;cursor:pointer;}
+  .todo-acts button.go2{background:var(--teal-600);border-color:var(--teal-600);color:#fff;}
+  .todo-acts button.go2:hover{background:var(--teal-700);}
+  .todo-acts button.undo{color:var(--ink-faint);font-weight:600;}
+  .todo-acts button.undo:hover{border-color:var(--warm-600);color:var(--warm-600);}
+
+  /* 질문 정리 */
+  .qgrp{margin-top:15px;}
+  .qgrp-h{font-size:11.5px;font-weight:800;color:var(--ink-faint);letter-spacing:.02em;
+    margin-bottom:7px;}
+  .qitem{border:1px solid var(--line);border-radius:13px;background:#fff;padding:13px 14px;
+    margin-bottom:7px;cursor:pointer;transition:all .18s ease;}
+  .qitem:hover{border-color:var(--teal-500);}
+  .qitem.on{border-color:var(--teal-600);background:var(--teal-50);}
+  .qitem-t{display:flex;gap:11px;align-items:flex-start;}
+  .qitem .bx2{width:20px;height:20px;flex:0 0 20px;border:1.8px solid var(--line);border-radius:6px;
+    margin-top:1px;display:grid;place-items:center;color:#fff;transition:all .18s ease;}
+  .qitem .bx2 svg{width:12px;height:12px;opacity:0;}
+  .qitem.on .bx2{background:var(--teal-600);border-color:var(--teal-600);}
+  .qitem.on .bx2 svg{opacity:1;}
+  .qitem .qq{flex:1;font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.6;}
+  .qitem .qw{margin-top:7px;margin-left:31px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .qout{margin-top:16px;border:1px solid var(--teal-600);border-radius:var(--radius);
+    background:var(--teal-50);padding:15px 16px;}
+  .qout .h4{color:var(--teal-700);}
+  .qout pre{margin:9px 0 0;font:inherit;font-size:13.5px;line-height:1.85;white-space:pre-wrap;
+    color:var(--ink);background:#fff;border-radius:11px;padding:13px 14px;}
+  .qout-acts{display:flex;gap:7px;margin-top:12px;flex-wrap:wrap;}
+  .qout-acts button{flex:1 1 auto;border:1px solid var(--teal-600);background:#fff;font:inherit;
+    font-size:13px;font-weight:700;color:var(--teal-700);padding:10px 12px;border-radius:10px;cursor:pointer;}
+  .qout-acts button:hover{background:#fff;border-color:var(--teal-700);}
+  .qmore{margin-top:14px;border:1px dashed var(--teal-500);border-radius:var(--radius);
+    background:#f7fcfc;padding:14px 15px;}
+  .qmore .mt{font-size:14px;font-weight:800;color:var(--teal-900);}
+  .qmore .ms{margin-top:7px;font-size:13px;color:var(--ink-soft);line-height:1.7;}
+  .qmore .mb{margin-top:11px;border:none;background:var(--teal-600);color:#fff;font:inherit;
+    font-size:13.5px;font-weight:700;padding:11px 16px;border-radius:10px;cursor:pointer;}
+
   /* ---------- 사이클 종료 ---------- */
   .wrap-hd{text-align:center;padding:8px 0 4px;}
   .wrap-hd .ico3{width:56px;height:56px;margin:0 auto 15px;border-radius:18px;background:var(--teal-50);
@@ -1153,7 +1228,7 @@
 -->
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
-import { SCENARIOS, RULE_BACKLOG, findRule, CATEGORIES, WHO, groupByCategory } from './rules.js';
+import { SCENARIOS, RULE_BACKLOG, findRule, CATEGORIES, WHO, groupByCategory, asksFor } from './rules.js';
 import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES } from './kb.js';
 
 const $ = id => document.getElementById(id);
@@ -1216,7 +1291,12 @@ let doCard = null;        // 실행 화면이 보여주고 있는 카드
 
 let cur = null;                       // 마지막 run 결과
 let lastPayload = null;               // 재판정용
-const adopted = new Map();            // ruleId -> {card, status:'todo'|'doing'|'done'}
+/* adopted  처리한 항목의 기록. 메모리만 두면 새로고침에 날아가서
+            "나중에 이어서 하기"가 성립하지 않는다. localStorage 에 저장한다.
+   status   todo 담아둠 · doing 하는 중 · done 끝냄 · skipped 건너뜀
+   steps    doIt.steps 중 체크한 것. 어디까지 했는지가 여기 남는다
+   bring    챙길 것 중 체크한 것                                        */
+const adopted = new Map();
 const seenIds = [];                   // 지금까지 안내한 룰 (0개 판정용)
 const profile = {};                   // 내 정보
 let sessionId = null;
@@ -1236,6 +1316,33 @@ function saveProfile(){ try{ localStorage.setItem(pkey(), JSON.stringify(profile
 
 /* 함께 보는 사람. 부모님 이름·연락처는 받지 않는다.
    부르는 말과 관계만 받는다 — 그것만으로 목록을 나누는 데 충분하다 */
+const tkey = () => 'drhand.todo.' + (who || '_guest');
+function loadTodo(){
+  adopted.clear();
+  try {
+    const raw = JSON.parse(localStorage.getItem(tkey()) || '[]');
+    if (Array.isArray(raw)) raw.forEach(v=>{
+      if (v && v.card && v.card.ruleId) adopted.set(v.card.ruleId, {
+        card: v.card, status: v.status || 'todo',
+        steps: Array.isArray(v.steps) ? v.steps : [],
+        bring: Array.isArray(v.bring) ? v.bring : [],
+        asks: Array.isArray(v.asks) ? v.asks : [],
+        at: v.at || null,
+      });
+    });
+  } catch(e){}
+  // 처리 결과를 outcomes 에 되살린다. 목록에서 빠져 있어야 하니까
+  outcomes.clear();
+  for (const [id,v] of adopted) {
+    if (v.status === 'done') outcomes.set(id, 'done');
+    else if (v.status === 'skipped') outcomes.set(id, 'cant');
+    else outcomes.set(id, 'later');
+  }
+}
+function saveTodo(){
+  try { localStorage.setItem(tkey(), JSON.stringify([...adopted.values()])); } catch(e){}
+}
+
 const ppkey = () => 'drhand.people.' + (who || '_guest');
 let people = [];
 function loadPeople(){
@@ -1246,6 +1353,7 @@ function savePeople(){ try{ localStorage.setItem(ppkey(), JSON.stringify(people)
 
 loadProfile();
 loadPeople();
+loadTodo();
 
 /* ==========================================================
    카드
@@ -1488,8 +1596,21 @@ function openDo(c){
 
 function drawDo(){
   const c = doCard, d = c.doIt || {};
+  const v = adopted.get(c.ruleId) || { steps:[], bring:[], status:'doing' };
+  const doneSteps = new Set(v.steps || []);
+  const doneBring = new Set(v.bring || []);
+  const nStep = (d.steps || []).length;
+  const pct = progressOf(v);
+
   let h = '<div class="do-hero"><div class="k">지금 하실 일</div>'
     + '<div class="t2">'+esc(c.title)+'</div></div>';
+
+  // 한 번에 못 끝내는 일이 많다. 어디까지 했는지가 남아야 다시 올 수 있다
+  if (nStep) h += '<div class="do-prog"><div class="pt">'
+    + '<span class="pn2">'+pct+'%</span>'
+    + '<span class="px">'+doneSteps.size+' / '+nStep+' 단계</span></div>'
+    + '<div class="pbar"><i style="width:'+pct+'%"></i></div>'
+    + '<div class="pk">지금 다 못 하셔도 돼요. 화면을 나가도 여기까지 저장돼요.</div></div>';
 
   if (d.where) h += '<div class="do-blk"><div class="h4">어디로</div>'
     + '<div style="font-size:14.5px;line-height:1.6">'+esc(d.where)+'</div>'
@@ -1499,16 +1620,22 @@ function drawDo(){
     + '</div>';
 
   if (d.bring && d.bring.length) h += '<div class="do-blk"><div class="h4">챙길 것</div>'
-    + d.bring.map(b=>'<div class="do-li"><span class="bx"></span><span>'+esc(b)+'</span></div>').join('')
+    + d.bring.map((b,i)=>'<div class="ck'+(doneBring.has(i)?' on':'')+'" data-brg="'+i+'">'
+      + '<span class="bx2">'+svg(I.check)+'</span><span class="ctx">'+esc(b)+'</span></div>').join('')
     + '</div>';
 
   if (d.say) h += '<div class="do-say"><div class="h4">이렇게 말하시면 돼요</div>'
     + '<div class="q2">'+esc(d.say)+'</div>'
     + '<button class="cp" type="button" id="doCopy">이 문장 복사</button></div>';
 
-  if (d.steps && d.steps.length) h += '<div class="do-blk"><div class="h4">순서</div>'
-    + d.steps.map((x,i)=>'<div class="do-li"><span class="num">'+(i+1)+'</span><span>'+esc(x)+'</span></div>').join('')
+  if (d.steps && d.steps.length) h += '<div class="do-blk">'
+    + '<div class="h4">순서 — 끝낸 것을 눌러주세요</div>'
+    + d.steps.map((x,i)=>'<div class="ck'+(doneSteps.has(i)?' on':'')+'" data-stp="'+i+'">'
+      + '<span class="bx2">'+svg(I.check)+'</span><span class="ctx">'+esc(x)+'</span></div>').join('')
     + '</div>';
+
+  // 질문 정리 — 안내로 끝나면 "그래서 뭘 물어" 가 남는다. 여기서 같이 만든다
+  if (d.kind === 'questions') h += drawAsk(v);
 
   if (d.after) h += '<div class="do-after">'+esc(d.after)+'</div>';
   if (d.askIfStuck) h += '<div class="do-stuck"><b>막히면 이렇게 물어보세요</b><br>'+esc(d.askIfStuck)+'</div>';
@@ -1519,18 +1646,119 @@ function drawDo(){
       + '그러면 그 서류가 필요했던 다른 항목도 같이 내려가요.</div>';
   }
 
+  const allDone = nStep > 0 && doneSteps.size === nStep;
   h += '<div class="acts">'
-    + '<button class="act prim" data-do="done" type="button">했어요</button>'
-    + '<button class="act" data-do="later" type="button">아직이요. 내 할 일에 두세요</button>'
+    + '<button class="act prim" data-do="done" type="button">'
+      + (allDone ? '다 했어요' : nStep ? '전부 끝냈어요' : '했어요') + '</button>'
+    + '<button class="act" data-do="later" type="button">'
+      + (doneSteps.size ? '여기까지 하고 나중에 이어서' : '아직이요. 내 할 일에 두세요') + '</button>'
     + '</div>';
 
   $('doBody').innerHTML = h;
+}
+
+/* 질문 목록. 상태에 따라 켜지는 것만 나온다.
+   확진 전에 "항암 언제 시작하나요"를 물으라고 하면 안 된다 */
+function drawAsk(v){
+  const st = (cur && cur.state) || {};
+  const list = asksFor(st);
+  const picked = new Set(v.asks || []);
+  const groups = [];
+  for (const a of list) {
+    let g = groups.find(x=>x.name===a.group);
+    if (!g) { g = { name:a.group, items:[] }; groups.push(g); }
+    g.items.push(a);
+  }
+
+  let h = '<div class="do-blk"><div class="h4">물어볼 것 — 필요한 것만 눌러주세요</div>'
+    + '<div style="font-size:13px;color:var(--ink-soft);line-height:1.65;margin-bottom:4px">'
+    + '지금 상황('+esc(st.stage||'파악 중')+')에서 나오는 질문 '+list.length+'개예요. '
+    + '법령 근거가 아니라, 같은 구간을 겪은 분들에게서 반복해 나온 것이에요.</div>'
+    + groups.map(g=>'<div class="qgrp"><div class="qgrp-h">'+esc(g.name)+'</div>'
+        + g.items.map(a=>'<div class="qitem'+(picked.has(a.id)?' on':'')+'" data-ask="'+esc(a.id)+'">'
+          + '<div class="qitem-t"><span class="bx2">'+svg(I.check)+'</span>'
+          + '<span class="qq">'+esc(a.q)+'</span></div>'
+          + '<div class="qw">'+esc(a.why)+'</div></div>').join('')
+        + '</div>').join('')
+    + '</div>';
+
+  // 고른 것을 그대로 보낼 수 있는 형태로
+  if (picked.size) {
+    const chosen = list.filter(a=>picked.has(a.id));
+    const txt = '진료 때 이것만 물어봐 주세요\n\n'
+      + chosen.map((a,i)=>(i+1)+'. '+a.q).join('\n')
+      + '\n\n받은 종이는 사진으로 보내주세요.';
+    window.__askTxt = txt;
+    h += '<div class="qout"><div class="h4">이대로 보내시면 돼요 ('+picked.size+'개)</div>'
+      + '<pre>'+esc(txt)+'</pre>'
+      + '<div class="qout-acts">'
+      + '<button data-askdo="copy" type="button">복사</button>'
+      + '<button data-askdo="share" type="button">부모님께 보내기</button>'
+      + '</div></div>';
+  } else {
+    h += '<div class="qout"><div class="h4">아직 고른 게 없어요</div>'
+      + '<div style="font-size:13.5px;color:var(--ink-soft);line-height:1.7;margin-top:7px">'
+      + '위에서 물어볼 것을 눌러주세요. 3개 정도가 적당해요. '
+      + '많이 적어 드리면 부모님이 다 못 물어보세요.</div></div>';
+  }
+
+  h += '<div class="qmore"><div class="mt">더 맞는 질문을 원하시면</div>'
+    + '<div class="ms">지금은 <b>'+esc(st.stage||'상황 파악 중')+'</b>이라는 것만 알고 있어요. '
+    + '어느 과 어떤 검사였는지, 무슨 말을 들으셨는지 더 적어주시면 질문이 그 상황에 맞게 바뀌어요.<br>'
+    + '받으신 서류가 있으면 어떤 서류인지도 알려주세요.</div>'
+    + '<button class="mb" data-askdo="more" type="button">상황 더 알려주기</button></div>';
+
+  return h;
 }
 
 $('doBack').addEventListener('click', ()=>{
   if (seq) { app.dataset.view = 'seq'; drawSeq(); } else backToCats();
 });
 $('doBody').addEventListener('click', e=>{
+  // 단계·챙길 것 체크 — 누를 때마다 저장한다
+  const stp = e.target.closest('[data-stp]');
+  const brg = e.target.closest('[data-brg]');
+  if (stp || brg) {
+    const key = stp ? 'steps' : 'bring';
+    const idx = +(stp || brg).dataset[stp ? 'stp' : 'brg'];
+    let v = adopted.get(doCard.ruleId);
+    if (!v) { mark(doCard, 'doing'); v = adopted.get(doCard.ruleId); }
+    const set = new Set(v[key] || []);
+    set.has(idx) ? set.delete(idx) : set.add(idx);
+    v[key] = [...set];
+    if (v.status === 'todo') v.status = 'doing';
+    saveTodo(); syncTodoBadge(); drawDo();
+    return;
+  }
+  // 질문 고르기
+  const qa = e.target.closest('[data-ask]');
+  if (qa) {
+    let v = adopted.get(doCard.ruleId);
+    if (!v) { mark(doCard, 'doing'); v = adopted.get(doCard.ruleId); }
+    const set = new Set(v.asks || []);
+    set.has(qa.dataset.ask) ? set.delete(qa.dataset.ask) : set.add(qa.dataset.ask);
+    v.asks = [...set];
+    saveTodo(); drawDo();
+    return;
+  }
+  const qd = e.target.closest('[data-askdo]');
+  if (qd) {
+    const t = window.__askTxt || '';
+    if (qd.dataset.askdo === 'copy') {
+      if (navigator.clipboard) navigator.clipboard.writeText(t).catch(()=>{});
+      toast('복사했어요. 부모님께 그대로 보내시면 돼요');
+    } else if (qd.dataset.askdo === 'share') {
+      if (navigator.share) navigator.share({ text: t }).catch(()=>{});
+      else { if (navigator.clipboard) navigator.clipboard.writeText(t).catch(()=>{});
+             toast('이 브라우저는 바로 보내기가 안 돼서 복사만 했어요'); }
+    } else {
+      app.dataset.view = cur ? 'result' : 'idle';
+      if (cur) render(cur);
+      setTimeout(()=>{ $('input').focus();
+        toast('어느 과 무슨 검사였는지, 무슨 말을 들으셨는지 적어주세요'); }, 300);
+    }
+    return;
+  }
   if (e.target.closest('#doCopy')) {
     const t = (doCard.doIt||{}).say || '';
     if (navigator.clipboard) navigator.clipboard.writeText(t).catch(()=>{});
@@ -1541,8 +1769,7 @@ $('doBody').addEventListener('click', e=>{
   const c = doCard;
 
   if (b.dataset.do === 'done') {
-    outcomes.set(c.ruleId, 'done');
-    const v = adopted.get(c.ruleId); if (v) v.status = 'done';
+    mark(c, 'done');
     // 끝낸 일로 손에 들어온 서류를 상태에 반영한다. 여기서 상태가 자연스레 자란다
     if (c.yields && c.yields.length) {
       const list = new Set(profile.docs || []);
@@ -1556,11 +1783,12 @@ $('doBody').addEventListener('click', e=>{
       toast('완료로 표시했어요');
     }
   } else {
-    outcomes.set(c.ruleId, 'later');
-    const v = adopted.get(c.ruleId); if (v) v.status = 'todo';
-    toast('내 할 일에 뒀어요. 진행 상황은 거기서 체크해요');
+    const v0 = adopted.get(c.ruleId);
+    const n = v0 && v0.steps ? v0.steps.length : 0;
+    mark(c, n ? 'doing' : 'todo');
+    toast(n ? n+'단계까지 저장했어요. 내 할 일에서 이어서 하실 수 있어요'
+            : '내 할 일에 뒀어요. 진행 상황은 거기서 체크해요');
   }
-  syncTodoBadge();
   doCard = null;
   if (seq) { app.dataset.view = 'seq'; seqNext(); } else backToCats();
 });
@@ -1576,29 +1804,27 @@ $('seqBody').addEventListener('click', e=>{
   switch (b.dataset.seq) {
     case 'back': backToCats(); break;
     case 'done':
-      outcomes.set(c.ruleId, 'done'); toast('이미 하셨으니 목록에서 뺐어요'); seqNext(); break;
+      mark(c, 'done'); toast('이미 하셨으니 목록에서 뺐어요. 내 할 일에 남겨뒀어요'); seqNext(); break;
     case 'later':
       // 담기만 하고 넘어가면 "그래서 뭘 하지"가 남는다. 실행 화면으로 보낸다
-      adopted.set(c.ruleId, { card:c, status:'doing' });
-      syncTodoBadge();
+      mark(c, 'doing');
       openDo(c);
       break;
     case 'cant':
       if (c.alt) { seq.alt = true; drawSeq(); }
-      else { outcomes.set(c.ruleId, 'cant'); seqNext(); }
+      else { mark(c, 'skipped'); toast('건너뛴 것도 내 할 일에서 다시 찾을 수 있어요'); seqNext(); }
       break;
     case 'alt-todo': {
       const altCard = { ...c, step:c.alt.step, title:c.alt.title,
         doIt: { where:null, bring:[], say:null, steps:[c.alt.step],
                 after:c.alt.why || null, askIfStuck:null },
         yields: null };
-      adopted.set(c.ruleId, { card:altCard, status:'doing' });
-      syncTodoBadge();
+      mark(altCard, 'doing');
       openDo(altCard);
       break;
     }
     case 'alt-skip':
-      outcomes.set(c.ruleId, 'cant'); seqNext(); break;
+      mark(c, 'skipped'); toast('건너뛴 것도 내 할 일에서 다시 찾을 수 있어요'); seqNext(); break;
   }
 });
 
@@ -1989,8 +2215,8 @@ function closeLogin(){ $('loginWrap').classList.remove('on'); }
 function setWho(name){
   who = (name||'').trim().slice(0,20);
   try{ who ? localStorage.setItem('drhand.who', who) : localStorage.removeItem('drhand.who'); }catch(e){}
-  loadProfile(); loadPeople(); drawWho(); closeLogin(); syncPeopleBadge();
-  adopted.clear(); syncTodoBadge();
+  loadProfile(); loadPeople(); loadTodo(); drawWho(); closeLogin(); syncPeopleBadge();
+  syncTodoBadge();
   if (who) toast(who + '님, 담아두신 건 다음에도 그대로 있어요');
   if (cur) render(cur);
 }
@@ -2012,62 +2238,170 @@ const STATUS = [
   { k:'done',  t:'완료' },
 ];
 
+/* 처리 기록. 「이미 했어요」·「건너뛸게요」도 여기 남긴다.
+   남기지 않으면 나중에 찾을 수가 없다 */
+function mark(card, status){
+  const prev = adopted.get(card.ruleId);
+  adopted.set(card.ruleId, {
+    card,
+    status,
+    steps: prev ? prev.steps : [],
+    bring: prev ? prev.bring : [],
+    asks: prev ? prev.asks : [],
+    at: new Date().toISOString().slice(0,10),
+  });
+  outcomes.set(card.ruleId,
+    status === 'done' ? 'done' : status === 'skipped' ? 'cant' : 'later');
+  saveTodo();
+  syncTodoBadge();
+}
+
+/* 되돌리기. 잘못 누른 체크를 풀 방법이 없으면 눌러보는 게 무서워진다 */
+function unmark(ruleId){
+  adopted.delete(ruleId);
+  outcomes.delete(ruleId);
+  saveTodo();
+  syncTodoBadge();
+}
+
+/* 단계 진행률 */
+function stepsOf(card){ return ((card.doIt||{}).steps || []); }
+function progressOf(v){
+  const total = stepsOf(v.card).length;
+  if (!total) return v.status === 'done' ? 100 : 0;
+  if (v.status === 'done') return 100;
+  return Math.round(((v.steps||[]).length / total) * 100);
+}
+
 function syncTodoBadge(){
-  const n = [...adopted.values()].filter(v=>v.status!=='done').length;
+  const n = [...adopted.values()].filter(v=>v.status==='todo'||v.status==='doing').length;
   const badge = $('todoBadge');
   badge.hidden = adopted.size === 0;
   $('todoCount').textContent = n > 0 ? n : '완료';
 }
 
 function drawTodo(){
-  const items = [...adopted.entries()];
-  if (!items.length) {
+  const all = [...adopted.entries()];
+  if (!all.length) {
     $('todoBody').innerHTML = '<div class="lead"><span class="n">0</span><span>내 할 일</span></div>'
-      + '<div class="lead-sub">아직 담은 게 없어요. 카드에서 <b>이거 할게요</b>를 누르면 여기로 옮겨져요.</div>';
+      + '<div class="lead-sub">아직 담은 게 없어요. 카드에서 <b>이거 할게요</b>를 누르면 여기로 옮겨져요.<br>'
+      + '<b>이미 했어요</b>나 <b>건너뛸게요</b>를 누른 것도 여기 남아서 나중에 다시 찾을 수 있어요.</div>';
     return;
   }
-  const left = items.filter(([,v])=>v.status!=='done').length;
-  let html = '<div class="lead'+(left===0?' zero':'')+'"><span class="n">'+left+'</span><span>'
-    + (left===0?'다 하셨어요':'남은 일')+'</span></div>'
-    + '<div class="lead-sub">'+(left===0
-        ? '담아둔 것을 전부 처리하셨어요. 새 진료나 검사가 생기면 다시 알려주세요.'
-        : '기한이 있는 것부터 위에 있어요.')+'</div>';
 
-  items.sort((a,b)=>{
-    const o = { hard:1, preview:2, gate:3 };
-    return (o[a[1].card.type]||9) - (o[b[1].card.type]||9);
-  });
+  const ord = { hard:1, preview:2, gate:3 };
+  const by = st => all.filter(([,v])=>st.includes(v.status))
+    .sort((a,b)=>(ord[a[1].card.type]||9)-(ord[b[1].card.type]||9));
 
-  html += items.map(([id,v])=>{
-    const c = v.card;
-    const due = c.deadline.dueDate
-      ? '<b class="due">'+esc(c.deadline.dueDate)+'까지</b> ('+(c.deadline.daysLeft>=0?c.deadline.daysLeft+'일 남음':(-c.deadline.daysLeft)+'일 지남')+')'
-      : esc(c.deadline.text||'');
-    return '<div class="todo-item st-'+v.status+'" data-id="'+esc(id)+'">'
-      + '<div class="todo-top"><span class="miss-badge is-'+c.type+'">'+esc(c.typeLabel)+'</span>'
-      + '<span class="tt2">'+esc(c.title)+'</span></div>'
-      + '<div class="todo-meta">'+due+'</div>'
-      + '<div class="todo-step">'+esc(c.step)+'</div>'
-      + '<div class="prog">'+STATUS.map(st=>
-          '<button type="button" data-st="'+st.k+'" data-id="'+esc(id)+'" class="'+(v.status===st.k?'on':'')+'">'+st.t+'</button>').join('')+'</div>'
-      + '<div class="todo-drop"><button type="button" data-drop="'+esc(id)+'">목록에서 빼기</button></div>'
-      + '</div>';
-  }).join('');
+  const live = by(['todo','doing']);
+  const fin  = by(['done']);
+  const skip = by(['skipped']);
+
+  let html = '<div class="lead'+(live.length===0?' zero':'')+'"><span class="n">'+live.length+'</span>'
+    + '<span>'+(live.length===0?'남은 일 없어요':'하시는 중')+'</span></div>'
+    + '<div class="lead-sub">'+(live.length===0
+        ? '담아둔 것을 전부 처리하셨어요. 아래에서 지난 것을 다시 볼 수 있어요.'
+        : '한 번에 다 안 하셔도 돼요. 어디까지 했는지 저장돼 있어요.')+'</div>';
+
+  html += sec('하시는 중', live, 'live')
+       +  sec('다 하신 것', fin, 'done')
+       +  sec('건너뛴 것', skip, 'skip');
 
   $('todoBody').innerHTML = html;
 }
 
+function sec(title, items, kind){
+  if (!items.length) return '';
+  return '<div class="tsec"><div class="tsec-h">'+esc(title)
+    + '<span class="cnt">'+items.length+'</span></div>'
+    + items.map(([id,v])=>todoCard(id,v,kind)).join('') + '</div>';
+}
+
+function todoCard(id, v, kind){
+  const c = v.card;
+  const due = c.deadline && c.deadline.dueDate
+    ? '<b class="due">'+esc(c.deadline.dueDate)+'까지</b> ('
+      + (c.deadline.daysLeft>=0 ? c.deadline.daysLeft+'일 남음' : (-c.deadline.daysLeft)+'일 지남') + ')'
+    : esc((c.deadline && c.deadline.text) || '');
+
+  const nStep = stepsOf(c).length;
+  const nDone = (v.steps||[]).length;
+  const pct = progressOf(v);
+
+  let body = '<div class="todo-top"><span class="miss-badge is-'+c.type+'">'+esc(c.typeLabel)+'</span>'
+    + '<span class="tt2">'+esc(c.title)+'</span></div>'
+    + '<div class="todo-meta">'+due+'</div>';
+
+  // 진행률 — 하시는 중일 때만. 다 한 것에 100% 바를 또 보여줄 이유가 없다
+  if (kind === 'live' && nStep) body += '<div class="todo-prog">'
+    + '<div class="pl2"><span>'+nDone+' / '+nStep+' 단계</span><span>'+pct+'%</span></div>'
+    + '<div class="pbar"><i style="width:'+pct+'%"></i></div></div>';
+
+  if (kind === 'live') body += '<div class="todo-step">'+esc(c.step)+'</div>';
+
+  // 버튼 — 구획마다 다르다. 되돌리기는 어디에나 있다
+  let acts = '';
+  if (kind === 'live') {
+    acts = '<button class="go2" data-open="'+esc(id)+'" type="button">'
+      + (nDone ? '이어서 하기' : '어떻게 하는지 보기') + '</button>'
+      + '<button data-fin="'+esc(id)+'" type="button">다 했어요</button>'
+      + '<button class="undo" data-undo="'+esc(id)+'" type="button">목록에서 빼기</button>';
+  } else if (kind === 'done') {
+    acts = '<button data-open="'+esc(id)+'" type="button">다시 보기</button>'
+      + '<button class="undo" data-redo="'+esc(id)+'" type="button">아직 안 했어요</button>';
+  } else {
+    acts = '<button class="go2" data-redo="'+esc(id)+'" type="button">다시 해볼게요</button>'
+      + '<button data-open="'+esc(id)+'" type="button">어떻게 하는지 보기</button>';
+  }
+  body += '<div class="todo-acts">'+acts+'</div>';
+  if (v.at) body += '<div class="todo-meta" style="margin-top:9px;font-size:11.5px">'
+    + esc(v.at)+'에 표시하셨어요</div>';
+
+  return '<div class="todo-item st-'+esc(v.status)+'" data-id="'+esc(id)+'">'+body+'</div>';
+}
+
 $('todoBadge').addEventListener('click', ()=>{ drawTodo(); app.dataset.view='todo'; });
-$('todoBack').addEventListener('click', ()=>{ app.dataset.view='result'; seq=null; if(cur) render(cur); });
+$('todoBack').addEventListener('click', ()=>{
+  seq = null;
+  if (stateDirty && lastPayload) { handle(lastPayload, { quiet:true }); return; }
+  app.dataset.view = 'result';
+  if (cur) render(cur); else app.dataset.view = 'idle';
+});
 $('todoBody').addEventListener('click', e=>{
-  const st = e.target.closest('[data-st]');
-  if (st) {
-    const v = adopted.get(st.dataset.id);
-    if (v) { v.status = st.dataset.st; drawTodo(); syncTodoBadge(); }
+  const op = e.target.closest('[data-open]');
+  if (op) {
+    const v = adopted.get(op.dataset.open);
+    if (v) { seq = null; openDo(v.card); }
     return;
   }
-  const dr = e.target.closest('[data-drop]');
-  if (dr) { adopted.delete(dr.dataset.drop); drawTodo(); syncTodoBadge(); toast('목록에서 뺐어요'); }
+  const fi = e.target.closest('[data-fin]');
+  if (fi) {
+    const v = adopted.get(fi.dataset.fin);
+    if (v) {
+      mark(v.card, 'done');
+      // 서류를 손에 넣는 일이었으면 상태에 반영한다
+      const y = v.card.yields || [];
+      if (y.length) {
+        const list = new Set(profile.docs || []);
+        y.forEach(d=>list.add(d));
+        profile.docs = [...list]; saveProfile(); stateDirty = true;
+      }
+      toast('다 하셨어요');
+    }
+    drawTodo();
+    return;
+  }
+  // 되돌리기 — 잘못 누른 것을 풀 방법이 없으면 눌러보는 게 무서워진다
+  const rd = e.target.closest('[data-redo]');
+  if (rd) {
+    const v = adopted.get(rd.dataset.redo);
+    if (v) { v.status = v.steps && v.steps.length ? 'doing' : 'todo';
+             outcomes.set(rd.dataset.redo, 'later'); saveTodo(); syncTodoBadge(); }
+    drawTodo(); toast('다시 하실 목록으로 옮겼어요');
+    return;
+  }
+  const un = e.target.closest('[data-undo]');
+  if (un) { unmark(un.dataset.undo); drawTodo(); toast('목록에서 뺐어요. 다시 물어보시면 또 나와요'); }
 });
 
 /* ==========================================================

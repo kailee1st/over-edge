@@ -1,0 +1,21 @@
+# 배포 제외 — 공개 URL에는 소개 페이지 · 데모 · 엔진만 올린다
+# (engine.js / rules.js / kb.js 는 demo.html이 import 하므로 반드시 배포된다)
+
+# 개발·검사용
+_selftest.mjs
+_patch3.py
+_*.py
+*.보류
+
+# 내부 자료
+design-system
+*.md
+*.txt
+
+# 설정·도구
+.claude
+.gstack
+.playwright-mcp
+.gitignore
+.vercelignore
+.env*
