@@ -1472,7 +1472,7 @@
 -->
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
-import { SCENARIOS, RULE_BACKLOG, findRule, CATEGORIES, WHO, groupByCategory, asksFor } from './rules.js';
+import { SCENARIOS, RULE_BACKLOG, openBacklog, findRule, CATEGORIES, WHO, groupByCategory, asksFor } from './rules.js';
 import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES,
          JOURNEY, phaseOf, GLOSSARY, findTerm, glossaryTerms } from './kb.js';
 
@@ -2100,7 +2100,7 @@ function nextQuestions(r){
   if (nextByStage[st.stage]) out.push(nextByStage[st.stage]);
 
   // 4. 아직 안 다루는 것 — 정직하게 노출
-  RULE_BACKLOG.slice(0,1).forEach(b=>{
+  openBacklog().slice(0,1).forEach(b=>{
     out.push({ q: josa(b.name,'은는')+'요?', text: b.name+' 되나요?', soon:true });
   });
 

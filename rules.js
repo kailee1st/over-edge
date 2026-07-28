@@ -91,12 +91,17 @@ export const CATEGORIES = [
     order: 2,
   },
   {
-    id: 'admit',
-    label: '입원 실무',
-    short: '입원',
-    desc: '입원·수술 전에 정해둬야 하는 것',
+    id: 'life',
+    label: '생활·간병',
+    short: '생활',
+    desc: '누가 돌보고, 회사는 어떻게 하고, 어디서 지내나',
     icon: 'bed',
     order: 3,
+    // ⚠ 여기 들어오는 것은 "생활의 행정"만이다.
+    // 영양·운동·통증·부작용 같은 몸 관리는 무면허 의료행위에 닿는다.
+    // 그건 국립암센터 암환자 생활백서로 넘긴다 (kb.js SOURCES['cancer-life'])
+    onlyAdmin: true,
+    handoff: 'cancer-life',
   },
   {
     id: 'ask',
@@ -771,8 +776,10 @@ export const RULE_BACKLOG = [
     id: 'B6',
     name: '재난적의료비 지원 신청',
     cat: 'money',
+    // 해결됨. 목록에 남겨두는 것은 이력 때문이고, 화면에는 안 나온다
+    done: true,
     resolvedOn: '2026-07-28',
-    resolvedBy2: 'R7 로 승격. 기한(180일)·창구·한도를 Tier 1 원문으로 확인했다',
+    resolvedInto: 'R7',
     blockedBy: null,
     source: 'catastrophic-medical',
     redirectTo: '국민건강보험공단 1577-1000',
@@ -781,7 +788,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B7',
     name: '가족돌봄휴가·가족돌봄휴직 (보호자 본인의 회사 서류)',
-    cat: 'money',
+    cat: 'life',
     blockedBy: '남녀고용평등법 제22조의2 원문 미확인. 취업규칙별로 달라 일반화 가능성 검토 필요',
     redirectTo: '회사 인사팀',
     note: '환자가 아니라 케어러 본인이 쓰는 제도. 우리 ICP에 정확히 맞는데 빠져 있다',
@@ -789,7 +796,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B8',
     name: '간호간병통합서비스 병동 유무 확인',
-    cat: 'admit',
+    cat: 'life',
     blockedBy: '병원별 운영 여부가 달라 일반 룰로 만들 수 있는지 미확인',
     redirectTo: '해당 병원 원무과',
     note: '입원 전에 물어야 하는데 모르면 사보험 간병비로 빠진다',
@@ -797,14 +804,14 @@ export const RULE_BACKLOG = [
   {
     id: 'B9',
     name: '병실 등급·상급병실 차액',
-    cat: 'admit',
+    cat: 'life',
     blockedBy: '병원별 차액 고지 방식 미확인. 금액은 절대 출력하지 않는 전제 필요',
     redirectTo: '해당 병원 원무과',
   },
   {
     id: 'B10',
     name: '수술 전 검사·금식·복용약 중단',
-    cat: 'admit',
+    cat: 'ask',   // 생활이 아니다. 담당의에게 물을 것이다
     blockedBy: '복약 적정성 판단은 가드레일 never. 안내 가능한 범위 재설계 필요',
     redirectTo: '담당의',
     note: '가드레일에 걸리는 항목. "물어보세요"까지만 가능한지 검토',
@@ -812,7 +819,7 @@ export const RULE_BACKLOG = [
   {
     id: 'B11',
     name: '타병원 자료·영상 CD 챙기기',
-    cat: 'admit',
+    cat: 'docs',  // 종이·자료를 챙기는 일이다
     blockedBy: '전원·협진 시 실무 절차 미검증',
     redirectTo: '해당 병원 원무과',
   },
@@ -978,6 +985,11 @@ export function ruleSource(rule) {
 }
 
 /** 백로그에 있는 주제인가 (F5 리다이렉트 대상 판정) */
+/** 아직 안 만든 것만. 해결된 항목은 이력으로 남기고 화면에서는 뺀다 */
+export function openBacklog() {
+  return RULE_BACKLOG.filter((b) => !b.done);
+}
+
 export function findBacklog(text) {
   if (!text) return null;
   const map = [
