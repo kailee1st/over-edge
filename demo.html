@@ -1720,11 +1720,11 @@
         로컬:  python -m http.server 8000  →  localhost:8000/demo.html
 -->
 <script type="module">
-import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
+import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js?v=20260729a';
 import { SCENARIOS, RULE_BACKLOG, openBacklog, findRule, CATEGORIES, WHO,
-         groupByCategory, asksFor, RULES, DEADLINE_KINDS } from './rules.js';
+         groupByCategory, asksFor, RULES, DEADLINE_KINDS } from './rules.js?v=20260729a';
 import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES,
-         JOURNEY, phaseOf, GLOSSARY, findTerm, glossaryTerms } from './kb.js';
+         JOURNEY, phaseOf, GLOSSARY, findTerm, glossaryTerms } from './kb.js?v=20260729a';
 
 const $ = id => document.getElementById(id);
 const app = $('app');

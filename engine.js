@@ -1,3 +1,6 @@
+/* ⚠️ import 의 ?v= 는 demo.html 과 반드시 같아야 한다.
+   모듈을 고치면 demo.html 을 포함해 네 곳의 버전을 같이 올린다.
+   안 맞으면 브라우저가 옛 모듈을 물어 화면이 통째로 죽는다. */
 /* ============================================================
    Dr.Hand — 판정 엔진 (순수 함수)
    ------------------------------------------------------------
@@ -27,7 +30,7 @@ import {
   matchGuardrail,
   citeSource,
   outOfScopeMessage,
-  KB_VERSION, SOURCES,} from './kb.js';
+  KB_VERSION, SOURCES,} from './kb.js?v=20260729a';
 
 import {
   RULES,
@@ -39,7 +42,7 @@ import {
   findBacklog,
   sortRules,
   ruleSource,
-} from './rules.js';
+} from './rules.js?v=20260729a';
 
 export const ENGINE_VERSION = `engine-v1-20260727 (${KB_VERSION} / ${RULES_VERSION})`;
 
@@ -287,6 +290,25 @@ export function applyProfile(state, profile) {
     out.events = [
       ...others,
       { type: 'resultVisit', label: '다음 진료', date: profile.nextVisitDate, inDays: null },
+    ];
+  }
+
+  // 사용자가 직접 담은 일정 — 텍스트에 안 적힌 진료·검사·퇴원을 손으로 넣은 것.
+  // resultVisit 은 R1-pre 의 팔로업 기준일이 되고, discharge 는 R7(재난적의료비) 기산점이다.
+  // 같은 종류가 이미 있으면 사용자가 넣은 쪽을 남긴다 — 손으로 적은 날짜가 추정보다 정확하다.
+  if (Array.isArray(profile.schedule) && profile.schedule.length) {
+    const picked = profile.schedule.filter((s) => s && s.date);
+    const types = new Set(picked.map((s) => s.type));
+    out.events = [
+      ...(out.events || []).filter((e) => !types.has(e.type)),
+      ...picked.map((s) => ({
+        type: s.type,
+        label: s.label || '일정',
+        date: s.date,
+        inDays: null,
+        note: s.note || '',
+        byUser: true,
+      })),
     ];
   }
 
