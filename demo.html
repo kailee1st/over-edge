@@ -377,6 +377,7 @@
     font-size:13.5px;background:var(--teal-600);color:#fff;cursor:pointer;}
   .fu-form button:disabled{opacity:.5;cursor:default;}
   .fu-ok{margin-top:10px;font-size:13px;color:var(--teal-700);font-weight:600;}
+  .fu-ok.bad{color:#B4231F;}
 
   /* ---------- 동의 확인 ---------- */
   .consent{max-width:840px;margin:0 auto;padding:10px 20px 0;}
@@ -473,8 +474,8 @@
 
   /* ---------- 대기 화면 ---------- */
   .view-idle{flex:1;flex-direction:column;align-items:center;justify-content:center;
-    padding:32px 22px;text-align:center;}
-  .bigmark{width:104px;height:104px;margin-bottom:22px;}
+    padding:18px 22px;text-align:center;}
+  .bigmark{width:78px;height:78px;margin-bottom:16px;}
   .ask{font-size:23px;font-weight:800;color:var(--teal-900);letter-spacing:-.03em;line-height:1.4;}
   .ask-sub{margin-top:9px;font-size:14.5px;color:var(--ink-soft);line-height:1.6;max-width:340px;}
   .idle-note{margin-top:20px;font-size:12.5px;color:var(--ink-faint);}
@@ -697,7 +698,7 @@
   .egs-t{font-size:12px;font-weight:800;color:var(--ink-faint);letter-spacing:.03em;
     margin-bottom:10px;text-transform:uppercase;}
   .eg{width:100%;text-align:left;border:1px solid var(--line);background:#fff;font:inherit;
-    border-radius:14px;padding:13px 15px;cursor:pointer;margin-bottom:8px;display:block;
+    border-radius:14px;padding:11px 14px;cursor:pointer;margin-bottom:6px;display:block;
     box-shadow:var(--shadow-sm);}
   .eg:hover{border-color:var(--teal-500);background:var(--teal-50);}
   .eg .et{font-size:14px;font-weight:700;color:var(--ink);line-height:1.45;}
@@ -1309,7 +1310,7 @@
   }
 
   @media (max-width:520px){
-    .bigmark{width:84px;height:84px;}
+    .bigmark{width:62px;height:62px;margin-bottom:12px;}
     .ask{font-size:20px;}
     .statusbar,.subhd,.seqhd{top:50px;}
     .egs{max-width:100%;}
@@ -1348,7 +1349,6 @@
     <span class="bigmark" id="bigSlot"></span>
     <div class="ask">무슨 일이 있으셨어요?</div>
     <div class="ask-sub">부모님 병원 이야기를 적어주시면, 지금 놓치고 있는 것을 먼저 알려드려요.</div>
-    <div class="idle-note">진단은 하지 않아요</div>
     <div class="egs">
       <div class="egs-t">이렇게 물어보세요</div>
       <div id="egList"></div>
@@ -1583,7 +1583,7 @@
       <button class="rec" id="clipBtn" type="button" aria-label="사진·서류 첨부">
         <svg viewBox="0 0 24 24" fill="none"><path d="M20 11.5l-7.8 7.8a4.5 4.5 0 01-6.4-6.4l8-8a3 3 0 014.3 4.3l-8 8a1.5 1.5 0 01-2.2-2.2l7.1-7.1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </button>
-      <textarea id="input" rows="1" placeholder="예: 어머니 조직검사 했고 다음 주에 결과 들으러 가요"></textarea>
+      <textarea id="input" rows="1" maxlength="2000" placeholder="예: 어머니 조직검사 했고 다음 주에 결과 들으러 가요"></textarea>
       <button class="go" id="send" type="button" aria-label="보내기">
         <svg viewBox="0 0 24 24" fill="none"><path d="M4 12l16-8-6 16-3-6-7-2z" stroke="#fff" stroke-width="1.8" stroke-linejoin="round"/></svg>
       </button>
@@ -1775,6 +1775,15 @@ const I = {
   bed:'<path d="M3 18V8M3 12h13a4 4 0 014 4v2M3 18h18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="7.5" cy="9.5" r="2" stroke="currentColor" stroke-width="1.8"/>',
 };
 const svg = p => '<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">'+p+'</svg>';
+
+/* 오늘 날짜(로컬 기준). toISOString() 은 UTC 라서 한국 시간 오전 9시 전에는
+   하루 전 날짜가 나온다 — 날짜 하한을 걸 때 그러면 오늘이 과거가 된다 */
+function today(){
+  const d = new Date();
+  return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0')
+       + '-' + String(d.getDate()).padStart(2,'0');
+}
+
 const card = (ic,title,sub,body,cls,attr) =>
   '<div class="card '+(cls||'')+'" '+(attr||'')+'><div class="card-head"><span class="card-ic">'+svg(ic)+'</span>'+
   '<div><div class="card-title">'+title+'</div>'+(sub?'<div class="card-sub">'+sub+'</div>':'')+'</div></div>'+body+'</div>';
@@ -1926,8 +1935,8 @@ function cEdge(title, msg, detail){
 function cFollowUp(fu){
   return '<div class="fu" data-rule="'+esc(fu.ruleId)+'"><div class="ttl">'+svg(I.bell)+'그날 먼저 연락드릴까요?</div>'
     + '<div class="msg2">'+esc(fu.ask)+'</div><div class="fu-form">'
-    + '<input type="date" id="fuDate" value="'+esc(fu.notifyDate||'')+'" aria-label="연락받을 날짜">'
-    + '<input type="text" id="fuContact" placeholder="연락처 또는 이메일" aria-label="연락처">'
+    + '<input type="date" id="fuDate" value="'+esc(fu.notifyDate||'')+'" min="'+esc(today())+'" aria-label="연락받을 날짜">'
+    + '<input type="text" id="fuContact" maxlength="80" placeholder="연락처 또는 이메일" aria-label="연락처">'
     + '<button type="button" id="fuBtn">신청</button></div><div class="fu-ok" id="fuOk" hidden></div></div>';
 }
 
@@ -2510,17 +2519,42 @@ function drawState(s){
     : '<div class="dr-empty">아직 확인된 서류가 없어요.</div>';
 }
 
-/* ---------- 계측 ---------- */
+/* ---------- 계측 ----------
+   ⚠️ 두 가지가 고쳐졌습니다.
+   1) .select('id').single() 로 방금 넣은 행의 id 를 되읽었습니다. anon 은 RLS 로 SELECT 가
+      막혀 있어서 이건 성공할 수 없는 호출입니다. 그래서 session_id 를 브라우저에서
+      직접 만들어 씁니다 — 되읽을 필요가 없어집니다.
+   2) sessions·rule_hits·doc_tags·unhandled 테이블이 아직 없어서(PGRST205) 제출마다
+      404 가 찍혔습니다. 없다는 걸 한 번 확인하면 그 세션 동안은 더 시도하지 않습니다.
+      계측은 부가 기능이므로, 실패하더라도 화면과 판정에는 아무 영향이 없어야 합니다. */
+let logOff = false;                    // 테이블이 없다고 확인되면 그 세션 동안 껐다
+
+function newId(){
+  try{ if (crypto && crypto.randomUUID) return crypto.randomUUID(); }catch(e){}
+  return 'sid-' + Date.now().toString(36) + '-' + Math.random().toString(36).slice(2,10);
+}
+
 async function saveLog(log){
-  const sb = window.supabaseClient; if (!sb) return;
+  const sb = window.supabaseClient;
+  if (!sb || logOff || !navigator.onLine) return;
+  const id = sessionId || newId();
   try{
-    const { data, error } = await sb.from('sessions').insert(log.session).select('id').single();
-    if (error) { console.warn('[log] sessions', error.message); return; }
-    sessionId = data.id;
+    const { error } = await sb.from('sessions').insert({ ...log.session, id });
+    if (error) {
+      // 테이블 자체가 없으면 재시도해도 같은 결과다. 콘솔을 도배하지 않는다.
+      if (error.code === 'PGRST205') {
+        logOff = true;
+        console.warn('[log] 계측 테이블이 아직 없어 이 세션에서는 기록을 끕니다 (판정에는 영향 없음)');
+      } else {
+        console.warn('[log] sessions', error.code, error.message);
+      }
+      return;
+    }
+    sessionId = id;
     if (log.rule_hits.length) await sb.from('rule_hits').insert(log.rule_hits.map(r=>({...r, session_id:sessionId})));
     if (log.doc_tags.length)  await sb.from('doc_tags').insert(log.doc_tags.map(d=>({...d, session_id:sessionId})));
     if (log.unhandled)        await sb.from('unhandled').insert({...log.unhandled, session_id:sessionId});
-  }catch(e){ console.warn('[log]', e.message); }
+  }catch(e){ console.warn('[log]', e && e.message); }
 }
 
 /* ---------- 토스트 ---------- */
@@ -2563,6 +2597,12 @@ function drawLoading(steps, at){
     + '<span>'+esc(i<at && x.d ? x.d : x.t)+'</span></div>').join('');
 }
 
+/* 읽는 중 표시가 1.2초쯤 돌아간다. 그 사이에 또 보내면 handle 이 겹쳐 돌아
+   로딩 단계 표시가 섞이고 render 가 두 번 불린다. 그래서 잠가둔다. */
+let busy = false;
+
+const MAX_INPUT = 2000;
+
 async function handle(payload, opt){
   opt = opt || {};
   lastPayload = payload;
@@ -2571,23 +2611,39 @@ async function handle(payload, opt){
   stateDirty = false;
 
   if (!opt.quiet) {
-    const steps = loadingSteps(r);
-    $('loadMark').innerHTML = MARK;
-    drawLoading(steps, 0);
-    app.dataset.view = 'load';
-    window.scrollTo(0,0);
-    for (let i = 0; i < steps.length; i++) {
-      await sleep(i === 0 ? 380 : 300);
-      drawLoading(steps, i + 1);
+    busy = true;
+    $('send').disabled = true;
+    try{
+      const steps = loadingSteps(r);
+      $('loadMark').innerHTML = MARK;
+      drawLoading(steps, 0);
+      app.dataset.view = 'load';
+      window.scrollTo(0,0);
+      for (let i = 0; i < steps.length; i++) {
+        await sleep(i === 0 ? 380 : 300);
+        drawLoading(steps, i + 1);
+      }
+      await sleep(260);
+    }finally{
+      // 중간에 무엇이 터지더라도 입력이 영구히 잠기지 않게 여기서 풀어준다
+      busy = false;
+      $('send').disabled = false;
     }
-    await sleep(260);
   }
   render(r);
 }
 function requery(){ if (lastPayload) handle(lastPayload, { quiet:true }); }
 function submit(){
-  const text = $('input').value.trim(); if (!text) return;
-  $('input').value = ''; $('input').style.height = 'auto';
+  if (busy) { toast('아직 읽고 있어요. 잠시만요'); return; }
+  const el = $('input');
+  let text = el.value.trim();
+  if (!text) { toast('지금 상황을 한 줄만 적어주세요'); el.focus(); return; }
+  /* 붙여넣기로 수만 자가 들어오는 것을 막는다. 자르되 자른 사실을 알린다 */
+  if (text.length > MAX_INPUT) {
+    text = text.slice(0, MAX_INPUT);
+    toast('너무 길어서 앞 ' + MAX_INPUT + '자만 읽었어요');
+  }
+  el.value = ''; el.style.height = 'auto';
   handle({ text });
 }
 $('send').addEventListener('click', submit);
@@ -2623,17 +2679,80 @@ $('cards').addEventListener('click', e=>{
     return;
   }
   const fu = e.target.closest('#fuBtn');
-  if (fu) {
-    const date = $('fuDate').value, contact = $('fuContact').value.trim();
-    const ok = $('fuOk');
-    if (!date || !contact) { ok.hidden=false; ok.textContent='날짜와 연락처를 모두 적어주세요.'; return; }
-    fu.disabled = true;
-    const sb = window.supabaseClient;
-    if (sb) sb.from('followups').insert({ session_id:sessionId, preview_rule_id:document.querySelector('.fu').dataset.rule,
-      notify_date:date, contact, sent:false }).then(()=>{},e=>console.warn('[followup]',e.message));
-    ok.hidden=false; ok.textContent = date+'에 먼저 연락드릴게요.';
-  }
+  if (fu) { requestFollowUp(fu); return; }
 });
+
+/* 팔로업 신청 — "그날 먼저 연락드릴까요?"
+   ⚠️ 예전 코드는 followups 테이블에 넣고, 성공·실패와 무관하게 곧바로
+      "○○에 먼저 연락드릴게요"를 띄웠습니다. 그런데 followups 테이블이 없어서
+      (PGRST205) 저장은 100% 실패했고, 연락처는 그대로 사라졌습니다.
+      지키지 못할 약속을 하는 것이 제일 나쁜 버그라서 두 가지를 바꿨습니다.
+      1) 실제로 있는 reservations 로 보냅니다 (운영자 알림 메일까지 이미 연결된 경로)
+      2) 저장이 성공한 뒤에만 연락 약속을 보여줍니다 */
+async function requestFollowUp(btn){
+  const ok = $('fuOk');
+  const dateEl = $('fuDate'), contactEl = $('fuContact');
+  if (!dateEl || !contactEl) return;
+  const date = dateEl.value, contact = contactEl.value.trim();
+  const box = btn.closest('.fu');                 // querySelector('.fu') 는 카드가 없으면 터진다
+  const rule = box ? (box.dataset.rule || '') : '';
+
+  function say(msg, bad){ ok.hidden = false; ok.textContent = msg; ok.classList.toggle('bad', !!bad); }
+
+  if (!date)    { say('연락받을 날짜를 골라주세요.', true); dateEl.focus(); return; }
+  if (date < today()) { say('지난 날짜에는 연락드릴 수 없어요. 오늘 이후로 골라주세요.', true); dateEl.focus(); return; }
+  if (!contact) { say('연락받을 이메일이나 연락처를 적어주세요.', true); contactEl.focus(); return; }
+
+  const isMail  = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(contact);
+  const isPhone = /^[0-9][0-9\-\s]{7,15}$/.test(contact);
+  if (!isMail && !isPhone) {
+    say('이메일이나 전화번호 형식으로 적어주세요. (예: name@example.com / 010-1234-5678)', true);
+    contactEl.focus(); return;
+  }
+
+  const sb = window.supabaseClient;
+  if (!sb || !navigator.onLine) {
+    say(!navigator.onLine
+      ? '인터넷 연결이 없어요. 연결 후 다시 눌러주세요.'
+      : '접수 창구를 불러오지 못했어요. kailee1st@gmail.com 으로 보내주시면 그날 맞춰 연락드릴게요.', true);
+    return;
+  }
+
+  btn.disabled = true;
+  const orig = btn.textContent; btn.textContent = '신청 중…';
+  let saved = false;
+  try{
+    const res = await sb.from('reservations').insert([{
+      name: who || '데모 이용자',
+      email: isMail ? contact : '',
+      phone: isPhone ? contact : '',
+      message: '[데모 팔로업] ' + date + ' 에 연락 요청 · 기준 ' + (rule || '미지정'),
+      visit_type: '데모 팔로업 요청'
+    }]);
+    if (res.error) throw res.error;
+    saved = true;
+  }catch(err){
+    // 증상 원문은 남기지 않는다. 코드와 메시지만.
+    console.error('[followup]', err && err.code, err && err.message);
+    say(followErr(err), true);
+  }finally{
+    // 실패해도 버튼이 잠긴 채로 남지 않게 여기서 되살린다
+    if (!saved) { btn.disabled = false; btn.textContent = orig; }
+  }
+  if (saved) { btn.textContent = '신청됨'; say(date + '에 먼저 연락드릴게요.'); }
+}
+
+/* 오류를 종류별 한국어로. 영어 코드는 콘솔에만 남긴다 */
+function followErr(err){
+  const code = ((err && (err.code || err.status)) || '') + '';
+  const m = ((err && err.message) || '').toLowerCase();
+  if (!navigator.onLine || m.includes('failed to fetch')) return '인터넷 연결을 확인하고 다시 눌러주세요.';
+  if (code === '23505') return '이미 신청하셨어요. 그날 맞춰 연락드릴게요.';
+  if (code === 'PGRST205' || code === '42501' || code === '401' || code === '403')
+    return '지금은 신청 접수가 안 돼요. kailee1st@gmail.com 으로 보내주시면 그날 맞춰 연락드릴게요.';
+  if (code.charAt(0) === '5') return '일시적인 오류예요. 잠시 후 다시 눌러주세요.';
+  return '신청 중 문제가 생겼어요. 잠시 후 다시 눌러주시고, 계속 안 되면 kailee1st@gmail.com 으로 보내주세요.';
+}
 
 /* 도구 두 개 — 첫 화면에서 밀어둔 것들 */
 $('toolDocs').addEventListener('click', ()=>{
@@ -2649,6 +2768,7 @@ $('toolProfile').addEventListener('click', openProfile);
 /* 후속 질문 칩 */
 $('chips').addEventListener('click', e=>{
   const c = e.target.closest('.chip'); if (!c) return;
+  if (busy) { toast('아직 읽고 있어요. 잠시만요'); return; }
   const qs = JSON.parse($('chips').dataset.payload||'[]');
   const q = qs[+c.dataset.q]; if (!q) return;
   handle({ text: q.text });
@@ -2737,9 +2857,16 @@ function setWho(name){
 }
 $('lmkSlot').innerHTML = MARK;
 $('whoBtn').addEventListener('click', openLogin);
-$('loginGo').addEventListener('click', ()=>setWho($('loginName').value));
+/* 스페이스만 넣고 시작하면 예전에는 조용히 무시됐습니다(이름 없이 그냥 닫힘).
+   왜 안 되는지 말해줍니다. */
+function tryLogin(){
+  const v = ($('loginName').value || '').trim();
+  if (!v) { toast('어떻게 불러드릴지 한 글자라도 적어주세요'); $('loginName').focus(); return; }
+  setWho(v);
+}
+$('loginGo').addEventListener('click', tryLogin);
 $('loginSkip').addEventListener('click', ()=>{ closeLogin(); });
-$('loginName').addEventListener('keydown', e=>{ if(e.key==='Enter') setWho($('loginName').value); });
+$('loginName').addEventListener('keydown', e=>{ if(e.key==='Enter') tryLogin(); });
 $('loginWrap').addEventListener('click', e=>{ if(e.target===$('loginWrap')) closeLogin(); });
 drawWho();
 syncPeopleBadge();
@@ -3046,13 +3173,21 @@ function drawAtts(){
 }
 
 $('clipBtn').addEventListener('click', ()=>$('fileIn').click());
+const MAX_ATT = 6;
 $('fileIn').addEventListener('change', e=>{
-  const files = [...(e.target.files || [])].slice(0, 6);
-  if (!files.length) return;
+  const picked = [...(e.target.files || [])];
+  e.target.value = '';                            // 같은 파일을 다시 골라도 change 가 뜨게
+  if (!picked.length) return;
+  /* 예전에는 6장을 넘기면 말없이 버렸습니다. 버린 것은 버렸다고 말해야 합니다.
+     여러 번 고르는 경우까지 합쳐서 상한을 봅니다. */
+  const room = MAX_ATT - attached.length;
+  if (room <= 0) { toast('사진은 ' + MAX_ATT + '장까지만 볼 수 있어요. 하나 지우고 다시 붙여주세요'); return; }
+  const files = picked.slice(0, room);
   files.forEach(f=>attached.push({ name: f.name, type: f.type, docId: '' }));
-  e.target.value = '';
   drawAtts();
-  toast(files.length + '장 붙였어요. 어떤 서류인지 골라주시면 판정에 써요');
+  const dropped = picked.length - files.length;
+  toast(files.length + '장 붙였어요. 어떤 서류인지 골라주시면 판정에 써요'
+    + (dropped ? ' (' + MAX_ATT + '장까지만 되어서 ' + dropped + '장은 못 붙였어요)' : ''));
 });
 $('atts').addEventListener('change', e=>{
   const sel = e.target.closest('[data-attsel]'); if (!sel) return;
