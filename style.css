@@ -412,7 +412,7 @@ a:focus-visible,button:focus-visible,summary:focus-visible{outline:3px solid var
 .whofor{margin-top:18px;background:#fff;border:1px solid var(--teal-100);border-radius:16px;padding:18px 20px;}
 .whofor .wf-h{font-size:14px;font-weight:800;color:var(--teal-700);margin-bottom:12px;}
 .wf-list{display:grid;gap:9px;}
-@media(min-width:760px){.wf-list{grid-template-columns:repeat(3,1fr);gap:12px;}}
+/* 권장 유저는 항상 세로 (한 줄에 하나씩 읽히게) */
 .wf{display:flex;gap:10px;align-items:flex-start;}
 .wf .n{flex:none;width:21px;height:21px;border-radius:50%;background:var(--teal-50);border:1px solid var(--teal-100);color:var(--teal-700);font-size:12px;font-weight:800;display:grid;place-items:center;margin-top:1px;}
 .wf p{font-size:14.5px;color:var(--ink-soft);line-height:1.6;}
