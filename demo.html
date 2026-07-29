@@ -426,6 +426,15 @@
     flex:0 0 auto;border:1.5px solid var(--teal-500);background:#fff;}
   .hd .back-site:hover{background:var(--teal-50);border-color:var(--teal-700);}
   .hd .back-site svg{width:14px;height:14px;}
+
+  /* 판정이 결정론적이라 반복해서 돌려보는 물건이다.
+     원래대로 돌리는 건 부가 기능이 아니라 핵심 동작이라 헤더에 둔다 */
+  .reset{width:32px;height:32px;flex:0 0 32px;border:1px solid var(--line);background:#fff;
+    border-radius:9px;cursor:pointer;display:grid;place-items:center;color:var(--ink-faint);
+    padding:0;}
+  .reset:hover{border-color:var(--warm-600);color:var(--warm-600);}
+  .reset svg{width:15px;height:15px;}
+  .reset.armed{background:var(--warm-600);border-color:var(--warm-600);color:#fff;}
   .hd .back-site .bs{display:none;}
 
   .hd .menu{width:38px;height:38px;border:none;background:none;border-radius:11px;
@@ -452,6 +461,7 @@
     .hd .back-site .bs{display:inline;}
     .hd .back-site{padding:7px 8px;}
     .hd .menu{width:34px;height:34px;}
+    .hd .reset{width:29px;height:29px;flex:0 0 29px;}
   }
 
   /* 첫 화면에서 한 번 더 분명히 말한다 */
@@ -1318,6 +1328,9 @@
         <span class="nm">Dr.Hand</span>
       </button>
       <span class="demo-tag">데모</span>
+      <button class="reset" id="resetBtn" type="button" aria-label="처음부터 다시">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M3 12a9 9 0 1 0 3-6.7M3 4v5h5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
       <a class="back-site" href="index.html" aria-label="소개 페이지로">
         <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="bl">소개 페이지</span><span class="bs">소개</span>
       </a>
@@ -1336,11 +1349,6 @@
     <div class="ask">무슨 일이 있으셨어요?</div>
     <div class="ask-sub">부모님 병원 이야기를 적어주시면, 지금 놓치고 있는 것을 먼저 알려드려요.</div>
     <div class="idle-note">진단은 하지 않아요</div>
-    <div class="demo-note">
-      <b>이건 데모예요.</b> 판정 엔진은 실제로 돌지만, 서류 사진 판독·녹음·문자 발송은
-      아직 없어요. 적어주신 건 이 브라우저에만 남고 서버로 보내지 않아요.<br>
-      <a href="index.html">← Dr.Hand가 뭔지 보러 가기</a>
-    </div>
     <div class="egs">
       <div class="egs-t">이렇게 물어보세요</div>
       <div id="egList"></div>
@@ -3684,6 +3692,22 @@ $('homeBtn').addEventListener('click', ()=>{
   app.dataset.view = 'idle';
   window.scrollTo(0, 0);
   toast('처음으로 왔어요. 담아두신 건 그대로 있어요');
+});
+
+/* 헤더 초기화. 드로어 것과 같은 두 번 누르기 규칙 */
+let hdArmed = false;
+$('resetBtn').addEventListener('click', ()=>{
+  const b = $('resetBtn');
+  if (!hdArmed) {
+    hdArmed = true;
+    b.classList.add('armed');
+    toast('한 번 더 누르면 처음부터 다시 시작해요');
+    setTimeout(()=>{ hdArmed = false; b.classList.remove('armed'); }, 4000);
+    return;
+  }
+  hdArmed = false;
+  b.classList.remove('armed');
+  wipeStore();
 });
 
 $('storeBox').addEventListener('click', e=>{
