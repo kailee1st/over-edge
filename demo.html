@@ -416,10 +416,38 @@
   .hd-in{max-width:760px;margin:0 auto;padding:11px 18px;display:flex;align-items:center;gap:10px;}
   .hd .mk{width:30px;height:30px;flex:0 0 30px;}
   .hd .nm{font-weight:800;font-size:17px;color:var(--teal-900);letter-spacing:-.02em;}
-  .hd .menu{margin-left:auto;width:38px;height:38px;border:none;background:none;border-radius:11px;
+  /* 이건 데모다. 열지 않아도 보이는 자리에 적는다 */
+  .demo-tag{font-size:10.5px;font-weight:800;letter-spacing:.04em;color:var(--warm-600);
+    background:var(--warm-50);border:1px solid var(--warm-600);padding:2px 7px;border-radius:6px;
+    flex:0 0 auto;}
+  /* 나가는 길. 드로어 안에 있으면 없는 것이나 같다 */
+  .hd .back-site{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:13px;
+    font-weight:700;color:var(--teal-700);text-decoration:none;padding:8px 11px;border-radius:10px;
+    flex:0 0 auto;}
+  .hd .back-site:hover{background:var(--teal-50);}
+  .hd .back-site svg{width:14px;height:14px;}
+
+  .hd .menu{width:38px;height:38px;border:none;background:none;border-radius:11px;
     cursor:pointer;display:grid;place-items:center;color:var(--ink-soft);}
   .hd .menu:hover{background:var(--teal-50);color:var(--teal-700);}
   .hd .menu svg{width:20px;height:20px;}
+
+  /* 좁으면 이름을 접는다. 로고와 데모 표시, 나가는 길이 우선 */
+  @media (max-width:430px){
+    .hd-in{gap:5px;padding:11px 12px;}
+    .hd .nm{font-size:16px;}
+    /* 이름만 접는다. 로그인하면 아바타로 알 수 있다.
+       "소개"는 글자를 남긴다 — 화살표만으로는 뒤로가기로 읽힌다 */
+    .hd .who #whoNm{display:none;}
+    .hd .back-site{padding:8px 9px;font-size:12.5px;}
+  }
+
+  /* 첫 화면에서 한 번 더 분명히 말한다 */
+  .demo-note{margin-top:22px;max-width:340px;border:1px dashed var(--warm-600);
+    background:var(--warm-50);border-radius:13px;padding:12px 14px;font-size:12.5px;
+    color:var(--warm-600);line-height:1.65;text-align:left;}
+  .demo-note b{color:var(--warm-600);}
+  .demo-note a{color:var(--teal-700);font-weight:700;}
 
   /* ---------- 대기 화면 ---------- */
   .view-idle{flex:1;flex-direction:column;align-items:center;justify-content:center;
@@ -1265,10 +1293,14 @@
         <span class="mk" id="mkSlot"></span>
         <span class="nm">Dr.Hand</span>
       </button>
+      <span class="demo-tag">데모</span>
+      <a class="back-site" href="index.html" aria-label="소개 페이지로">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="bl">소개</span>
+      </a>
       <button class="who" id="whoBtn" type="button">
         <span class="av" id="whoAv">?</span><span id="whoNm">누구세요?</span>
       </button>
-      <button class="menu" id="menuBtn" type="button" aria-label="메뉴 열기" style="margin-left:auto">
+      <button class="menu" id="menuBtn" type="button" aria-label="메뉴 열기">
         <svg viewBox="0 0 24 24" fill="none"><path d="M4 7h16M4 12h16M4 17h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
     </div>
@@ -1280,6 +1312,11 @@
     <div class="ask">무슨 일이 있으셨어요?</div>
     <div class="ask-sub">부모님 병원 이야기를 적어주시면, 지금 놓치고 있는 것을 먼저 알려드려요.</div>
     <div class="idle-note">진단은 하지 않아요</div>
+    <div class="demo-note">
+      <b>이건 데모예요.</b> 판정 엔진은 실제로 돌지만, 서류 사진 판독·녹음·문자 발송은
+      아직 없어요. 적어주신 건 이 브라우저에만 남고 서버로 보내지 않아요.<br>
+      <a href="index.html">← Dr.Hand가 뭔지 보러 가기</a>
+    </div>
     <div class="egs">
       <div class="egs-t">이렇게 물어보세요</div>
       <div id="egList"></div>
