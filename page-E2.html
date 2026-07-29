@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>[C2] Dr.Hand — 병원 동행 AI 에이전트 | 집안에 의사 한 명, 이제 손안에</title>
+<title>[E2] Dr.Hand — 병원 동행 AI 에이전트 | 집안에 의사 한 명, 이제 손안에</title>
 <meta name="description" content="Dr.Hand는 병원 동행 AI 에이전트입니다. 상황만 알려주시면 지금 어느 단계인지 읽어내고, 그 단계에서 필요한 절차·서류·기한과 대조해 놓치고 있는 것을 찾아냅니다. 진단은 하지 않아요.">
 <meta property="og:title" content="Dr.Hand — 집안에 의사 한 명, 이제 손안에">
 <meta property="og:description" content="병원 동행 AI 에이전트. 상황만 알려주시면 지금 단계를 읽고, 필요한 것과 대조해 놓치고 있는 것을 찾아냅니다.">
@@ -84,11 +84,123 @@
     text-decoration:none;transition:color .2s,background .2s;}
   .head-nav a:hover{color:var(--teal-700);background:var(--teal-50);}
 }
+
+/* ── C3: 히어로 카드를 아래 페인 카드와 같은 문법으로 ── */
+/* 1) 떠 있는 느낌을 없앤다 — 그림자 제거, 굴림 14px (=.ask) */
+.fs-card{box-shadow:none;border-radius:var(--r-card);border:1px solid var(--line);}
+.fsc-user,.fsc-read,.fsc-alert{border-radius:var(--r-card);}
+.fsc-user{border-top-right-radius:var(--r-tiny);}
+.fsc-read{border-top-left-radius:var(--r-tiny);}
+/* 2) 떠다니는 칩 2개 → 카드 안 한 줄로 흡수 */
+.fs-chip{display:none;}
+.fsc-note{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px;padding-top:11px;
+  border-top:1px dashed var(--line);}
+.fsc-note span{font-size:11.5px;font-weight:700;color:var(--teal-700);
+  background:var(--teal-50);border:1px solid var(--teal-100);border-radius:var(--r-chip);padding:5px 10px;}
+/* 3) 근거는 페인 카드 출처처럼 좌측 정렬 */
+.fsc-foot{text-align:left;margin-top:9px;}
+
+
+/* ── 히어로 다음 구간: 웜 크림 박스 + 흰 카드 4개를 없애고
+      배경을 반전한 풀블리드 문제 정의 섹션으로 (bodeumda 방식) ── */
+.pain{background:linear-gradient(180deg,var(--teal-900) 0%,#0d4c55 100%);
+  padding:64px 20px 60px;color:#fff;}
+.pain-in{max-width:860px;margin:0 auto;}
+.pain-tag{display:inline-block;font-size:11.5px;font-weight:800;letter-spacing:.08em;
+  color:#8fe6ea;border:1px solid rgba(143,230,234,.34);border-radius:var(--r-chip);padding:6px 13px;}
+.pain h2{font-size:32px;line-height:1.28;letter-spacing:-.03em;font-weight:800;color:#fff;margin-top:18px;}
+.pain-lead{font-size:16px;line-height:1.7;color:rgba(255,255,255,.78);margin-top:14px;max-width:560px;}
+.pain-lead b{color:#8fe6ea;font-weight:800;}
+.pain-list{margin-top:36px;border-top:1px solid rgba(255,255,255,.13);}
+/* 카드가 아니라 줄 — 테두리·배경·그림자 없이 구분선만 */
+.pr{padding:20px 0;border-bottom:1px solid rgba(255,255,255,.13);}
+.pr-num{font-size:13px;line-height:1.7;color:rgba(255,255,255,.66);}
+.pr-num b{color:#fff;font-weight:800;}
+.pain-close{font-size:17px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-top:32px;}
+.pain-src{font-size:11.5px;line-height:1.6;color:rgba(255,255,255,.44);margin-top:10px;}
+/* 밝은 히어로 -> 어두운 이 섹션이므로 스크롤 유도 문구는 히어로 쪽에 남긴다 */
+.bridge .txt{color:var(--teal-900);}
+@media(min-width:760px){
+  .pain{padding:80px 20px 72px;}
+  .pain h2{font-size:42px;}
+  .pain-list{display:grid;grid-template-columns:1fr 1fr;column-gap:44px;}
+  .pr{border-bottom:1px solid rgba(255,255,255,.13);}
+}
+
+/* D1: 창업자가 쓴 위계 유지 — 감정 문장이 제목, 숫자가 근거 */
+.pr-say{font-size:17px;font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:8px;}
+
+
+/* ══ (5) 히어로 한 화면 - 2단이되 본문과 같은 860px 열 ══ */
+@media(min-width:900px){
+  .fs-hero{min-height:calc(100svh - 69px);display:flex;flex-direction:column;justify-content:center;padding:24px 20px 28px;}
+  .fs-in{max-width:860px;flex-direction:row;align-items:center;gap:40px;}
+  .fs-text{text-align:left;max-width:none;flex:1;}
+  .fs-text .sub{margin:14px 0 0;max-width:none;}
+  .fs-text .cta-row{justify-content:flex-start;}
+  .fs-text h1{font-size:34px;}
+  .fs-visual{width:300px;flex:none;}
+  .fs-card{width:300px;}
+  .fs-chip{display:none;}
+  .fs-scroll{margin-top:20px;}
+}
+
+/* ══ (2) 출처를 각 줄에 ══ */
+.pr-src{font-size:11.5px;color:rgba(255,255,255,.4);margin-top:7px;}
+
+/* ══ (3) 데모 화면은 붙어 있고 설명이 스크롤로 지나간다 ══ */
+.howhint{margin:0 0 14px;font-size:13px;}
+.scrolly .flow{display:grid;gap:14px;margin:0;}
+@media(min-width:1000px){
+  .scrolly{display:grid;grid-template-columns:340px 1fr;gap:44px;align-items:start;}
+  .sticky-demo{position:sticky;top:92px;}
+  .sticky-demo .stage{margin:0;}
+  .sticky-demo .phone{width:300px;}
+  .sticky-demo .nav.side,.sticky-demo .dots{display:none;}  /* 스크롤이 조작 수단 */
+  .scrolly .flow{padding:56px 0 140px;}
+  .scrolly .fstep{opacity:.4;transition:opacity .3s,border-color .3s;}
+  .scrolly .fstep[aria-current="true"]{opacity:1;border-color:var(--teal-500);}
+}
+
+/* ══ (4) 권장 유저 = 문의 앞 자격 안내 ══ */
+.whofor-lead{margin:0 0 14px;}
+
+/* ══ (1)(6) 문의를 한 화면 안으로 ══ */
+.about{background:var(--teal-700);box-shadow:none;padding:22px 20px;}
+.about h2{font-size:22px;margin-bottom:5px;}
+.about .who{font-size:14.5px;margin-bottom:14px;}
+.about .cf-row{margin-bottom:10px;}
+.about .cf-in{padding:11px 13px;}
+.about textarea.cf-in{min-height:62px;}
+.about .cf-agree{font-size:13px;padding:10px 12px;}
+.about .consent{display:none;}   /* 같은 문장이 동의 체크박스에 이미 있다 */
+@media(min-width:700px){
+  .about .links{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  .about .links a,.about .links .row{margin:0;}
+}
+
+/* (6) 남은 높이: 하단 두 칸을 한 줄로, 선택 수신 동의를 한 줄로 */
+@media(min-width:700px){
+  .about .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px!important;}
+  .about .about-grid>a,.about .about-grid>.row{margin:0;}
+}
+.about .cf-agree{font-size:12.5px;padding:9px 11px;line-height:1.5;}
+.about .cf-btn{padding:13px 18px;}
+
+/* 1280x720 노트북까지 한 화면에 — 제목/리드/여백 한 단계 더 */
+@media(max-width:1400px) and (max-height:760px){
+  .about{padding:18px 18px;}
+  .about h2{font-size:17px;}
+  .about .who{font-size:13px;margin-bottom:10px;}
+  .about .cf-row{margin-bottom:8px;}
+  .about textarea.cf-in{min-height:54px;}
+}
+
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="8b7d6562-9e37-4ee1-86c2-000ba144ef56"></script>
 </head>
 <body>
-<div style="position:fixed;left:12px;bottom:12px;z-index:99;background:#0b3f47;color:#fff;font-size:12px;font-weight:800;padding:8px 13px;border-radius:999px;pointer-events:none;">C2 · 1단 중앙 · 860px 본문 열</div>
+<div style="position:fixed;left:12px;bottom:12px;z-index:99;background:#0b3f47;color:#fff;font-size:12px;font-weight:800;padding:8px 13px;border-radius:999px;pointer-events:none;">E2 · 스크롤 연동 데모 · 문의 축소</div>
 
 <header>
   <div class="head-in">
@@ -166,10 +278,12 @@
           <div class="fa-r"><span>기한</span><p><b>확진일부터 30일 이내</b> — 지나면 신청일부터만 적용</p></div>
           <div class="fa-r"><span>지금 할 일</span><p>공단 1577-1000에 등록 여부 확인</p></div>
         </div>
+        <div class="fsc-note">
+          <span>📄 서류 사진 한 장이면 돼요</span>
+          <span>✋ 물어보지 않으신 것부터</span>
+        </div>
         <div class="fsc-foot">근거: 국민건강보험공단 공식 안내 원문</div>
       </div>
-      <div class="fs-chip c1">📄 서류 사진 한 장이면 돼요</div>
-      <div class="fs-chip c2">✋ 물어보지 않으신 것부터</div>
     </div>
   </div>
 
@@ -179,42 +293,37 @@
   </a>
 </section>
 
-<!-- ② 페인포인트 -->
-<section class="wrap" style="padding:16px 0 0;">
-  <div class="asks">
+<!-- ② 페인포인트 — 배경 반전 풀블리드 -->
+<section class="pain" id="pain">
+  <div class="pain-in">
+    <span class="pain-tag">이럴 때</span>
     <h2>병원 처음이라<br>낯설고 불안하시죠?</h2>
-    <div class="ask-list">
-      <div class="ask">
-        <span class="ic">🧭</span>
-        <p>다음에 뭘 해야 할지 모르겠고</p>
-        <p class="num">매년 <b>36만 5천 명</b>이 이 길에 새로 들어섭니다 —
-          암·희귀질환·결핵 확진자만 센 것입니다</p>
+    <p class="pain-lead">모르는 게 문제가 아니라, <b>무엇을 모르는지 모르는 것</b>이 문제입니다.</p>
+    <div class="pain-list">
+      <div class="pr">
+        <p class="pr-say">다음에 뭘 해야 할지 모르겠고</p>
+        <p class="pr-num">매년 <b>36만 5천 명</b>이 이 길에 새로 들어섭니다 — 암·희귀질환·결핵 확진자만 센 것입니다</p>
+        <p class="pr-src">국가암등록통계·질병관리청 (2023~24)</p>
       </div>
-      <div class="ask">
-        <span class="ic">🫂</span>
-        <p>혼자 감당하기엔 벅차고</p>
-        <p class="num">사람이 대신 동행해 주면 <b>1회 5만 원</b>.
-          매 진료마다 부르기는 어렵습니다</p>
+      <div class="pr">
+        <p class="pr-say">혼자 감당하기엔 벅차고</p>
+        <p class="pr-num">사람이 대신 동행해 주면 <b>1회 5만 원</b>. 매 진료마다 부르기는 어렵습니다</p>
+        <p class="pr-src">민간 동행 업체 공개 요금</p>
       </div>
-      <div class="ask">
-        <span class="ic">📋</span>
-        <p>챙겨도 놓친 게 있을까 불안하고</p>
-        <p class="num">1년 병원비가 정해진 선을 넘으면 공단이 돌려주는 돈이 있는데(본인부담상한제),
-          신청하지 않아 <b>510억 원</b>이 시효로 사라졌습니다 — 1인 평균 78만 원</p>
+      <div class="pr">
+        <p class="pr-say">챙겨도 놓친 게 있을까 불안하고</p>
+        <p class="pr-num">1년 병원비가 정해진 선을 넘으면 공단이 돌려주는 돈이 있는데(본인부담상한제), 신청하지 않아 <b>510억 원</b>이 시효로 사라졌습니다 — 1인 평균 78만 원</p>
+        <p class="pr-src">국민건강보험공단</p>
       </div>
-      <div class="ask">
-        <span class="ic">🔁</span>
-        <p>한 번 듣고는 이해가 안 되고</p>
-        <p class="num">의사와 마주 앉는 시간은 평균 <b>7.0분</b>.
-          61.1%는 1~5분 안에 끝납니다</p>
+      <div class="pr">
+        <p class="pr-say">한 번 듣고는 이해가 안 되고</p>
+        <p class="pr-num">의사와 마주 앉는 시간은 평균 <b>7.0분</b>. 61.1%는 1~5분 안에 끝납니다</p>
+        <p class="pr-src">2024년 의료서비스경험조사 · 보건복지부 의뢰, 14,681명</p>
       </div>
     </div>
-    <p class="close">처음이면 누구나 그렇습니다.
-      <small>모르는 게 문제가 아니라, <b>무엇을 모르는지 모르는 것</b>이 문제입니다.</small></p>
-    <p class="fsrc">국가암등록통계·질병관리청(2023~24) · 국민건강보험공단 ·
-      2024년 의료서비스경험조사(보건복지부 의뢰, 14,681명) · 민간 동행 업체 공개 요금</p>
+    <p class="pain-close">처음이면 누구나 그렇습니다.</p>
+  </div>
 </section>
-
 
 <!-- ②→③ 연결 -->
 <div class="bridge wrap">
@@ -229,44 +338,9 @@
   <p class="sec-lead">검색어를 몰라도, 제도 이름을 몰라도 괜찮습니다.
     <b>에이전트가 상황을 읽어 지금 단계를 추론하고</b>, 그 단계에서 필요한 것들과 하나하나 맞춰봅니다.</p>
 
-  <div class="flow">
-    <div class="fstep">
-      <div class="sn"><i>1</i>보내주시는 것</div>
-      <h3>상황만 넣으면<br>상황 파악</h3>
-      <div class="quote">"어머니가 폐에 뭐가 보인다고<br>추가검사 받으라셔요"</div>
-      <p>말하듯 한 줄 적으시면 됩니다. 사진·음성메모도 됩니다.
-        <b>어느 단계인지 추론하고</b>, 그 단계에 필요한 것과 <b>맞춰봅니다</b>.
-        근거는 공공기관 원문입니다.</p>
-      <div class="tags">
-        <span>진료 단계 파악</span><span>이번 진료의 목적</span><span>기한 규정</span><span>서류 요건</span><span>공식 원문 대조</span>
-      </div>
-    </div>
-
-    <div class="fstep key">
-      <div class="sn"><i>2</i>돌려받는 것</div>
-      <h3>놓친 것 위주로<br>알려드립니다</h3>
-      <p>물어보지 않으신 것부터, 기한이 걸린 순서로.
-        <b>없으면 없다고 말합니다</b> — 억지로 채우지 않습니다.</p>
-      <div class="out">
-        <div><b>기한</b><span>언제까지 해야 하는지</span></div>
-        <div><b>근거</b><span>공식 기관 안내 링크</span></div>
-        <div><b>행동</b><span>지금 할 한 가지</span></div>
-      </div>
-    </div>
-
-    <div class="fstep">
-      <div class="sn"><i>3</i>함께 쓰는 것<span class="soon-tag">준비 중</span></div>
-      <h3>보호자–환자<br>공유</h3>
-      <p>서류를 보호자와 <b>같이 모으고</b>, 지금 어디까지 왔는지
-        <b>같은 화면으로 함께 봅니다</b>.</p>
-      <div class="tags">
-        <span>서류 같이 모으기</span><span>같은 화면</span><span>역할 나누기</span>
-      </div>
-    </div>
-  </div>
-
-  <p class="sec-lead" style="margin-bottom:18px;">실제로 이렇게 돌아옵니다 — 화면을 옆으로 넘겨보세요.</p>
-
+  <p class="sec-lead howhint">스크롤하시면 각 단계의 실제 화면이 따라옵니다.</p>
+  <div class="scrolly">
+    <div class="sticky-demo">
   <div class="stage">
 
     <div class="phone-wrap">
@@ -344,16 +418,42 @@
     </div>
     <p class="screen-label" id="slabel">1 / 4 · 상황 보내기</p>
   </div>
+    </div>
+  <div class="flow">
+    <div class="fstep">
+      <div class="sn"><i>1</i>보내주시는 것</div>
+      <h3>상황만 넣으면<br>상황 파악</h3>
+      <p>말하듯 한 줄 적으시면 됩니다. 사진·음성메모도 됩니다.
+        <b>어느 단계인지 추론하고</b>, 그 단계에 필요한 것과 <b>맞춰봅니다</b>.
+        근거는 공공기관 원문입니다.</p>
+      <div class="tags">
+        <span>진료 단계 파악</span><span>이번 진료의 목적</span><span>기한 규정</span><span>서류 요건</span><span>공식 원문 대조</span>
+      </div>
+    </div>
 
-  <div class="whofor">
-    <p class="wf-h">이런 분들께 추천드립니다</p>
-    <div class="wf-list">
-      <div class="wf"><span class="n">1</span><p>병원이 낯설고, <b>무엇부터 해야 할지</b> 모르시는 분</p></div>
-      <div class="wf"><span class="n">2</span><p>환자 정보와 할 일을 <b>한곳에 모아두고</b> 싶은 분</p></div>
-      <div class="wf"><span class="n">3</span><p><b>빠뜨린 게 없는지</b> 확인하고 싶은 분 — 환자·보호자 모두</p></div>
+    <div class="fstep key">
+      <div class="sn"><i>2</i>돌려받는 것</div>
+      <h3>놓친 것 위주로<br>알려드립니다</h3>
+      <p>물어보지 않으신 것부터, 기한이 걸린 순서로.
+        <b>없으면 없다고 말합니다</b> — 억지로 채우지 않습니다.</p>
+      <div class="out">
+        <div><b>기한</b><span>언제까지 해야 하는지</span></div>
+        <div><b>근거</b><span>공식 기관 안내 링크</span></div>
+        <div><b>행동</b><span>지금 할 한 가지</span></div>
+      </div>
+    </div>
+
+    <div class="fstep">
+      <div class="sn"><i>3</i>함께 쓰는 것<span class="soon-tag">준비 중</span></div>
+      <h3>보호자–환자<br>공유</h3>
+      <p>서류를 보호자와 <b>같이 모으고</b>, 지금 어디까지 왔는지
+        <b>같은 화면으로 함께 봅니다</b>.</p>
+      <div class="tags">
+        <span>서류 같이 모으기</span><span>같은 화면</span><span>역할 나누기</span>
+      </div>
     </div>
   </div>
-  </div>
+  </div><!-- /scrolly -->
 
   <div class="end" style="padding-top:20px;">
     <a href="features.html" class="cta-ghost">여정의 어디까지 되는지 보기 →</a>
@@ -362,24 +462,29 @@
 
 <!-- ④ 소식 받기 · 문의 -->
 <section class="wrap" id="contact">
+  <div class="whofor whofor-lead">
+    <p class="wf-h">이런 분이시면, 아래에 한 줄 남겨주세요</p>
+    <div class="wf-list">
+      <div class="wf"><span class="n">1</span><p>병원이 낯설고, <b>무엇부터 해야 할지</b> 모르시는 분</p></div>
+      <div class="wf"><span class="n">2</span><p>환자 정보와 할 일을 <b>한곳에 모아두고</b> 싶은 분</p></div>
+      <div class="wf"><span class="n">3</span><p><b>빠뜨린 게 없는지</b> 확인하고 싶은 분 — 환자·보호자 모두</p></div>
+    </div>
+  </div>
+
   <div class="about">
     <h2>문의 · 소식 받기</h2>
     <p class="who">지금 상황을 한 줄만 남겨주세요.<br>정리된 문장이 아니어도 됩니다 — 읽고 확인해서 회신드립니다.</p>
 
     <form class="cform" id="waitForm" novalidate>
       <div id="formRow">
-        <div class="cf-row">
-          <label for="cfName">이름 또는 부르는 말<span class="rq">*</span></label>
-          <input class="cf-in" type="text" id="cfName" maxlength="20" placeholder="예: 이동원 / 준호 누나" autocomplete="name">
-          <div class="cf-err" id="cfErrName"></div>
-        </div>
+        <input type="hidden" id="cfName" value="문의">
         <div class="cf-row">
           <label for="email">이메일<span class="rq">*</span> <span class="op">— 회신받을 주소</span></label>
           <input class="cf-in" type="email" id="email" placeholder="name@example.com" autocomplete="email" inputmode="email" maxlength="80">
           <div class="cf-err" id="cfErrEmail"></div>
         </div>
         <div class="cf-row">
-          <label for="cfMsg">지금 상황<span class="rq">*</span><span class="cf-count" id="cfCount">0 / 500</span></label>
+          <label for="cfMsg">지금 상황 <span class="op">- 선택</span><span class="cf-count" id="cfCount">0 / 500</span></label>
           <textarea class="cf-in" id="cfMsg" maxlength="500" placeholder="예: 어머니가 폐에 뭐가 보인다고 추가검사를 받으라셔요. 무엇부터 해야 할지 모르겠습니다."></textarea>
           <div class="cf-err" id="cfErrMsg"></div>
         </div>
@@ -569,9 +674,29 @@
   document.getElementById('prev').addEventListener('click', function(){ go(i-1); restart(); });
 
   var reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  function start(){ if(reduceMotion) return; timer = setInterval(function(){ go(i+1); }, 5200); }
+  function start(){ return; /* 스크롤 연동으로 대체 */ timer = setInterval(function(){ go(i+1); }, 5200); }
   function restart(){ clearInterval(timer); start(); }
   start();
+})();
+</script>
+
+<script>
+/* 설명이 화면 중앙에 들어오면 그 단계의 데모 화면으로 (기존 캐러셀 점을 눌러 재사용) */
+(function(){
+  var steps = document.querySelectorAll('.scrolly .fstep');
+  if(!steps.length || !('IntersectionObserver' in window)) return;
+  function mark(n){ steps.forEach(function(el,k){ el.setAttribute('aria-current', k===n?'true':'false'); }); }
+  var io = new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(!e.isIntersecting) return;
+      var n = [].indexOf.call(steps, e.target);
+      var dots = document.querySelectorAll('#dots button');
+      if(dots[n]) dots[n].click();
+      mark(n);
+    });
+  }, {rootMargin:'-45% 0px -45% 0px', threshold:0});
+  steps.forEach(function(el){ io.observe(el); });
+  mark(0);
 })();
 </script>
 </body>
