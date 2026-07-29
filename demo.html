@@ -406,6 +406,7 @@
   .app[data-view="do"]      .view-do,
   .app[data-view="wrap"]    .view-wrap,
   .app[data-view="vault"]   .view-vault,
+  .app[data-view="fill"]    .view-fill,
   .app[data-view="sched"]   .view-sched,
   .app[data-view="status"]  .view-status{display:flex;}
   .view{animation:viewIn .38s cubic-bezier(.16,.84,.44,1) both;}
@@ -430,6 +431,30 @@
 
   /* 판정이 결정론적이라 반복해서 돌려보는 물건이다.
      원래대로 돌리는 건 부가 기능이 아니라 핵심 동작이라 헤더에 둔다 */
+  /* 말로 카드 채우기 확인 */
+  .fillbox{border:1px solid var(--teal-600);border-radius:var(--radius);background:var(--teal-50);
+    padding:17px 18px;margin-top:16px;}
+  .fillbox .fh{font-size:11.5px;font-weight:800;color:var(--teal-700);letter-spacing:.02em;}
+  .fillbox .fq{margin-top:8px;font-size:17px;font-weight:800;color:var(--teal-900);
+    letter-spacing:-.02em;line-height:1.5;}
+  .fill-i{margin-top:12px;background:#fff;border-radius:13px;padding:13px 14px;
+    display:flex;gap:11px;align-items:flex-start;}
+  .fill-i .fi{width:20px;height:20px;flex:0 0 20px;border-radius:6px;background:var(--teal-600);
+    color:#fff;display:grid;place-items:center;margin-top:1px;}
+  .fill-i .fi svg{width:12px;height:12px;}
+  .fill-i .fx{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .fill-i .fl{font-size:15px;font-weight:700;color:var(--ink);line-height:1.5;}
+  .fill-i .fw{margin-top:4px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .fill-i .fslot{font-size:11px;font-weight:700;color:var(--teal-700);background:var(--teal-50);
+    padding:2px 8px;border-radius:99px;align-self:flex-start;margin-top:6px;}
+  .fill-acts{display:flex;flex-direction:column;gap:8px;margin-top:15px;}
+  .fill-acts button{border:none;font:inherit;font-size:14.5px;font-weight:700;padding:13px;
+    border-radius:12px;cursor:pointer;}
+  .fill-acts .fy{background:var(--teal-600);color:#fff;}
+  .fill-acts .fy:hover{background:var(--teal-700);}
+  .fill-acts .fn{background:#fff;border:1px solid var(--line);color:var(--ink-soft);}
+  .fill-acts .fn:hover{border-color:var(--teal-500);color:var(--teal-700);}
+
   .reset{width:32px;height:32px;flex:0 0 32px;border:1px solid var(--line);background:#fff;
     border-radius:9px;cursor:pointer;display:grid;place-items:center;color:var(--ink-faint);
     padding:0;}
@@ -611,7 +636,7 @@
   .toast.on{opacity:1;transform:translateX(-50%);}
 
   /* ---------- 내 할 일 / 내 정보 / 함께 보는 사람 ---------- */
-  .view-seq,
+  .view-seq,.view-fill,
   .view-todo,.view-profile,.view-people,.view-do,.view-wrap,.view-vault,
   .view-status{flex:1;flex-direction:column;min-height:0;}
   .view-load{flex:1;flex-direction:column;align-items:center;justify-content:center;padding:30px 22px;}
@@ -1452,6 +1477,19 @@
     <div class="rbody"><div class="rbody-in" id="stBody"></div></div>
   </section>
 
+  <!-- ===== 말로 카드 채우기 확인 ===== -->
+  <section class="view view-fill" id="viewFill">
+    <div class="subhd">
+      <div class="subhd-in">
+        <button class="back" id="fillBack" type="button">
+          <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>돌아가기
+        </button>
+        <span class="tt">이렇게 담을까요?</span>
+      </div>
+    </div>
+    <div class="rbody"><div class="rbody-in" id="fillBody"></div></div>
+  </section>
+
   <!-- ===== 서류 보관함 ===== -->
   <section class="view view-vault" id="viewVault">
     <div class="subhd">
@@ -1729,7 +1767,7 @@
         로컬:  python -m http.server 8000  →  localhost:8000/demo.html
 -->
 <script type="module">
-import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js?v=20260729a';
+import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps, parseFill } from './engine.js?v=20260729a';
 import { SCENARIOS, RULE_BACKLOG, openBacklog, findRule, CATEGORIES, WHO,
          groupByCategory, asksFor, RULES, DEADLINE_KINDS } from './rules.js?v=20260729a';
 import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES,
@@ -2644,8 +2682,105 @@ function submit(){
     toast('너무 길어서 앞 ' + MAX_INPUT + '자만 읽었어요');
   }
   el.value = ''; el.style.height = 'auto';
+
+  /* 하고 싶은 말의 상당수는 "새로 물어보는 것"이 아니라 "빈칸을 채우는 것"이다.
+     매번 해당 화면을 찾아 들어가 폼을 채우게 하면, 챗봇으로 시작한 제품이
+     중간부터 폼 앱이 된다 */
+  const f = parseFill({ text });
+  if (f) { showFill(f); return; }
+
   handle({ text });
 }
+
+/* ==========================================================
+   말로 카드 채우기
+
+   바로 적용하지 않고 무엇을 넣을지 보여주고 승낙을 받는다.
+   잘못 알아들었을 때 되돌릴 수 있어야 하기 때문이다.
+   그리고 "이건 질문이에요" 를 항상 같이 낸다 — 파서가 오인했을 때
+   빠져나갈 문이 없으면 안 된다.
+   ========================================================== */
+let pendingFill = null;
+
+function fillSlotLabel(x){
+  return x.slot === 'schedule' ? '다음 일정'
+    : x.slot === 'docs' ? '서류 보관함'
+    : '내 정보';
+}
+
+function showFill(f){
+  pendingFill = f;
+  const rows = f.fills.map(x =>
+    '<div class="fill-i"><span class="fi">'+svg(I.check)+'</span>'
+    + '<span class="fx"><span class="fl">'+esc(x.label)+'</span>'
+    + '<span class="fw">'+esc(x.why)+'</span>'
+    + '<span class="fslot">'+esc(fillSlotLabel(x))+'에 들어가요</span></span></div>').join('');
+
+  setHTML('fillBody',
+    '<div class="fillbox"><div class="fh">이렇게 담을까요?</div>'
+    + '<div class="fq">"'+esc(f.text)+'"</div>'
+    + rows
+    + '<div class="fill-acts">'
+    + '<button class="fy" data-fill="yes" type="button">네, 담아주세요</button>'
+    + '<button class="fn" data-fill="no" type="button">아니요, 이건 질문이에요</button>'
+    + '</div></div>');
+  app.dataset.view = 'fill';
+  window.scrollTo(0,0);
+}
+
+function applyFill(){
+  const f = pendingFill; if (!f) return;
+  let nSched = 0, nDoc = 0, nProf = 0;
+
+  for (const x of f.fills) {
+    if (x.slot === 'schedule') {
+      const list = profile.schedule || (profile.schedule = []);
+      if (!list.some(sc => sc && sc.type === x.type && sc.date === x.date)) {
+        list.push({ type: x.type, date: x.date, note: '' });
+        nSched++;
+      }
+    } else if (x.slot === 'docs') {
+      const have = new Set(profile.docs || []);
+      x.docs.forEach(d => have.add(d));
+      profile.docs = [...have];
+      if (x.date && typeof addDocDate === 'function') x.docs.forEach(d => addDocDate(d, x.date));
+      nDoc += x.docs.length;
+    } else {
+      profile[x.key] = x.value;
+      nProf++;
+    }
+  }
+
+  saveProfile();
+  stateDirty = true;
+  if (typeof syncVaultBadge === 'function') syncVaultBadge();
+  if (typeof syncSchedBadge === 'function') syncSchedBadge();
+  pendingFill = null;
+
+  const bits = [];
+  if (nSched) bits.push('일정 '+nSched+'건');
+  if (nDoc)   bits.push('서류 '+nDoc+'종');
+  if (nProf)  bits.push('내 정보 '+nProf+'가지');
+  toast((bits.join(' · ') || '알려주신 것') + ' 담았어요');
+
+  // 담은 걸로 판정을 다시 돌린다. 그게 채우기의 목적이다
+  if (lastPayload) handle(lastPayload, { quiet:true });
+  else app.dataset.view = 'idle';
+}
+
+$('fillBack').addEventListener('click', ()=>{
+  pendingFill = null;
+  app.dataset.view = cur ? 'result' : 'idle';
+  if (cur) render(cur);
+});
+$('fillBody').addEventListener('click', e=>{
+  const b = e.target.closest('[data-fill]'); if (!b) return;
+  if (b.dataset.fill === 'yes') { applyFill(); return; }
+  const t = pendingFill ? pendingFill.text : '';
+  pendingFill = null;
+  handle({ text: t });
+});
+
 $('send').addEventListener('click', submit);
 $('input').addEventListener('keydown', e=>{ if(e.key==='Enter'&&!e.shiftKey){ e.preventDefault(); submit(); }});
 $('input').addEventListener('input', ()=>{

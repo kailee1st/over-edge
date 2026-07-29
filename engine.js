@@ -429,6 +429,115 @@ function detectEvents(text, today) {
 }
 
 /* ------------------------------------------------------------
+   1-b. parseFill — 말을 슬롯으로
+   ------------------------------------------------------------
+   "새로 물어보는 것"과 "빈칸을 채우는 것"을 나눈다.
+   채우는 말이면 판정을 돌리지 않고 어디에 무엇을 넣을지만 돌려준다.
+
+   적용은 화면이 한다. 잘못 알아들었을 때 되돌릴 수 있어야 해서다.
+   ------------------------------------------------------------ */
+
+/* 일정 종류. demo 의 SCHED_TYPES 와 키를 맞춘다 */
+const FILL_SCHED = [
+  { type: 'resultVisit', label: '결과 듣는 진료', re: /결과.{0,6}(진료|보러|들으러|듣는|나오는)|결과.{0,4}날/ },
+  { type: 'admission',   label: '입원',          re: /입원/ },
+  { type: 'surgery',     label: '수술·시술',      re: /수술|시술/ },
+  { type: 'discharge',   label: '퇴원',          re: /퇴원/ },
+  { type: 'test',        label: '검사',          re: /검사|CT|MRI|내시경|조직검사|생검|초음파/ },
+  { type: 'visit',       label: '진료',          re: /진료|외래|병원.{0,4}가|예약/ },
+];
+
+/* 날짜 한 개를 뽑는다. 상대 표현도 절대 날짜로 바꾼다 */
+function pickDate(text, today) {
+  let m = text.match(/(\d{4})[-.\/년\s]+(\d{1,2})[-.\/월\s]+(\d{1,2})/);
+  if (m) return fmtDate(new Date(+m[1], +m[2] - 1, +m[3]));
+
+  m = text.match(/(\d{1,2})\s*월\s*(\d{1,2})\s*일?/);
+  if (m) {
+    const y = today.getFullYear();
+    let d = new Date(y, +m[1] - 1, +m[2]);
+    // "1월 3일"을 12월에 말하면 내년이다
+    if (d - today < -180 * 86400000) d = new Date(y + 1, +m[1] - 1, +m[2]);
+    return fmtDate(d);
+  }
+
+  if (/모레/.test(text)) return fmtDate(addDays(today, 2));
+  if (/내일/.test(text)) return fmtDate(addDays(today, 1));
+  if (/오늘/.test(text)) return fmtDate(today);
+  if (/어제/.test(text)) return fmtDate(addDays(today, -1));
+
+  m = text.match(/(\d+)\s*일\s*(뒤|후)/);
+  if (m) return fmtDate(addDays(today, +m[1]));
+  if (/다다음\s*주/.test(text)) return fmtDate(addDays(today, 14));
+  if (/다음\s*주/.test(text)) return fmtDate(addDays(today, 7));
+
+  return null;
+}
+
+/**
+ * 말에서 채울 것을 찾는다. 없으면 null.
+ * @returns {{fills: Array, text: string}|null}
+ *   fills[] = { slot:'schedule'|'docs'|'profile', ... , label, why }
+ */
+export function parseFill(input, opts = {}) {
+  const text = String((input && input.text) || input || '').trim();
+  if (!text) return null;
+  const today = opts.today ? new Date(opts.today) : startOfDay(new Date());
+  const fills = [];
+
+  // 질문이면 채우기가 아니다. "언제예요?" 를 일정 등록으로 알아들으면 안 된다
+  const asking = /\?|뭐|무엇|어떻게|왜|언제|어디|알려|가르쳐|되나요|인가요|일까요|맞나요/.test(text);
+
+  /* ── 일정 ── */
+  const date = pickDate(text, today);
+  if (date && !asking) {
+    const hit = FILL_SCHED.find((x) => x.re.test(text));
+    if (hit) {
+      const past = new Date(date) < startOfDay(today);
+      // 지난 날짜는 일정이 아니다. 확진일 같은 기록일 수 있다
+      if (!past || hit.type === 'discharge') {
+        fills.push({
+          slot: 'schedule',
+          type: hit.type,
+          date,
+          label: hit.label,
+          why: hit.label + ' ' + date + ' 로 담을까요?',
+        });
+      }
+    }
+  }
+
+  /* ── 확진일 ── */
+  if (/확진|진단.{0,3}(받|났|나왔)|암이래|암이라고/.test(text)) {
+    const d = date || detectConfirmDate(text, today);
+    fills.push({ slot: 'profile', key: 'confirmed', value: true,
+      label: '확진 받으심', why: '확진을 받으신 것으로 표시할까요?' });
+    if (d) fills.push({ slot: 'profile', key: 'confirmDate', value: d,
+      label: '확진일 ' + d, why: '확진일을 ' + d + ' 로 넣을까요? 30일 시계의 시작점이에요' });
+  }
+
+  /* ── 보험 ── */
+  if (/실손|실비|보험/.test(text) && !asking) {
+    const no = /없|안 들|미가입|가입.{0,3}안/.test(text);
+    fills.push({ slot: 'profile', key: 'hasPrivateInsurance', value: !no,
+      label: no ? '실손보험 없음' : '실손보험 있음',
+      why: no ? '실손보험이 없다고 표시할까요?' : '실손보험이 있다고 표시할까요?' });
+  }
+
+  /* ── 서류 ── */
+  const docs = detectDocs(text);
+  const got = /있어|받았|받아|가지고|챙겼|나왔|떼었|뗐/.test(text);
+  if (docs.length && got) {
+    fills.push({ slot: 'docs', docs, date: date && new Date(date) <= startOfDay(today) ? date : null,
+      label: docs.map((id) => (findDoc(id) || {}).name).filter(Boolean).join(' · '),
+      why: '가지고 계신 서류로 담을까요?' });
+  }
+
+  if (!fills.length) return null;
+  return { fills, text };
+}
+
+/* ------------------------------------------------------------
    2. tagDocs — 확보·미확보 서류에 층 태그
    ------------------------------------------------------------
    DB `doc_tags` 테이블에 그대로 들어간다.
