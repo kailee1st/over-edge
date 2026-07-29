@@ -343,14 +343,20 @@
    1) RLS가 anon INSERT만 허용하고 SELECT는 차단이므로 .insert() 에 .select() 를 붙이면
       권한 오류가 나고 저장까지 롤백됩니다. 그래서 붙이지 않습니다.
    2) 이전 버전은 waitlist 테이블에 넣었는데 그 테이블이 없어서(PGRST205) 항상 실패했습니다.
-      실제로 존재하는 reservations 로 보냅니다. 컬럼: name·email·phone·message·visit_type. */
+      실제로 존재하는 reservations 로 보냅니다. 컬럼: name·email·phone·message·visit_type.
+   3) 이전에는 supabase CDN 이 안 뜨면 여기서 return 해 버렸습니다. 그러면 핸들러가 아예
+      안 붙어서 폼이 네이티브 제출되고, 페이지가 새로고침되며 적어둔 내용이 통째로
+      사라졌습니다(안내도 없었습니다). 그래서 CDN 실패와 무관하게 핸들러는 항상 붙입니다. */
 (function(){
   var form = document.getElementById('waitForm');
-  if(!form || !window.supabase) return;
-  var sb = window.supabase.createClient(
-    'https://efzhsdedyeyjanvzikqe.supabase.co',
-    'sb_publishable_gfXK9g5zoc-izRagjS_2Eg_Tm7rv94x'
-  );
+  if(!form) return;
+  var sb = null;
+  try{
+    if(window.supabase) sb = window.supabase.createClient(
+      'https://efzhsdedyeyjanvzikqe.supabase.co',
+      'sb_publishable_gfXK9g5zoc-izRagjS_2Eg_Tm7rv94x'
+    );
+  }catch(e){ console.error('[contact] createClient', e && e.message); }
   var $ = function(id){ return document.getElementById(id); };
   var btn = $('submitBtn'), msg = $('formMsg'), row = $('formRow');
   var DONE_KEY = 'drhand_contact_done';
@@ -373,8 +379,30 @@
     row.innerHTML = '<div class="form-done"><span class="chk">✓</span>문의가 접수되었습니다.</div>';
     setMsg(email ? (email + ' 으로 회신드립니다') : '', 'ok');
   }
-  var prev = localStorage.getItem(DONE_KEY);
+  /* localStorage 는 시크릿 모드·차단 설정에서 접근 자체가 예외를 던집니다.
+     감싸지 않으면 여기서 스크립트가 죽고 → 핸들러가 안 붙고 → 폼이 네이티브 제출되어
+     적어둔 내용이 사라집니다. 저장은 부가 기능이므로 실패해도 무시합니다. */
+  function memGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function memSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+  var prev = memGet(DONE_KEY);
   if(prev){ showDone(prev); }
+
+  var MAIL = 'kailee1st@gmail.com';
+  /* 오류를 종류별로 한국어로 옮깁니다. 영어 코드는 화면에 내보내지 않고 콘솔에만 남깁니다. */
+  function errMsg(err){
+    var code = (err && (err.code || err.status) || '') + '';
+    var m = ((err && err.message) || '').toLowerCase();
+    if(!navigator.onLine || m.indexOf('failed to fetch') >= 0 || m.indexOf('networkerror') >= 0)
+      return '인터넷 연결을 확인하고 다시 시도해 주세요.';
+    if(code === '23505')
+      return '이미 접수된 문의입니다. 회신을 기다려 주세요.';
+    if(code === 'PGRST205' || code === '42501' || code === '401' || code === '403')
+      return '접수 창구에 문제가 있어 지금은 저장이 안 됩니다. ' + MAIL + ' 으로 보내주시면 바로 확인하겠습니다.';
+    if(code.charAt(0) === '5' || code === 'PGRST301')
+      return '일시적인 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.';
+    return '접수 중 문제가 생겼습니다. 잠시 후 다시 시도해 주시고, 계속 안 되면 ' + MAIL + ' 으로 보내주세요.';
+  }
 
   function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
 
@@ -414,9 +442,23 @@
     setMsg('', '');
     var v = validate(); if(!v) return;
 
+    /* 보내기 전에 막힐 것이 확실한 두 경우를 먼저 걸러냅니다.
+       적어둔 내용은 그대로 두어서 연결이 돌아오면 다시 누르면 됩니다. */
+    if(!sb){
+      console.error('[contact] supabase 스크립트를 불러오지 못했습니다');
+      setMsg('접수 창구를 불러오지 못했습니다. 적어주신 내용은 그대로 있으니, '
+             + MAIL + ' 으로 보내주시면 바로 확인하겠습니다.', 'err');
+      return;
+    }
+    if(!navigator.onLine){
+      setMsg('인터넷 연결이 없습니다. 연결 후 다시 눌러주세요. (적어주신 내용은 그대로 있습니다)', 'err');
+      return;
+    }
+
     sending = true;
     btn.disabled = true;
     var orig = btn.textContent; btn.textContent = '보내는 중…';
+    var saved = false;
     try{
       var res = await sb.from('reservations').insert([{
         name: v.name,
@@ -426,16 +468,24 @@
         visit_type: v.news ? '랜딩 문의 · 소식받기' : '랜딩 문의'
       }]);
       if(res.error) throw res.error;
-      localStorage.setItem(DONE_KEY, v.email);
-      showDone(v.email);
+      saved = true;
     }catch(err){
-      sending = false;
-      btn.disabled = false; btn.textContent = orig;
       // 증상 원문은 로그에 남기지 않습니다. 코드와 메시지만.
       console.error('[contact]', err && err.code, err && err.message);
-      setMsg('접수에 실패했습니다. 잠시 후 다시 시도해 주세요. 계속 안 되면 kailee1st@gmail.com 으로 보내주세요.'
-             + (err && err.code ? ' (오류 ' + err.code + ')' : ''), 'err');
+      setMsg(errMsg(err), 'err');
+    }finally{
+      /* 실패해도 버튼이 계속 잠기지 않도록 여기서 되살립니다.
+         성공하면 폼 자체가 접수 화면으로 바뀌므로 잠긴 채로 두어도 됩니다. */
+      if(!saved){ sending = false; btn.disabled = false; btn.textContent = orig; }
     }
+    /* 저장에 성공한 뒤에만 접수 안내를 보여줍니다.
+       memSet 은 실패해도 무시합니다 — 기록용이라 접수 자체와 무관합니다. */
+    if(saved){ memSet(DONE_KEY, v.email); showDone(v.email); }
+  });
+
+  /* 연결이 돌아오면 오프라인 안내를 스스로 지웁니다 */
+  window.addEventListener('online', function(){
+    if(msg.className.indexOf('err') >= 0 && msg.textContent.indexOf('인터넷 연결') === 0) setMsg('', '');
   });
 
   ['cfName','email','cfMsg'].forEach(function(id){
