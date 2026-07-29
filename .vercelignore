@@ -22,3 +22,6 @@ design-system
 
 # 작업 백업 (배포 제외)
 _backup-*.html
+
+# 히어로 A/B/C 비교용 시안 (배포 제외)
+hero-*.html
