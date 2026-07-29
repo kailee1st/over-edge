@@ -528,6 +528,17 @@
   .dr-empty{font-size:12.5px;color:var(--ink-faint);}
 
   /* ---------- 토스트 ---------- */
+  .dr-links{display:flex;flex-wrap:wrap;gap:7px;}
+  .dr-links a{font-size:13px;font-weight:700;color:var(--teal-700);background:var(--teal-50);
+    padding:9px 13px;border-radius:10px;text-decoration:none;}
+  .dr-links a:hover{background:#fff;box-shadow:var(--shadow-sm);}
+
+  /* 로고는 앱 안의 홈이다. 사이트를 떠나는 동작을 여기 걸면
+     작업 중이던 것을 잃은 것처럼 느껴진다 */
+  .home{display:flex;align-items:center;gap:9px;border:none;background:none;font:inherit;
+    padding:4px 6px;margin:-4px -6px;border-radius:10px;cursor:pointer;}
+  .home:hover{background:var(--teal-50);}
+
   .toast{position:fixed;left:50%;bottom:96px;transform:translateX(-50%) translateY(12px);
     background:var(--teal-900);color:#fff;font-size:13.5px;font-weight:600;padding:11px 18px;
     border-radius:999px;z-index:80;opacity:0;pointer-events:none;transition:all .26s ease;
@@ -1040,6 +1051,40 @@
     flex:0 0 auto;margin-top:1px;}
   .sli button:hover{background:var(--teal-50);}
 
+  /* 대비 상태 — 점수가 아니라 서술 */
+  .rdy{margin-top:16px;border:1px solid var(--line);border-radius:var(--radius);background:#fff;
+    box-shadow:var(--shadow-sm);overflow:hidden;}
+  .rdy-hd{padding:15px 16px;display:flex;align-items:center;gap:11px;}
+  .rdy-hd .rl{width:11px;height:11px;flex:0 0 11px;border-radius:50%;}
+  .rdy-hd .rt2{flex:1;font-size:15.5px;font-weight:800;letter-spacing:-.02em;}
+  .rdy.ok    .rdy-hd{background:var(--teal-50);}
+  .rdy.ok    .rdy-hd .rl{background:var(--teal-600);}
+  .rdy.ok    .rdy-hd .rt2{color:var(--teal-900);}
+  .rdy.gap   .rdy-hd{background:var(--warm-50);}
+  .rdy.gap   .rdy-hd .rl{background:var(--warm-600);}
+  .rdy.gap   .rdy-hd .rt2{color:var(--warm-600);}
+  .rdy.unk   .rdy-hd{background:#f2f6f6;}
+  .rdy.unk   .rdy-hd .rl{background:var(--ink-faint);}
+  .rdy.unk   .rdy-hd .rt2{color:var(--ink-soft);}
+  .rdy-bd{padding:4px 16px 15px;}
+  .rdy-i{display:flex;gap:11px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line);}
+  .rdy-i:first-child{border-top:none;}
+  .rdy-i .ri{width:18px;height:18px;flex:0 0 18px;border-radius:50%;display:grid;place-items:center;
+    margin-top:2px;font-size:11px;font-weight:800;}
+  .rdy-i.done .ri{background:var(--teal-600);color:#fff;}
+  .rdy-i.open .ri{background:var(--warm-50);color:var(--warm-600);border:1.5px solid var(--warm-600);}
+  .rdy-i.unknown .ri{background:#f2f6f6;color:var(--ink-faint);}
+  .rdy-i .rx{flex:1;min-width:0;display:flex;flex-direction:column;}
+  .rdy-i .rn{font-size:14.5px;font-weight:700;color:var(--ink);line-height:1.5;}
+  .rdy-i.done .rn{color:var(--ink-faint);}
+  .rdy-i .rw{margin-top:4px;font-size:12.5px;color:var(--ink-soft);line-height:1.6;}
+  .rdy-i button{border:1px solid var(--teal-500);background:#fff;font:inherit;font-size:12px;
+    font-weight:700;color:var(--teal-700);padding:6px 11px;border-radius:8px;cursor:pointer;
+    flex:0 0 auto;margin-top:1px;}
+  .rdy-i button:hover{background:var(--teal-50);}
+  .rdy-note{margin:0 16px 15px;border-radius:11px;background:#f2f6f6;padding:11px 12px;
+    font-size:12px;color:var(--ink-soft);line-height:1.65;}
+
   .sev{margin-top:9px;border:1px solid var(--teal-500);border-radius:14px;background:var(--teal-50);
     padding:13px 14px;display:flex;align-items:center;gap:12px;}
   .sev .sd{font-size:15px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
@@ -1184,8 +1229,10 @@
   <!-- ===== 헤더 ===== -->
   <header class="hd">
     <div class="hd-in">
-      <span class="mk" id="mkSlot"></span>
-      <span class="nm">Dr.Hand</span>
+      <button class="home" id="homeBtn" type="button" aria-label="처음 화면으로">
+        <span class="mk" id="mkSlot"></span>
+        <span class="nm">Dr.Hand</span>
+      </button>
       <button class="who" id="whoBtn" type="button">
         <span class="av" id="whoAv">?</span><span id="whoNm">누구세요?</span>
       </button>
@@ -1504,6 +1551,17 @@
     </div>
 
     <div class="dr-sec">
+      <div class="h">Dr.Hand 소개</div>
+      <div class="dr-links">
+        <a href="index.html">소개 페이지</a>
+        <a href="features.html">기능</a>
+        <a href="tech.html">기술</a>
+        <a href="faq.html">FAQ</a>
+        <a href="concerns.html">이용 전 안내</a>
+      </div>
+    </div>
+
+    <div class="dr-sec">
       <div class="h">지금 상황</div>
       <div id="drState"><div class="dr-empty">아직 입력이 없어요.</div></div>
     </div>
@@ -1563,7 +1621,8 @@
 -->
 <script type="module">
 import { run, ENGINE_VERSION, PROFILE_FIELDS, profileGaps } from './engine.js';
-import { SCENARIOS, RULE_BACKLOG, openBacklog, findRule, CATEGORIES, WHO, groupByCategory, asksFor } from './rules.js';
+import { SCENARIOS, RULE_BACKLOG, openBacklog, findRule, CATEGORIES, WHO,
+         groupByCategory, asksFor, RULES, DEADLINE_KINDS } from './rules.js';
 import { TIERS, OUT_OF_SCOPE, findDoc, DOCS, SOURCES,
          JOURNEY, phaseOf, GLOSSARY, findTerm, glossaryTerms } from './kb.js';
 
@@ -3101,8 +3160,9 @@ function statusFacts(){
   push(ev.length > 0, '다음 일정이 잡혀 있어요',
     '다음 진료가 언제인지 몰라요', 'profile');
 
-  push(st.hasInsurance !== undefined && st.hasInsurance !== null,
-    '실손보험 가입 여부를 알아요', '실손보험 가입 여부를 몰라요', 'profile');
+  push(st.hasPrivateInsurance !== undefined && st.hasPrivateInsurance !== null,
+    st.hasPrivateInsurance ? '실손보험에 가입돼 있어요' : '실손보험은 없다고 하셨어요',
+    '실손보험 가입 여부를 몰라요', 'profile');
 
   return { yes, no, det };
 }
@@ -3124,6 +3184,7 @@ function drawStatus(){
       + esc((cur.output.state && cur.output.state.empathy) || '') + '</div>';
 
   h += jmapHtml(ph);
+  h += readyHtml();
 
   // 다가오는 일정
   const ev = (st.events || []).filter(e=>e.date).sort((a,b)=>a.date<b.date?-1:1);
@@ -3159,6 +3220,72 @@ function drawStatus(){
       + '</div>').join('') + '</div></div>';
 
   setHTML('stBody', h);
+}
+
+/* 대비 상태 — 미리 해두면 좋은 것이 비어 있는지
+
+   점수를 매기지 않는다. 확인 가능한 항목이 1개인데 "100점"은 거짓 안심이다.
+   "위험"이라는 말도 안 쓴다. 의료 앱에서 위험은 몸 상태로 읽힌다.
+
+   "모른다"를 "비어 있다"와 구분하는 게 핵심이다. 보험이 있는지 모르면
+   지정대리청구인이 비어 있는 게 아니라 판정을 못 하는 것이다. */
+function readyState(){
+  const ready = RULES.filter(r => r.type === 'ready');
+  const fired = new Set(((cur && cur.matched.fired) || []).map(x => x.id));
+  const skipped = ((cur && cur.matched.skipped) || []);
+
+  const items = ready.map(r => {
+    const v = adopted.get(r.id);
+    if (v && v.status === 'done') return { r, s:'done' };
+    if (fired.has(r.id))          return { r, s:'open' };
+    const sk = skipped.find(x => x.id === r.id);
+    // "hasPrivateInsurance 없음" 처럼 필드가 없어서 못 켠 것 = 모름
+    if (sk && /없음$/.test(sk.reason || '')) return { r, s:'unknown', why: sk.reason };
+    return { r, s:'na' };
+  }).filter(x => x.s !== 'na');
+
+  const open = items.filter(x => x.s === 'open').length;
+  const unk  = items.filter(x => x.s === 'unknown').length;
+  const done = items.filter(x => x.s === 'done').length;
+
+  let level, title;
+  if (open > 0)        { level = 'gap'; title = open + '가지가 비어 있어요'; }
+  else if (done > 0)   { level = 'ok';  title = '해두셨어요'; }
+  else if (unk > 0)    { level = 'unk'; title = '아직 확인 못 했어요'; }
+  else                 { level = null; }
+
+  return { items, open, unk, done, level, title,
+           backlog: openBacklog().filter(b => b.kind === 'ready').length };
+}
+
+function readyHtml(){
+  const st = readyState();
+  if (!st.level) return '';
+
+  const row = x => {
+    const mark = x.s === 'done' ? '✓' : x.s === 'open' ? '!' : '?';
+    const why = x.s === 'done' ? '해두셨어요'
+      : x.s === 'open' ? (x.r.deadline && x.r.deadline.text) || ''
+      : '알려주시면 확인해 드릴게요';
+    return '<div class="rdy-i '+x.s+'"><span class="ri">'+mark+'</span>'
+      + '<span class="rx"><span class="rn">'+esc(x.r.name)+'</span>'
+      + '<span class="rw">'+esc(why)+'</span></span>'
+      + (x.s === 'open' ? '<button data-rdygo="'+esc(x.r.cat||'money')+'" type="button">보러 가기</button>'
+        : x.s === 'unknown' ? '<button data-stgo="profile" type="button">알려주기</button>' : '')
+      + '</div>';
+  };
+
+  return '<div class="tsec"><div class="tsec-h">대비 상태 — 미리 해두면 좋은 것</div>'
+    + '<div class="rdy '+st.level+'">'
+    + '<div class="rdy-hd"><span class="rl"></span><span class="rt2">'+esc(st.title)+'</span></div>'
+    + '<div class="rdy-bd">'+st.items.map(row).join('')+'</div>'
+    // 분모를 숫자가 아니라 말로 밝힌다. 밝히지 않으면 "다 봤다"로 읽힌다
+    + '<div class="rdy-note">저희가 지금 확인할 수 있는 대비 항목은 '
+      + '<b>'+st.items.length+'가지</b>예요.'
+      + (st.backlog ? ' ' + st.backlog + '가지는 아직 원문 확인 중이에요 '
+          + '(사전연명의료의향서·후견 등).' : '')
+      + '<br>기한이 있는 건 아니에요. 다만 <b>필요해진 순간에는 못 하는 것들</b>이라 미리 짚어드려요.'
+      + '</div></div></div>';
 }
 
 /* 여정 지도 */
@@ -3199,6 +3326,16 @@ $('stBack').addEventListener('click', ()=>{
   if (cur) render(cur);
 });
 $('stBody').addEventListener('click', e=>{
+  const rg = e.target.closest('[data-rdygo]');
+  if (rg) {
+    app.dataset.view = 'result';
+    if (cur) render(cur);
+    setTimeout(()=>{
+      const c = document.querySelector('[data-cat="'+rg.dataset.rdygo+'"]');
+      if (c) c.click();
+    }, 60);
+    return;
+  }
   const b = e.target.closest('[data-stgo]'); if (!b) return;
   if (b.dataset.stgo === 'profile') openProfile();
   else if (b.dataset.stgo === 'vault') openVault();
@@ -3276,6 +3413,15 @@ function drawVault(){
 
   syncVaultBadge();
 }
+
+/* 로고 = 앱 홈. 담아둔 것과 서류는 유지한다. 판정만 새로 시작 */
+$('homeBtn').addEventListener('click', ()=>{
+  if (app.dataset.view === 'idle') return;
+  seq = null; doCard = null;
+  app.dataset.view = 'idle';
+  window.scrollTo(0, 0);
+  toast('처음으로 왔어요. 담아두신 건 그대로 있어요');
+});
 
 $('drToVault').addEventListener('click', ()=>{ closeDrawer(); openVault(); });
 $('vBack').addEventListener('click', ()=>{
