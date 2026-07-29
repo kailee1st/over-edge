@@ -422,10 +422,11 @@
     flex:0 0 auto;}
   /* 나가는 길. 드로어 안에 있으면 없는 것이나 같다 */
   .hd .back-site{margin-left:auto;display:inline-flex;align-items:center;gap:5px;font-size:13px;
-    font-weight:700;color:var(--teal-700);text-decoration:none;padding:8px 11px;border-radius:10px;
-    flex:0 0 auto;}
-  .hd .back-site:hover{background:var(--teal-50);}
+    font-weight:700;color:var(--teal-700);text-decoration:none;padding:8px 12px;border-radius:10px;
+    flex:0 0 auto;border:1.5px solid var(--teal-500);background:#fff;}
+  .hd .back-site:hover{background:var(--teal-50);border-color:var(--teal-700);}
   .hd .back-site svg{width:14px;height:14px;}
+  .hd .back-site .bs{display:none;}
 
   .hd .menu{width:38px;height:38px;border:none;background:none;border-radius:11px;
     cursor:pointer;display:grid;place-items:center;color:var(--ink-soft);}
@@ -439,7 +440,18 @@
     /* 이름만 접는다. 로그인하면 아바타로 알 수 있다.
        "소개"는 글자를 남긴다 — 화살표만으로는 뒤로가기로 읽힌다 */
     .hd .who #whoNm{display:none;}
-    .hd .back-site{padding:8px 9px;font-size:12.5px;}
+    .hd .back-site{padding:7px 9px;font-size:12px;}
+    .hd .demo-tag{font-size:10px;padding:2px 5px;}
+  }
+
+  /* 320px 대. 라벨을 줄이되 글자는 남긴다 */
+  @media (max-width:360px){
+    .hd-in{gap:4px;padding:11px 10px;}
+    .hd .nm{font-size:15px;}
+    .hd .back-site .bl{display:none;}
+    .hd .back-site .bs{display:inline;}
+    .hd .back-site{padding:7px 8px;}
+    .hd .menu{width:34px;height:34px;}
   }
 
   /* 첫 화면에서 한 번 더 분명히 말한다 */
@@ -558,6 +570,17 @@
   /* ---------- 토스트 ---------- */
   .pf-sec{margin:26px 0 4px;font-size:12px;font-weight:800;color:var(--ink-faint);
     letter-spacing:.02em;padding-top:20px;border-top:1px solid var(--line);}
+
+  .store{border:1px solid var(--line);border-radius:13px;padding:13px 14px;background:#fff;}
+  .store-l{display:flex;justify-content:space-between;font-size:13px;padding:5px 0;
+    color:var(--ink-soft);}
+  .store-l b{color:var(--teal-900);font-weight:700;}
+  .store-e{font-size:13px;color:var(--ink-faint);padding:4px 0;}
+  .store-n{margin-top:10px;font-size:11.5px;color:var(--ink-faint);line-height:1.6;}
+  .store-x{width:100%;margin-top:11px;border:1px solid var(--line);background:#fff;font:inherit;
+    font-size:13px;font-weight:700;color:var(--ink-soft);padding:11px;border-radius:10px;cursor:pointer;}
+  .store-x:hover{border-color:var(--warm-600);color:var(--warm-600);}
+  .store-x.armed{background:var(--warm-600);border-color:var(--warm-600);color:#fff;}
 
   .dr-links{display:flex;flex-wrap:wrap;gap:7px;}
   .dr-links a{font-size:13px;font-weight:700;color:var(--teal-700);background:var(--teal-50);
@@ -1295,7 +1318,7 @@
       </button>
       <span class="demo-tag">데모</span>
       <a class="back-site" href="index.html" aria-label="소개 페이지로">
-        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="bl">소개</span>
+        <svg viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg><span class="bl">소개 페이지</span><span class="bs">소개</span>
       </a>
       <button class="who" id="whoBtn" type="button">
         <span class="av" id="whoAv">?</span><span id="whoNm">누구세요?</span>
@@ -1619,6 +1642,11 @@
         <div class="it">함께 보는 사람 <span id="drPpN"></span></div>
         <div class="id2">형제·배우자와 같은 목록을 봐요</div>
       </button>
+    </div>
+
+    <div class="dr-sec">
+      <div class="h">저장된 것</div>
+      <div class="store" id="storeBox"></div>
     </div>
 
     <div class="dr-sec">
@@ -3656,6 +3684,25 @@ $('homeBtn').addEventListener('click', ()=>{
   toast('처음으로 왔어요. 담아두신 건 그대로 있어요');
 });
 
+$('storeBox').addEventListener('click', e=>{
+  const b = e.target.closest('#storeClear'); if (!b) return;
+  // 한 번 더 묻는다. 브라우저 confirm 은 자동화·접근성에서 막히므로 인라인으로
+  if (!clearArmed) {
+    clearArmed = true;
+    b.classList.add('armed');
+    b.textContent = '정말 지울까요? 한 번 더 누르세요';
+    setTimeout(()=>{
+      if (!clearArmed) return;
+      clearArmed = false;
+      b.classList.remove('armed');
+      b.textContent = '전부 지우고 처음부터';
+    }, 4000);
+    return;
+  }
+  clearArmed = false;
+  wipeStore();
+});
+
 $('drToVault').addEventListener('click', ()=>{ closeDrawer(); openVault(); });
 /* 「지금 상황」은 「내 정보」에 합쳤다. 옛 진입점은 그리로 보낸다 */
 function openStatusCompat(){ openProfile(); }
@@ -4097,7 +4144,61 @@ $('pfApply').addEventListener('click', ()=>{
 /* ==========================================================
    메뉴 드로어
    ========================================================== */
-function openDrawer(){ $('drawer').classList.add('on'); $('scrim').classList.add('on'); $('drawer').setAttribute('aria-hidden','false'); }
+function openDrawer(){
+  drawStore(); $('drawer').classList.add('on'); $('scrim').classList.add('on'); $('drawer').setAttribute('aria-hidden','false'); }
+/* 저장된 것 — 브라우저에만 있고 서버로 안 간다. 그런데 지울 방법이 없었다.
+   데모는 여러 사람이 같은 화면을 반복해 만지는 물건이라 초기화가 필요하다 */
+function storeKeys(){
+  const out = [];
+  try {
+    for (let i = 0; i < localStorage.length; i++) {
+      const k = localStorage.key(i);
+      if (k && k.startsWith('drhand.')) out.push(k);
+    }
+  } catch(e){}
+  return out;
+}
+
+function drawStore(){
+  const box = $('storeBox');
+  if (!box) return;
+  const rows = [];
+  const nProfile = Object.keys(profile).filter(k => k !== 'docs' && k !== 'docDates').length;
+  const nDocs = (profile.docs || []).length;
+  const nDates = Object.values(profile.docDates || {}).reduce((a,b)=>a+b.length, 0);
+
+  if (who)            rows.push(['이름', who]);
+  if (nProfile)       rows.push(['내 정보', nProfile + '가지']);
+  if (nDocs)          rows.push(['서류', nDocs + '종' + (nDates ? ' · 날짜 '+nDates+'건' : '')]);
+  if (adopted.size)   rows.push(['할 일', adopted.size + '개']);
+  if (people.length)  rows.push(['함께 보는 사람', people.length + '명']);
+
+  const keys = storeKeys();
+  box.innerHTML = (rows.length
+      ? rows.map(r => '<div class="store-l"><span>'+esc(r[0])+'</span><b>'+esc(r[1])+'</b></div>').join('')
+      : '<div class="store-e">아직 저장된 게 없어요.</div>')
+    + '<div class="store-n">이 브라우저에만 있어요. 서버로 보내지 않아요.'
+      + (keys.length ? ' (저장 칸 '+keys.length+'개)' : '') + '</div>'
+    + (keys.length
+        ? '<button class="store-x" id="storeClear" type="button">전부 지우고 처음부터</button>'
+        : '');
+}
+
+let clearArmed = false;
+function wipeStore(){
+  storeKeys().forEach(k => { try { localStorage.removeItem(k); } catch(e){} });
+  who = ''; people = []; adopted.clear(); outcomes.clear();
+  for (const k of Object.keys(profile)) delete profile[k];
+  cur = null; lastPayload = null; seq = null; doCard = null;
+  seenIds.length = 0; attached = []; stateDirty = false;
+  drawWho(); syncTodoBadge(); syncPeopleBadge(); syncVaultBadge(); syncStatusBadge();
+  drawAtts(); drawStore(); drawState({});
+  closeDrawer();
+  app.dataset.view = 'idle';
+  window.scrollTo(0,0);
+  toast('전부 지웠어요. 처음 상태예요');
+}
+
 function closeDrawer(){ $('drawer').classList.remove('on'); $('scrim').classList.remove('on'); $('drawer').setAttribute('aria-hidden','true'); }
 $('menuBtn').addEventListener('click', openDrawer);
 $('drClose').addEventListener('click', closeDrawer);
