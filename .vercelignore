@@ -11,6 +11,8 @@ _*.py
 design-system
 *.md
 *.txt
+# robots.txt 는 검색 엔진이 읽어야 하므로 배포 대상 (주석은 줄 맨 앞에만 인식됩니다)
+!robots.txt
 
 # 설정·도구
 .claude
