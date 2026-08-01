@@ -1,0 +1,12 @@
+# Dr.Hand — https://over-edge.vercel.app
+# 소개·기능·기술·FAQ·이용 전 안내·데모는 색인을 허용합니다.
+# 운영자 화면과 작업용 시안은 색인하지 않습니다.
+
+User-agent: *
+Allow: /
+
+# 운영자 전용 (접수 명단) — 색인 금지
+Disallow: /%EC%98%88%EC%95%BD%EC%9E%90%EB%AA%85%EB%8B%A8.html
+Disallow: /예약자명단.html
+
+Sitemap: https://over-edge.vercel.app/sitemap.xml
