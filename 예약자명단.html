@@ -86,6 +86,30 @@
 
   .empty{text-align:center;padding:34px 16px;background:#fff;border:1px dashed var(--line);
     border-radius:var(--radius);font-size:14px;color:var(--ink-faint);line-height:1.8;}
+  /* 이 브라우저(localStorage)에 쌓인 접수 — 서버 권한과 무관하게 보이는 목록 */
+  .lsbox{margin-top:20px;background:#fff;border:1px solid var(--line);border-radius:13px;padding:16px 16px 14px;}
+  .lsh{display:flex;flex-wrap:wrap;align-items:baseline;gap:8px;margin-bottom:5px;}
+  .lsh h2{font-size:16px;font-weight:800;color:var(--teal-900);letter-spacing:-.02em;}
+  .lsh code{font-size:11.5px;font-weight:700;color:var(--teal-700);background:var(--teal-50);
+    border:1px solid var(--teal-100);border-radius:999px;padding:3px 9px;}
+  .lsh .lsn{margin-left:auto;font-size:12px;font-weight:700;color:var(--ink-faint);}
+  .lsl{font-size:12.5px;color:var(--ink-soft);line-height:1.7;margin-bottom:12px;}
+  .lsrows{display:grid;gap:8px;}
+  .lsrow{display:flex;gap:10px;align-items:center;border:1px solid var(--line);
+    border-radius:12px;padding:10px 12px;}
+  .lsrow .m{flex:1;min-width:0;}
+  .lsrow .e{font-size:14px;font-weight:700;color:var(--ink);word-break:break-all;}
+  .lsrow .d{font-size:12px;color:var(--ink-soft);margin-top:2px;}
+  .lsrow .x{min-height:36px;padding:0 11px;border-radius:999px;border:1px solid var(--line);
+    background:#fff;font-size:12px;font-weight:700;color:var(--ink-faint);cursor:pointer;font-family:inherit;}
+  .lsrow .x:hover{color:#c96f4a;border-color:#f0e0d2;}
+  .lsempty{font-size:13px;color:var(--ink-faint);text-align:center;padding:16px 0;
+    border:1px dashed var(--line);border-radius:12px;}
+  .lsbar{display:flex;justify-content:flex-end;margin-top:12px;}
+  .lsbtn{min-height:40px;padding:0 14px;border-radius:999px;border:1px solid var(--line);
+    background:#fff;font-size:13px;font-weight:700;cursor:pointer;font-family:inherit;color:var(--ink-soft);}
+  .lsbtn.danger{color:#c96f4a;border-color:#f0e0d2;}
+  .lsbtn.danger:hover{background:#fbf3ec;}
   .note{margin-top:18px;background:#f2f6f6;border-radius:13px;padding:14px 15px;
     font-size:12.5px;color:var(--ink-soft);line-height:1.75;}
   .note b{color:var(--teal-700);}
@@ -124,6 +148,21 @@
   <p class="lead">랜딩 문의 폼으로 들어온 접수를 최신순으로 봅니다.</p>
 
   <div id="app"></div>
+
+  <section class="lsbox" id="lsbox" hidden>
+    <div class="lsh">
+      <h2>이 브라우저에 저장된 접수</h2>
+      <code>localStorage · inquiries</code>
+      <span class="lsn" id="lsn">0건</span>
+    </div>
+    <p class="lsl">문의 폼이 서버와 <b>별개로</b> 이 브라우저에도 한 줄씩 쌓습니다.
+      조회 권한(RLS)과 무관하게 보입니다. 다만 <b>이 브라우저에서 넣은 것만</b> 보입니다 —
+      다른 사람·다른 기기의 접수는 서버 명단에만 있습니다.</p>
+    <div class="lsrows" id="lsrows"></div>
+    <div class="lsbar">
+      <button class="lsbtn danger" id="lswipe" type="button">전체 초기화</button>
+    </div>
+  </section>
 
   <div class="note">
     <b>개인정보 취급.</b> 목록에는 상황을 앞 60자만 띄웁니다. 원문은 "펼치기"를 눌러야 보입니다 —
@@ -330,8 +369,42 @@
     }
   }
 
+  /* ── 이 브라우저에 쌓인 접수 (localStorage · key: inquiries) ──
+     서버 조회 권한이 닫혀 있어도 이건 보입니다. Read / Delete / 전체 초기화. */
+  var LS_KEY = 'inquiries';
+  function lsGet(){ try{ return JSON.parse(localStorage.getItem(LS_KEY) || '[]'); }catch(e){ return []; } }
+  function lsSet(v){ try{ v.length ? localStorage.setItem(LS_KEY, JSON.stringify(v))
+                                    : localStorage.removeItem(LS_KEY); }catch(e){} }
+  function lsDraw(){
+    var box = document.getElementById('lsbox');
+    if(!box) return;
+    box.hidden = false;
+    var rows = lsGet();
+    document.getElementById('lsn').textContent = rows.length + '건';
+    document.getElementById('lsrows').innerHTML = rows.length
+      ? rows.map(function(r,i){
+          return '<div class="lsrow" data-i="' + i + '">' +
+            '<div class="m"><div class="e">' + esc(r.email || '(이메일 없음)') + '</div>' +
+            '<div class="d">' + esc((r.message || '(내용 없음)')).slice(0,60) +
+            ' · ' + esc(String(r.at || '').slice(0,10)) + '</div></div>' +
+            '<button class="x" type="button">삭제</button></div>';
+        }).join('')
+      : '<div class="lsempty">이 브라우저에서 접수한 문의가 없습니다.</div>';
+  }
+  document.addEventListener('click', function(e){
+    if(e.target.classList && e.target.classList.contains('x')){
+      var row = e.target.closest('.lsrow'); if(!row) return;
+      var i = Number(row.getAttribute('data-i'));
+      var v = lsGet(); v.splice(i,1); lsSet(v); lsDraw(); toast('1건 삭제했습니다');
+    }
+    if(e.target.id === 'lswipe'){
+      try{ localStorage.removeItem(LS_KEY); }catch(err){}
+      lsDraw(); toast('전체 초기화했습니다');
+    }
+  });
+
   if (!keyOk()) gateScreen();
-  else load();
+  else { load(); lsDraw(); }
 })();
 </script>
 </body>

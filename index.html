@@ -706,6 +706,14 @@
     }finally{
       if(saved){
         memSet(DONE_KEY, v.email);
+        /* 서버(Supabase)와 별개로, 이 브라우저에도 한 줄 쌓습니다.
+           운영자 명단 페이지가 조회 권한 없이도 접수를 보여줄 수 있게 하기 위해서입니다.
+           key 는 'inquiries' 하나이고 value 는 접수 배열입니다. */
+        try{
+          var list = JSON.parse(localStorage.getItem('inquiries') || '[]');
+          list.unshift({ email: v.email, message: v.message, at: new Date().toISOString() });
+          localStorage.setItem('inquiries', JSON.stringify(list));
+        }catch(e){}
         showDone(v.email);
       }else{
         sending = false;
