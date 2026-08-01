@@ -212,6 +212,12 @@
   .fs-scroll{margin-top:12px;}
 }
 
+/* 완료 화면에서 다시 문의로 돌아가는 링크 */
+.about .cf-again{display:block;margin:10px auto 0;background:none;border:0;
+  font-size:13px;font-weight:700;color:rgba(255,255,255,.82);text-decoration:underline;
+  text-underline-offset:4px;cursor:pointer;min-height:44px;padding:0 8px;font-family:inherit;}
+.about .cf-again:hover{color:#fff;}
+
 </style>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="8b7d6562-9e37-4ee1-86c2-000ba144ef56"></script>
 </head>
@@ -491,15 +497,15 @@
   <div class="whofor whofor-lead">
     <p class="wf-h">이런 분이시면, 아래에 한 줄 남겨주세요</p>
     <div class="wf-list">
-      <div class="wf"><span class="n">1</span><p>병원이 낯설고, <b>무엇부터 해야 할지</b> 모르시는 분</p></div>
-      <div class="wf"><span class="n">2</span><p>환자 정보와 할 일을 <b>한곳에 모아두고</b> 싶은 분</p></div>
-      <div class="wf"><span class="n">3</span><p><b>빠뜨린 게 없는지</b> 확인하고 싶은 분 — 환자·보호자 모두</p></div>
+      <div class="wf"><span class="n">1</span><p>병원이 낯설고 <b>무엇부터 해야 할지</b> 모르시는 분 — 환자·보호자 모두</p></div>
+      <div class="wf"><span class="n">2</span><p><b>협업·제휴</b>를 생각하고 계신 분</p></div>
+      <div class="wf"><span class="n">3</span><p><b>앱 출시 소식</b>이나 사용 관련해 연락받고 싶으신 분</p></div>
     </div>
   </div>
 
   <div class="about">
     <h2>문의 · 소식 받기</h2>
-    <p class="who">지금 상황을 한 줄만 남겨주세요.<br>정리된 문장이 아니어도 됩니다 — 읽고 확인해서 회신드립니다.</p>
+    <p class="who">관련 서비스 문의나 앱 출시 안내를 받고 싶으시면<br>이메일을 남겨주세요.</p>
 
     <form class="cform" id="waitForm" novalidate>
       <div id="formRow">
@@ -510,13 +516,13 @@
           <div class="cf-err" id="cfErrEmail"></div>
         </div>
         <div class="cf-row">
-          <label for="cfMsg">지금 상황 <span class="op">— 선택</span><span class="cf-count" id="cfCount">0 / 500</span></label>
-          <textarea class="cf-in" id="cfMsg" maxlength="500" placeholder="예: 어머니가 폐에 뭐가 보인다고 추가검사를 받으라셔요. 무엇부터 해야 할지 모르겠습니다."></textarea>
+          <label for="cfMsg">남기실 말씀 <span class="op">— 선택 · 무엇이든</span><span class="cf-count" id="cfCount">0 / 500</span></label>
+          <textarea class="cf-in" id="cfMsg" maxlength="500" placeholder="예: 어머니 진료 때문에 무엇부터 해야 할지 모르겠습니다 / 협업·제휴 문의드립니다 / 앱은 언제 나오나요"></textarea>
           <div class="cf-err" id="cfErrMsg"></div>
         </div>
         <label class="cf-agree" for="cfAgree">
           <input type="checkbox" id="cfAgree">
-          <span>남겨주신 이름·이메일·상황을 <b>문의 회신 목적으로만</b> 보관하는 데 동의합니다. 가족 서류를 보내실 때는 <b>환자 본인 동의</b>를 먼저 받아주세요.</span>
+          <span>남겨주신 이메일과 내용을 <b>문의 회신 목적으로만</b> 보관하는 데 동의합니다.</span>
         </label>
         <div class="cf-err" id="cfErrAgree"></div>
         <label class="cf-agree" for="cfNews" style="margin-top:8px;">
@@ -532,8 +538,7 @@
       <a href="mailto:kailee1st@gmail.com">✉️ 직접 문의 — kailee1st@gmail.com</a>
       <div class="row">📱 설치 없이 웹에서 바로 — 앱 출시 준비 중</div>
     </div>
-    <p class="consent">이메일은 소식 안내에만 사용하고, 원하실 때 언제든 해지하실 수 있습니다.
-      가족 서류를 보내주실 때는 환자 본인 동의를 먼저 받아주세요.</p>
+    <p class="consent">이메일은 소식 안내에만 사용하고, 원하실 때 언제든 해지하실 수 있습니다.</p>
   </div>
 </section>
 
@@ -542,8 +547,8 @@
   <div class="demo-band">
     <div class="dtext">
       <h3>직접 눌러보는 데모</h3>
-      <p>상황을 넣으면 놓치고 있는 것을 실제로 찾아서 보여줍니다.
-        <b>지금 만들고 있는 버전</b>이라 화면이 계속 바뀝니다.</p>
+      <p>실제 접수가 아니라, <b>서비스 앱 형태를 체험해보실 수 있게</b> 구성한 화면입니다.
+        지금 만들고 있는 버전이라 화면이 계속 바뀝니다.</p>
     </div>
     <a href="demo.html" class="demo-btn">데모 열기 →</a>
   </div>
@@ -585,6 +590,7 @@
   /* 시크릿 모드에서 localStorage 접근이 예외를 던지면 스크립트가 죽습니다(B-18-O1 #1b) */
   function memGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
   function memSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+  function memDel(k){ try{ localStorage.removeItem(k); }catch(e){} }
 
   /* 두 번째 칸은 오류 표시 자리. 이름 칸을 없앤 뒤에도 'cfErrName' 을 찾고 있어서
      clearErr() 이 null.textContent 로 터졌고, 폼 전체가 무반응이었습니다. */
@@ -605,9 +611,17 @@
       if(s) s.textContent = '';
     });
   }
+  /* 완료 표시는 브라우저에 남습니다. 두 번째 문의(예: 처음엔 앱 문의, 나중에 협업)를
+     막지 않도록 빠져나갈 링크를 답니다. 실수로 인한 연타는 sending 플래그가 막습니다. */
   function showDone(email){
-    row.innerHTML = '<div class="form-done"><span class="chk">✓</span>문의가 접수되었습니다.</div>';
+    row.innerHTML = '<div class="form-done"><span class="chk">✓</span>문의가 접수되었습니다.</div>'
+      + '<button type="button" class="cf-again" id="cfAgain">다른 내용으로 다시 문의하기</button>';
     setMsg(email ? (email + ' 으로 회신드립니다') : '', 'ok');
+    var again = $('cfAgain');
+    if(again) again.addEventListener('click', function(){
+      memDel(DONE_KEY);
+      location.reload();          // 폼과 이벤트를 온전한 상태로 되살립니다
+    });
   }
 
   /* 실패 사유를 한국어로. 영어 코드는 화면에 내보내지 않고 console 에만 남깁니다(B-18-O1 #4) */
