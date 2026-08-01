@@ -569,34 +569,60 @@
       실제로 존재하는 reservations 로 보냅니다. 컬럼: name·email·phone·message·visit_type. */
 (function(){
   var form = document.getElementById('waitForm');
-  if(!form || !window.supabase) return;
-  var sb = window.supabase.createClient(
+  if(!form) return;                            // 폼이 없을 때만 빠집니다
+
+  /* CDN 이 안 뜨어도 핸들러는 답니다. 예전엔 여기서 return 해서 네이티브 제출이 일어났고,
+     페이지가 새로고침되며 적어둔 내용이 통째로 사라졌습니다(B-18-O1 #1). */
+  var sb = window.supabase ? window.supabase.createClient(
     'https://efzhsdedyeyjanvzikqe.supabase.co',
     'sb_publishable_gfXK9g5zoc-izRagjS_2Eg_Tm7rv94x'
-  );
+  ) : null;
+
   var $ = function(id){ return document.getElementById(id); };
   var btn = $('submitBtn'), msg = $('formMsg'), row = $('formRow');
   var DONE_KEY = 'drhand_contact_done';
 
+  /* 시크릿 모드에서 localStorage 접근이 예외를 던지면 스크립트가 죽습니다(B-18-O1 #1b) */
+  function memGet(k){ try{ return localStorage.getItem(k); }catch(e){ return null; } }
+  function memSet(k,v){ try{ localStorage.setItem(k,v); }catch(e){} }
+
+  /* 두 번째 칸은 오류 표시 자리. 이름 칸을 없앤 뒤에도 'cfErrName' 을 찾고 있어서
+     clearErr() 이 null.textContent 로 터졌고, 폼 전체가 무반응이었습니다. */
   var F = {
-    name:  ['cfName',  'cfErrName'],
+    name:  ['cfName',  null],
     email: ['email',   'cfErrEmail'],
     message:['cfMsg',  'cfErrMsg'],
     agree: [null,      'cfErrAgree']
   };
+  function fld(k){ return F[k][0] ? $(F[k][0]) : null; }
+  function slot(k){ return F[k][1] ? $(F[k][1]) : null; }
 
   function setMsg(t, k){ msg.textContent = t; msg.className = 'form-msg ' + (k||''); }
   function clearErr(){
     Object.keys(F).forEach(function(k){
-      if(F[k][0]) $(F[k][0]).classList.remove('bad');
-      $(F[k][1]).textContent = '';
+      var f = fld(k), s = slot(k);
+      if(f) f.classList.remove('bad');
+      if(s) s.textContent = '';
     });
   }
   function showDone(email){
     row.innerHTML = '<div class="form-done"><span class="chk">✓</span>문의가 접수되었습니다.</div>';
     setMsg(email ? (email + ' 으로 회신드립니다') : '', 'ok');
   }
-  var prev = localStorage.getItem(DONE_KEY);
+
+  /* 실패 사유를 한국어로. 영어 코드는 화면에 내보내지 않고 console 에만 남깁니다(B-18-O1 #4) */
+  function errMsg(err){
+    var code = String((err && (err.code || err.status)) || '');
+    var base = ' 계속 안 되면 kailee1st@gmail.com 으로 보내주세요.';
+    if(!navigator.onLine) return '인터넷 연결이 없습니다. 연결된 뒤 다시 눌러주세요. (적어주신 내용은 그대로 있습니다)';
+    if(code === '23505') return '이미 접수된 이메일입니다. 회신을 기다려 주세요.';
+    if(code === 'PGRST205' || code === '42501' || code === '401' || code === '403')
+      return '접수 창구에 문제가 있어 저장하지 못했습니다.' + base;
+    if(/^5\d\d$/.test(code)) return '서버가 잠시 불안정합니다. 잠시 후 다시 시도해 주세요.' + base;
+    return '접수에 실패했습니다. 잠시 후 다시 시도해 주세요.' + base;
+  }
+
+  var prev = memGet(DONE_KEY);
   if(prev){ showDone(prev); }
 
   function isEmail(v){ return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v); }
@@ -613,14 +639,15 @@
     if(!name) errs.name = '어떻게 불러드릴지 알려주세요.';
     if(!email) errs.email = '이메일을 입력해 주세요.';
     else if(!isEmail(email)) errs.email = '이메일 형식을 확인해 주세요. (예: name@example.com)';
-    if(!text) errs.message = '지금 상황을 한 줄이라도 적어주세요.';
-    else if(text.length < 5) errs.message = '조금만 더 자세히 적어주세요. (5자 이상)';
+    /* 라벨이 '선택'이므로 비워도 통과시킵니다. 적으셨다면 너무 짧은 것만 잡습니다 */
+    if(text && text.length < 5) errs.message = '조금만 더 자세히 적어주세요. (5자 이상)';
     if(!agree) errs.agree = '개인정보 보관에 동의해 주셔야 접수할 수 있습니다.';
 
     Object.keys(F).forEach(function(k){
       if(!errs[k]) return;
-      if(F[k][0]){ $(F[k][0]).classList.add('bad'); if(!first) first = $(F[k][0]); }
-      $(F[k][1]).textContent = errs[k];
+      var f = fld(k), s = slot(k);
+      if(f){ f.classList.add('bad'); if(!first) first = f; }
+      if(s) s.textContent = errs[k];
     });
     if(Object.keys(errs).length){
       setMsg('입력을 확인해 주세요.', 'err');
@@ -637,9 +664,17 @@
     setMsg('', '');
     var v = validate(); if(!v) return;
 
+    // 접수 창구를 못 불러온 경우. 적어둔 내용은 그대로 두고 대안을 안내합니다
+    if(!sb){
+      setMsg('접수 창구를 불러오지 못했습니다. 적어주신 내용은 그대로 있으니, '
+             + 'kailee1st@gmail.com 으로 보내주시거나 잠시 후 다시 눌러주세요.', 'err');
+      return;
+    }
+
     sending = true;
     btn.disabled = true;
     var orig = btn.textContent; btn.textContent = '보내는 중…';
+    var saved = false;                        // 저장에 성공한 뒤에만 접수 화면으로 바꿉니다
     try{
       var res = await sb.from('reservations').insert([{
         name: v.name,
@@ -649,15 +684,19 @@
         visit_type: v.news ? '랜딩 문의 · 소식받기' : '랜딩 문의'
       }]);
       if(res.error) throw res.error;
-      localStorage.setItem(DONE_KEY, v.email);
-      showDone(v.email);
+      saved = true;
     }catch(err){
-      sending = false;
-      btn.disabled = false; btn.textContent = orig;
       // 증상 원문은 로그에 남기지 않습니다. 코드와 메시지만.
       console.error('[contact]', err && err.code, err && err.message);
-      setMsg('접수에 실패했습니다. 잠시 후 다시 시도해 주세요. 계속 안 되면 kailee1st@gmail.com 으로 보내주세요.'
-             + (err && err.code ? ' (오류 ' + err.code + ')' : ''), 'err');
+      setMsg(errMsg(err), 'err');
+    }finally{
+      if(saved){
+        memSet(DONE_KEY, v.email);
+        showDone(v.email);
+      }else{
+        sending = false;
+        btn.disabled = false; btn.textContent = orig;
+      }
     }
   });
 
