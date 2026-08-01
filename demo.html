@@ -1659,7 +1659,7 @@
   </div>
 </div>
 
-<aside class="drawer" id="drawer" aria-hidden="true">
+<aside class="drawer" id="drawer" aria-hidden="true" inert>
   <div class="dr-hd">
     <span class="t">메뉴</span>
     <button class="x" id="drClose" type="button" aria-label="닫기">
@@ -4441,7 +4441,12 @@ $('pfApply').addEventListener('click', ()=>{
    메뉴 드로어
    ========================================================== */
 function openDrawer(){
-  drawStore(); $('drawer').classList.add('on'); $('scrim').classList.add('on'); $('drawer').setAttribute('aria-hidden','false'); }
+  drawStore();
+  const d = $('drawer');
+  d.removeAttribute('inert');
+  d.classList.add('on'); $('scrim').classList.add('on');
+  d.setAttribute('aria-hidden','false');
+}
 /* 저장된 것 — 브라우저에만 있고 서버로 안 간다. 그런데 지울 방법이 없었다.
    데모는 여러 사람이 같은 화면을 반복해 만지는 물건이라 초기화가 필요하다 */
 function storeKeys(){
@@ -4495,7 +4500,19 @@ function wipeStore(){
   toast('전부 지웠어요. 처음 상태예요');
 }
 
-function closeDrawer(){ $('drawer').classList.remove('on'); $('scrim').classList.remove('on'); $('drawer').setAttribute('aria-hidden','true'); }
+function closeDrawer(){
+  const d = $('drawer');
+  // 포커스가 안에 남은 채로 숨기면 보조기술 사용자에게 사라진 요소가 잡힌다.
+  // 포커스를 메뉴 버튼으로 돌려준 뒤에 숨긴다
+  if (d.contains(document.activeElement)) {
+    document.activeElement.blur();
+    const m = $('menuBtn'); if (m) m.focus({ preventScroll:true });
+  }
+  d.classList.remove('on'); $('scrim').classList.remove('on');
+  d.setAttribute('aria-hidden','true');
+  // inert 는 숨기는 동시에 포커스 자체를 막는다. aria-hidden 만으론 안 막힌다
+  d.setAttribute('inert','');
+}
 $('menuBtn').addEventListener('click', openDrawer);
 $('drClose').addEventListener('click', closeDrawer);
 $('scrim').addEventListener('click', closeDrawer);
