@@ -211,11 +211,12 @@
     return k === ACCESS_KEY;
   }
 
+  /* 거부 화면에 키를 적지 않는다. 적으면 잠금이 스스로 열쇠를 알려주는 셈이다 */
   function gateScreen(){
     app.innerHTML =
-      '<div class="gate"><h2>접근키가 필요합니다</h2>' +
-      '<p>주소 끝에 <code>?key=</code>를 붙여서 여세요. 키가 없으면 명단이 보이지 않습니다.</p>' +
-      '<pre>예약자명단.html?key=' + esc(ACCESS_KEY) + '</pre></div>';
+      '<div class="gate"><h2>접근이 거부되었습니다</h2>' +
+      '<p>이 페이지는 운영자 전용입니다. 주소 끝에 올바른 <code>?key=</code> 값이 있어야 열립니다.</p>' +
+      '<pre>예약자명단.html?key=●●●●●●</pre></div>';
   }
 
   /* ---------- 조회 권한 안내 (빈 목록·오류 양쪽에서 쓴다) ---------- */
