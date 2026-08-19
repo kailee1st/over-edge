@@ -29,3 +29,8 @@ _backup-*.html
 hero-*.html
 pain-*.html
 page-*.html
+
+# 리디자인 작업 시안 (배포 제외)
+_comp-redesign.html
+_hero-variants.html
+landing-old.html
