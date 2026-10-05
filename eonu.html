@@ -18,7 +18,9 @@
 <link rel="preload" as="image" href="img/eonu-hero.jpg" fetchpriority="high">
 <link rel="preload" as="font" type="font/woff" crossorigin href="https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2001@1.1/GmarketSansBold.woff">
 <link rel="icon" type="image/png" href="img/eonu-mark.png">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<!-- Pretendard는 렌더를 막지 않게 비동기로. 받기 전에는 Malgun Gothic 으로 먼저 그립니다. -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" media="print" onload="this.media='all';this.onload=null">
+<noscript><link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css"></noscript>
 <script defer src="https://cloud.umami.is/script.js" data-website-id="8b7d6562-9e37-4ee1-86c2-000ba144ef56"></script>
 <script type="application/ld+json">
 {
