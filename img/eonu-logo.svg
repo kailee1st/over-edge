@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 450 120" width="100%" height="100%">
+  <defs>
+    <linearGradient id="horizGradLight" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#175468" />
+      <stop offset="60%" stop-color="#24788F" />
+      <stop offset="100%" stop-color="#F87D62" />
+    </linearGradient>
+  </defs>
+
+  <!-- Left Symbol (Scaled) -->
+  <g transform="translate(-80, -45) scale(0.65)">
+    <circle cx="195" cy="125" r="18" fill="#5CB3B8" />
+    <circle cx="250" cy="145" r="22" fill="#F87D62" />
+    <circle cx="305" cy="125" r="18" fill="#175468" />
+    <path d="M 155 115 C 155 210, 345 210, 345 115 C 362 230, 138 230, 155 115 Z" fill="url(#horizGradLight)" />
+  </g>
+
+  <!-- Right Typography -->
+  <g transform="translate(130, 0)">
+    <text x="0" y="65" 
+          font-family="'Pretendard', 'Montserrat', 'Outfit', -apple-system, sans-serif" 
+          font-size="44" 
+          font-weight="800" 
+          letter-spacing="4" 
+          fill="#175468">EONU</text>
+    <text x="2" y="95" 
+          font-family="'Pretendard', 'Apple SD Gothic Neo', -apple-system, sans-serif" 
+          font-size="13" 
+          font-weight="600" 
+          letter-spacing="0.5" 
+          fill="#5E7C8D">이어지는 진료, 세 사람의 안심</text>
+  </g>
+</svg>
