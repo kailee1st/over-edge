@@ -632,6 +632,59 @@ footer{border-top:1px solid var(--line);margin-top:60px}
 .bigstat b{font-family:var(--hd);font-size:42px;color:var(--warm-600);line-height:1.1;display:block}
 .bigstat span{font-size:14.5px;color:var(--ink-soft);display:block;margin-top:6px}
 
+/* ── 근거: 두 기둥 (기관의 문제 / 임상의 문제) ── */
+.twocol{display:grid;gap:18px;margin-top:26px}
+@media(min-width:980px){.twocol{grid-template-columns:1fr 1fr;gap:22px}}
+.pillar{border-radius:var(--r-box);padding:24px 24px 22px;border:1.5px solid var(--line);background:#fcfdfd}
+.pillar.biz{border-color:var(--warm-100);background:linear-gradient(180deg,#fdf8f4,#fff 46%)}
+.pillar.clin{border-color:var(--teal-100);background:linear-gradient(180deg,#f2fafa,#fff 46%)}
+.pillar-tag{display:inline-block;font-size:12px;font-weight:850;letter-spacing:.07em;border-radius:var(--r-chip);padding:6px 13px}
+.pillar.biz .pillar-tag{color:var(--warm-600);background:#fff;border:1px solid var(--warm-100)}
+.pillar.clin .pillar-tag{color:var(--teal-700);background:#fff;border:1px solid var(--teal-100)}
+.pillar-h{font-family:var(--hd);font-size:23px;line-height:1.35;color:var(--teal-900);margin:12px 0 10px}
+.pillar.biz .pillar-h{color:#7c3f24}
+.pillar-lead{font-size:15.5px;line-height:1.72;color:var(--ink-soft);margin-bottom:18px}
+.pillar-lead b{color:var(--teal-700)}
+.pillar.biz .pillar-lead b{color:var(--warm-600)}
+.pillar-foot{font-size:14px;line-height:1.72;color:var(--ink-soft);margin-top:16px;padding-top:14px;border-top:1px dashed var(--line)}
+.pillar-foot b{color:var(--teal-700)}
+.pillar-foot.warn b{color:var(--warm-600)}
+.pillar .ev{box-shadow:none;border-color:var(--line)}
+
+/* ── 여섯 방향 다이어그램 ── */
+.sixmap{position:relative;max-width:860px;margin:6px auto 0;aspect-ratio:860/400}
+.sixmap svg{position:absolute;inset:0;width:100%;height:100%}
+.sixmap .flow{fill:none;stroke:#8fc8c4;stroke-width:2.6;stroke-linecap:round}
+.sixmap .flow.back{stroke:#cfa08c;stroke-dasharray:7 6}
+.sixmap .flow.fam{stroke:#bcd9d6;stroke-width:2.2}
+.sm-actor{position:absolute;background:#fff;border:1.5px solid #aad0cd;border-radius:12px;
+  padding:10px 14px;text-align:center;box-shadow:var(--shadow-sm);width:146px}
+.sm-actor b{display:block;font-size:15.5px;color:var(--teal-900);line-height:1.3}
+.sm-actor span{display:block;font-size:12px;color:var(--ink-faint);margin-top:3px}
+.sm-actor.exp{left:50%;transform:translateX(-50%);top:0}
+.sm-actor.pat{left:2%;bottom:6%}
+.sm-actor.car{right:2%;bottom:6%;border-color:#e1bcad}
+.sm-actor.car b{color:#a95944}
+.sm-lab{position:absolute;display:flex;align-items:center;gap:5px;font-size:11.5px;font-weight:800;
+  white-space:nowrap;background:#fff;border:1px solid var(--line);border-radius:var(--r-chip);padding:4px 9px}
+.sm-lab i{font-style:normal;font-family:var(--hd);font-size:10.5px;color:#fff;background:var(--teal-600);
+  border-radius:4px;padding:1px 4px}
+.sm-lab em{font-style:normal;color:var(--ok-600);font-weight:850}
+.sm-lab.d1{left:21%;top:22%}
+.sm-lab.d3{left:13%;top:44%}
+.sm-lab.d2{right:21%;top:22%}
+.sm-lab.d4{right:13%;top:44%}
+.sm-lab.d5{left:50%;transform:translateX(-50%);bottom:30%}
+.sm-lab.d6{left:50%;transform:translateX(-50%);bottom:18%}
+.sixnote{font-size:13.5px;color:var(--ink-faint);text-align:center;margin-top:16px;line-height:1.7}
+.sixnote b{color:var(--teal-700)}
+@media(max-width:760px){
+  .sixmap{aspect-ratio:auto;height:auto;display:grid;gap:10px}
+  .sixmap svg{display:none}
+  .sm-actor,.sm-lab{position:static;transform:none;width:auto}
+  .sm-lab{justify-content:flex-start}
+}
+
 /* ── 근거 ── */
 .ev-h{font-family:var(--hd);font-size:20px;color:var(--teal-900);margin:38px 0 14px;
   padding-left:14px;border-left:4px solid var(--teal-500)}
@@ -947,26 +1000,42 @@ DESIGN.md, and every shipping raster carrying its provenance.
     세 사람의 일상 정보가 오갑니다. 필요한 곳에만 승인을 둡니다.</p>
 
   <h3>여섯 방향과 승인 지점</h3>
-  <div class="dirs">
-    <div class="dir-row"><span class="tag">D1</span>
-      <span class="what"><b>할 일·안내 → 환자</b><small>A1 초안 · A2 전달</small></span>
-      <span class="gate">✓ 의료진 승인</span></div>
-    <div class="dir-row"><span class="tag">D2</span>
-      <span class="what"><b>한 장 요약 → 보호자</b><small>A1 초안 · A2 전달</small></span>
-      <span class="gate">✓ 의료진·환자</span></div>
-    <div class="dir-row"><span class="tag">D3</span>
-      <span class="what"><b>실행·어려움의 값 → 의료진</b><small>A3 값 추출 · A2 정리</small></span>
-      <span class="gate">✓ 환자 확인</span></div>
-    <div class="dir-row"><span class="tag">D4</span>
-      <span class="what"><b>관찰·걱정의 값 → 의료진</b><small>A3 값 추출 · A2 정리</small></span>
-      <span class="gate">✓ 보호자 확인</span></div>
-    <div class="dir-row"><span class="tag">D5</span>
-      <span class="what"><b>선택한 도움 요청 → 보호자</b><small>A2 전달</small></span>
-      <span class="gate">✓ 공유 범위 선택</span></div>
-    <div class="dir-row"><span class="tag">D6</span>
-      <span class="what"><b>도움 수락·확인 → 환자</b><small>A2 전달</small></span>
-      <span class="gate">✓ 회신</span></div>
+<div class="sixmap" role="img" aria-label="의료진에서 환자와 보호자로 계획이 나가고, 두 사람의 응답이 값으로 돌아오며, 환자와 보호자 사이에 도움 요청과 수락이 오가는 여섯 방향 흐름도. 각 방향마다 승인 지점이 있다.">
+    <svg viewBox="0 0 860 400" aria-hidden="true">
+      <defs>
+        <marker id="ar" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0L10 5L0 10z" fill="#8fc8c4"/></marker>
+        <marker id="arb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto">
+          <path d="M0 0L10 5L0 10z" fill="#cfa08c"/></marker>
+        <marker id="arf" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto">
+          <path d="M0 0L10 5L0 10z" fill="#bcd9d6"/></marker>
+      </defs>
+      <!-- D1 의료진 -> 환자 -->
+      <path class="flow" d="M392 62 C300 104 192 196 142 262" marker-end="url(#ar)"/>
+      <!-- D3 환자 -> 의료진 -->
+      <path class="flow back" d="M112 258 C168 186 282 96 376 56" marker-end="url(#arb)"/>
+      <!-- D2 의료진 -> 보호자 -->
+      <path class="flow" d="M468 62 C560 104 668 196 718 262" marker-end="url(#ar)"/>
+      <!-- D4 보호자 -> 의료진 -->
+      <path class="flow back" d="M748 258 C692 186 578 96 484 56" marker-end="url(#arb)"/>
+      <!-- D5 환자 -> 보호자 / D6 보호자 -> 환자 -->
+      <path class="flow fam" d="M206 318 H654" marker-end="url(#arf)"/>
+      <path class="flow fam" d="M654 348 H206" marker-end="url(#arf)"/>
+    </svg>
+
+    <div class="sm-actor exp"><b>의료진</b><span>계획·회신 판단</span></div>
+    <div class="sm-actor pat"><b>환자</b><span>실행·자기보고</span></div>
+    <div class="sm-actor car"><b>보호자</b><span>도움·관찰</span></div>
+
+    <span class="sm-lab d1"><i>D1</i>할 일·안내 <em>✓의료진 승인</em></span>
+    <span class="sm-lab d3"><i>D3</i>실행·어려움 <em>✓환자 확인</em></span>
+    <span class="sm-lab d2"><i>D2</i>한 장 요약 <em>✓의료진·환자</em></span>
+    <span class="sm-lab d4"><i>D4</i>관찰·걱정 <em>✓보호자 확인</em></span>
+    <span class="sm-lab d5"><i>D5</i>도움 요청 <em>✓공유 범위 선택</em></span>
+    <span class="sm-lab d6"><i>D6</i>도움 수락·확인 <em>✓회신</em></span>
   </div>
+  <p class="sixnote">바깥으로 나가는 <b>실선</b>은 의료진이 승인한 계획, 돌아오는 <b>점선</b>은 당사자가 확인한 값입니다.
+    여섯 방향 <b>모두 사람의 확인을 거칩니다</b> — 자동으로 오가는 경로는 없습니다.</p>
 
 <h3>AI를 왜 쓰나 — 업무를 늘리지 않기 위해서입니다</h3>
   <p class="sub2" style="margin-top:0;margin-bottom:6px">진료 사이를 챙기려면 누군가 안내문을 쓰고, 누구에게 뭘 보낼지 정하고,
@@ -1049,105 +1118,87 @@ DESIGN.md, and every shipping raster carrying its provenance.
 <!-- ⑤-b 선생님께 기대되는 것 — 지금 → 기대 → 확인 지표 -->
 <section class="expect" id="expect">
   <h2 class="hd">이렇게 바뀔 수 있습니다</h2>
-<p class="sub2" style="margin-top:12px">EONU의 구조 — <b>전문가가 목표를 정하고, 기록이 가정으로 가고, 보호자가 확인해 되돌리는 것</b> —
-    는 새로 만든 것이 아닙니다. 교육과 아동 정신건강 현장에서 오래 쓰이고 측정된 방식을
-    진료와 진료 사이로 옮긴 것입니다.</p>
+<p class="sub2" style="margin-top:12px">보호자를 함께 넣는 방식은 두 가지를 동시에 건드립니다 —
+    <b>환자가 끝까지 남는가(기관의 문제)</b>와 <b>실제로 나아지는가(임상의 문제)</b>.
+    바깥 연구가 둘을 따로 측정해 두었습니다.</p>
 
-  <h3 class="ev-h">① 사람들은 원래 중간에 사라집니다 — 연계를 설계하면 남습니다</h3>
-  <div class="evid">
-    <div class="ev">
-      <p class="eyebrow2">기본값 · 조기 종결</p>
-      <h3>아동·청소년 외래 치료의 상당수가 끝까지 가지 않습니다</h3>
-      <div class="bigstat"><b>28&ndash;75%</b><span>조기 종결(premature termination) 비율</span></div>
-      <p class="src">1994년 이후 아동·청소년 외래 정신건강 치료의 중도 탈락을 다룬 메타분석 리뷰.
-        연구마다 범위가 넓지만, <b>이탈이 예외가 아니라 기본값</b>이라는 점은 일관됩니다.<br>
-        de Haan et al., <i>Clinical Psychology Review</i>, 2013.</p>
-      <p class="so">기관이 겪는 손실이자, 환자가 관리에서 빠지는 지점입니다.</p>
-    </div>
-    <div class="ev">
-      <p class="eyebrow2">보호자 연계를 붙였을 때</p>
-      <h3>같은 치료인데, 남는 비율이 달라졌습니다</h3>
-      <table>
-        <tr><td>2차 세션 복귀</td><td>83% → <b>97%</b></td></tr>
-        <tr><td>평균 세션 수</td><td>5.4회 → <b>7.1회</b></td></tr>
-        <tr><td>4회 이상 참석</td><td>72.7% → <b>96.0%</b></td></tr>
-      </table>
-      <p class="src">첫 세션에 보호자의 역할과 치료 과정을 함께 정리하고 현실적 장벽을 확인하는
-        짧은 연계 절차를 더한 결과. 저소득 도심 가정 107가구 대상 연구(McKay et al., 1996)와
-        후속 무작위대조시험(4회 이상 참석 비교, p=.025).</p>
-      <p class="so">세션 수 <b>5.4 → 7.1회는 약 31% 증가</b>입니다. 기관에는 매출이고,
-        환자에게는 끝까지 간 관리입니다.</p>
-    </div>
-  </div>
+  <div class="twocol">
+    <div class="pillar biz">
+      <p class="pillar-tag">기관의 문제</p>
+      <h3 class="pillar-h">환자가 끝까지 남는가</h3>
+      <p class="pillar-lead">진료비도 치료 효과도, 환자가 계속 와야 생깁니다.
+        그런데 <b>중도 이탈은 예외가 아니라 기본값</b>입니다.</p>
 
-  <h3 class="ev-h">② 남은 다음에는, 가정이 얼마나 참여했느냐가 결과를 갈랐습니다</h3>
-  <div class="evid">
-    <div class="ev">
-      <p class="eyebrow2">Daily Behavior Report Card · 교육</p>
-      <h3>같은 개입인데 가정 참여 수준에 따라 개선율이 달랐습니다</h3>
-      <div class="bars">
-        <div class="bar"><span class="bl">가정–학교 협력 <b>낮음</b></span><span class="bt"><i style="width:50%"></i></span><span class="bv">50%</span></div>
-        <div class="bar"><span class="bl">가정–학교 협력 <b>중간</b></span><span class="bt"><i style="width:60%"></i></span><span class="bv">60%</span></div>
-        <div class="bar hi"><span class="bl">가정–학교 협력 <b>높음</b></span><span class="bt"><i style="width:89%"></i></span><span class="bv">89%</span></div>
+      <div class="ev">
+        <p class="eyebrow2">기본값 · 조기 종결</p>
+        <div class="bigstat"><b>28&ndash;75%</b><span>아동·청소년 외래 치료의 조기 종결 비율</span></div>
+        <p class="src">1994년 이후 아동·청소년 외래 정신건강 치료의 중도 탈락 메타분석 리뷰.
+          연구마다 범위가 넓지만 이탈이 흔하다는 점은 일관됩니다.<br>
+          de Haan et al., <i>Clinical Psychology Review</i>, 2013.</p>
       </div>
-      <p class="src">연구 17편 · 효과크기 48개 메타분석. 전체 평균 개선율 차이(IRD) 0.61.
-        조절변인 6개 중 가정·학교 협력이 결과를 강하게 좌우했습니다.
-        <b>이 수치는 행동 개선율이며 지속률이 아닙니다.</b><br>
-        Vannest et al., <i>School Psychology Review</i>, 2010.
-        같은 구조의 Check-In/Check-Out은 단일사례 32편 ES 1.22 (Drevon et al., 2019).</p>
-      <p class="so">EONU가 보호자를 <b>알림 수신자가 아니라 역할 수행자</b>로 둔 이유입니다.</p>
-    </div>
-    <div class="ev">
-      <p class="eyebrow2">다만 · 참여의 방식</p>
-      <h3>‘감독’은 효과가 없거나 해로웠고, ‘자율성 지지’만 효과가 있었습니다</h3>
-      <table>
-        <tr><td>자율성 지지</td><td>양(+)의 관계</td></tr>
-        <tr class="dim"><td>부모 통제·감독</td><td>무관</td></tr>
-        <tr class="dim"><td>내용 지원 · 빈도</td><td>무관</td></tr>
-        <tr><td>전체 평균</td><td>r = &minus;0.064</td></tr>
-      </table>
-      <p class="src">부모 숙제 개입 3수준 메타분석. 연구 28편 · 표본 32개 · 효과크기 252개 · 378,222명 (p&lt;.001).
-        다섯 차원 중 자율성 지지만 학업성취와 양의 관계였습니다.<br>
-        <i>Psicothema</i>, 2024.</p>
-      <p class="so">그래서 보호자를 <b>감시자로 두지 않았습니다.</b> 체크리스트 점검이 아니라,
-        환자가 허용한 범위에서 <b>맡아서 끝내는 역할</b>입니다.</p>
-    </div>
-  </div>
 
-  <h3 class="ev-h">③ 의료에서도 같았고, 진료가 흩어지면 환자가 입원합니다</h3>
-  <div class="evid">
-    <div class="ev">
-      <p class="eyebrow2">의료 · 전환기 돌봄</p>
-      <h3>보호자가 실제로 참여한 중재만 재입원을 줄였습니다</h3>
-      <table>
-        <tr><td>보호자 참여 <b>있음</b></td><td>RR 0.82</td></tr>
-        <tr class="dim"><td>보호자 참여 없음</td><td>RR 0.96</td></tr>
-      </table>
-      <p class="src">무작위대조시험 51건 · 31,291명 메타분석.
-        참여 있음 95% CI 0.74–0.92 (p&lt;.001) / 참여 없음 95% CI 0.86–1.09 (p=.530).<br>
-        Levoy et al., <i>Medical Care</i>, 2022.</p>
-      <p class="so">저자 결론 — <b>“향후 전환기 돌봄은 설계·전달·평가에 보호자의 능동적 참여를 반드시 포함해야 한다.”</b></p>
+      <div class="ev" style="margin-top:14px">
+        <p class="eyebrow2">보호자 연계를 붙였을 때</p>
+        <h3>같은 치료인데, 남는 비율이 달라졌습니다</h3>
+        <table>
+          <tr><td>2차 세션 복귀</td><td>83% → <b>97%</b></td></tr>
+          <tr><td>평균 세션 수</td><td>5.4회 → <b>7.1회</b></td></tr>
+          <tr><td>4회 이상 참석</td><td>72.7% → <b>96.0%</b></td></tr>
+        </table>
+        <p class="src">첫 세션에 보호자의 역할과 치료 과정을 함께 정리하고 현실적 장벽을 확인하는
+          짧은 연계 절차를 더한 결과. 저소득 도심 가정 107가구 대상 연구(McKay et al., 1996)와
+          후속 무작위대조시험(4회 이상 참석 비교, p=.025).</p>
+        <p class="so">세션 수 <b>5.4 → 7.1회는 약 31% 증가</b>입니다.
+          한 환자당 세션이 늘고, 중간에 끊기는 가정이 줄어듭니다.</p>
+      </div>
+
+      <p class="pillar-foot">덧붙여, 국내 건강보험 전수 자료에서는 <b>진료 연속성이 가장 낮은 군의 입원 교차비가 4.84배</b>였습니다
+        (2형 당뇨 54,458명 · Cho et al., <i>BMC Health Services Research</i>, 2015).
+        환자가 흩어지는 것은 기관의 손실이면서 동시에 환자의 위험입니다.</p>
     </div>
-    <div class="ev">
-      <p class="eyebrow2">한국 · 건강보험 전수 데이터</p>
-      <h3>진료 연속성이 낮을수록 입원 교차비가 계단식으로 올랐습니다</h3>
-      <table>
-        <tr class="dim"><td>연속성 0.76–0.99</td><td>2.44배</td></tr>
-        <tr class="dim"><td>연속성 0.51–0.75</td><td>2.58배</td></tr>
-        <tr><td>연속성 0.26–0.50</td><td>3.30배</td></tr>
-        <tr><td>연속성 <b>0.00–0.25</b></td><td>4.84배</td></tr>
-      </table>
-      <p class="src">2형 당뇨 환자 54,458명. 2009 국민건강보험 표본 · 건강보험심사평가원 자료.
-        완전 연속(1.00) 대비 입원 교차비, 보정 후. 최저군 95% CI 3.94–5.96.<br>
-        Cho et al., <i>BMC Health Services Research</i>, 2015.
-        9개국 22편 문헌고찰에서도 연속성이 높을수록 사망률이 낮았습니다 (18편, 81.8% · Pereira Gray et al., <i>BMJ Open</i>, 2018).</p>
-      <p class="so">환자가 흩어지는 것은 <b>기관의 손실이자 환자의 위험</b>입니다 — 드물게 이해가 같은 지점입니다.</p>
+
+    <div class="pillar clin">
+      <p class="pillar-tag">임상의 문제</p>
+      <h3 class="pillar-h">보호자와 같이 하면 실제로 나아지는가</h3>
+      <p class="pillar-lead">남기만 해서는 소용이 없습니다. 보호자를 넣은 개입이
+        <b>결과까지 바꿨는지</b>, 그리고 <b>어떻게 넣었을 때</b> 그랬는지를 봤습니다.</p>
+
+      <div class="ev">
+        <p class="eyebrow2">의료 · 전환기 돌봄</p>
+        <h3>보호자가 실제로 참여한 중재만 재입원을 줄였습니다</h3>
+        <table>
+          <tr><td>보호자 참여 <b>있음</b></td><td>RR 0.82</td></tr>
+          <tr class="dim"><td>보호자 참여 없음</td><td>RR 0.96</td></tr>
+        </table>
+        <p class="src">무작위대조시험 51건 · 31,291명 메타분석.
+          참여 있음 95% CI 0.74–0.92 (p&lt;.001) / 참여 없음 95% CI 0.86–1.09 (p=.530).<br>
+          Levoy et al., <i>Medical Care</i>, 2022.</p>
+        <p class="so">저자 결론 — <b>“향후 전환기 돌봄은 설계·전달·평가에 보호자의 능동적 참여를 반드시 포함해야 한다.”</b></p>
+      </div>
+
+      <div class="ev" style="margin-top:14px">
+        <p class="eyebrow2">교육 · 가정 연계</p>
+        <h3>가정 참여 수준이 개선율을 갈랐습니다</h3>
+        <div class="bars">
+          <div class="bar"><span class="bl">협력 <b>낮음</b></span><span class="bt"><i style="width:50%"></i></span><span class="bv">50%</span></div>
+          <div class="bar"><span class="bl">협력 <b>중간</b></span><span class="bt"><i style="width:60%"></i></span><span class="bv">60%</span></div>
+          <div class="bar hi"><span class="bl">협력 <b>높음</b></span><span class="bt"><i style="width:89%"></i></span><span class="bv">89%</span></div>
+        </div>
+        <p class="src">Daily Behavior Report Card 메타분석 17편 · 효과크기 48개. 전체 평균 IRD 0.61.
+          <b>행동 개선율이며 지속률이 아닙니다.</b> 같은 구조의 Check-In/Check-Out은 단일사례 32편 ES 1.22.<br>
+          Vannest et al., <i>School Psychology Review</i>, 2010 / Drevon et al., <i>Psychology in the Schools</i>, 2019.</p>
+      </div>
+
+      <p class="pillar-foot warn">단, <b>어떻게 넣느냐가 뒤집습니다.</b> 부모 숙제 개입 메타분석(28편 · 378,222명)에서
+        전체 상관은 <b>r = &minus;0.064</b>로 오히려 음수였고, 다섯 차원 중 <b>자율성 지지만</b> 양의 관계였습니다
+        (<i>Psicothema</i>, 2024). 통제·감독형 참여는 효과가 없거나 해로웠습니다.
+        그래서 EONU는 보호자를 감시자가 아니라 <b>환자가 허용한 범위에서 맡아서 끝내는 역할</b>로 둡니다.</p>
     </div>
   </div>
 
   <p class="caveat" style="margin-top:22px">위 연구는 어느 것도 EONU를 대상으로 한 것이 아닙니다.
     연계 절차 연구는 아동 정신건강 외래, 교육 개입은 아동 행동, 전환기 돌봄은 퇴원 후 성인 환자를 다뤘고,
-    연속성 연구는 모두 관찰 연구입니다. <b>설계 방향의 근거로 인용했을 뿐 EONU의 효과를 보여주는 자료가 아닙니다.</b>
+    연속성 연구는 관찰 연구입니다. <b>설계 방향의 근거로 인용했을 뿐 EONU의 효과를 보여주는 자료가 아닙니다.</b>
     EONU의 효과는 아래 지표로 파일럿에서 직접 확인합니다.</p>
 
   <h3 style="font-family:var(--hd);font-size:19px;color:var(--teal-900);margin:44px 0 6px">그래서, 기관 업무에는 얼마나 부담이 될까</h3>
