@@ -618,6 +618,20 @@ footer{border-top:1px solid var(--line);margin-top:60px}
 .safe .gs b{font-family:var(--hd);font-size:17px;color:var(--teal-900);line-height:1.3;display:block}
 .safe .gs span{font-size:13.5px;line-height:1.6;color:var(--ink-soft);margin-top:6px;display:block}
 
+/* 에이전트 카드 — 지금/AI가 맡는 것/사람이 쥐는 것 3단 */
+.ag .agk{font-family:var(--hd);font-size:17px;color:var(--teal-700)}
+.ag .agnow{font-size:13.5px;line-height:1.6;color:var(--ink-faint);margin-top:8px;
+  text-decoration:line-through;text-decoration-color:rgba(107,124,130,.4)}
+.ag .agdo{font-size:14.5px;line-height:1.68;color:var(--ink);margin-top:9px}
+.ag .agdo b{display:block;font-size:12px;letter-spacing:.05em;color:var(--teal-700);margin-bottom:3px}
+.ag .agkeep{font-size:13.5px;line-height:1.55;color:#8a5a40;background:var(--warm-50);
+  border:1px solid var(--warm-100);border-radius:var(--r-chip);padding:7px 13px;margin-top:12px;display:inline-block}
+.ag .agkeep b{color:#7c3f24}
+/* 큰 수치 한 개 */
+.bigstat{margin:6px 0 2px}
+.bigstat b{font-family:var(--hd);font-size:42px;color:var(--warm-600);line-height:1.1;display:block}
+.bigstat span{font-size:14.5px;color:var(--ink-soft);display:block;margin-top:6px}
+
 /* ── 근거 ── */
 .ev-h{font-family:var(--hd);font-size:20px;color:var(--teal-900);margin:38px 0 14px;
   padding-left:14px;border-left:4px solid var(--teal-500)}
@@ -954,15 +968,34 @@ DESIGN.md, and every shipping raster carrying its provenance.
       <span class="gate">✓ 회신</span></div>
   </div>
 
-  <h3>AI가 필요한 이유, 그리고 AI가 하는 일의 범위</h3>
-  <p class="sub2" style="margin-top:0;margin-bottom:16px">반복되는 <b>초안 작성·전달 정리·응답 확인</b>을 AI가 맡아,
-    의료진의 추가 부담 없이 대화를 이을 수 있는지 검증합니다. AI는 세 가지로 쪼개져 있고, 각각 범위가 정해져 있습니다.</p>
+<h3>AI를 왜 쓰나 — 업무를 늘리지 않기 위해서입니다</h3>
+  <p class="sub2" style="margin-top:0;margin-bottom:6px">진료 사이를 챙기려면 누군가 안내문을 쓰고, 누구에게 뭘 보낼지 정하고,
+    돌아온 말에서 필요한 값을 골라내야 합니다. <b>그 세 가지가 전부 사람 손에 남으면 도입이 곧 업무 증가입니다.</b>
+    AI는 그 세 자리에만 들어가고, <b>결정은 사람이 쥡니다.</b></p>
   <div class="agents">
-    <div class="ag"><b>A1 · 초안 생성·개선</b><span>녹음·이력으로 초안을 만들고, 승인된 수정 패턴을 다음 초안에 반영합니다.</span></div>
-    <div class="ag"><b>A2 · 양방향 전달 판단</b><span>계획과 돌아온 응답에서 누구에게 무엇을 언제 보낼지 판단·정리합니다.</span></div>
-    <div class="ag"><b>A3 · 일상 발화에서 값 추출</b><span>평소 대화에서 의료진이 정한 항목의 값·근거·출처를 추출합니다.</span></div>
+    <div class="ag">
+      <p class="agk">A1 · 초안 쓰기</p>
+      <p class="agnow">지금은 — 환자용·보호자용 안내를 매번 새로 씁니다</p>
+      <p class="agdo"><b>AI가 맡는 것</b> 녹음과 지난 승인 이력으로 초안을 만들고, 고치신 패턴을 다음 초안에 반영</p>
+      <p class="agkeep">선생님이 쥐는 것 — <b>무엇을 내보낼지</b></p>
+    </div>
+    <div class="ag">
+      <p class="agk">A2 · 나눠 보내기</p>
+      <p class="agnow">지금은 — 누구에게 무엇을 언제 보낼지 매번 판단합니다</p>
+      <p class="agdo"><b>AI가 맡는 것</b> 같은 내용을 환자 몫과 보호자 몫으로 나누고, 돌아온 응답을 대상별로 정리</p>
+      <p class="agkeep">환자가 쥐는 것 — <b>보호자에게 열어줄 범위</b></p>
+    </div>
+    <div class="ag">
+      <p class="agk">A3 · 값 뽑기</p>
+      <p class="agnow">지금은 — 통화·메모에서 필요한 값을 골라 옮겨 적습니다</p>
+      <p class="agdo"><b>AI가 맡는 것</b> 정해두신 확인 항목에 해당하는 발언만 값·근거·출처를 붙여 추출</p>
+      <p class="agkeep">선생님이 쥐는 것 — <b>해석과 후속 조치</b></p>
+    </div>
   </div>
-  <p class="ai-rule">AI는 값과 근거를 돌려줍니다. 재방문·계획 변경은 의료진이 판단합니다.</p>
+  <p class="ai-rule">AI는 값과 근거를 돌려줄 뿐입니다. 재방문과 계획 변경은 의료진이 판단합니다.</p>
+  <p class="caveat" style="margin-top:14px">그래서 묻게 되는 것은 <b>“정말 업무가 줄었는가”</b> 하나입니다.
+    아래 <a href="#expect" style="color:var(--teal-700);font-weight:700">기관 업무 부담</a>에
+    A1·A2·A3이 각각 어떤 지표로 확인되는지 적어뒀습니다 — 줄지 않으면 범위를 좁히거나 접습니다.</p>
 
   <h3>하지 않는 것</h3>
   <div class="geo-stats">
@@ -1017,60 +1050,75 @@ DESIGN.md, and every shipping raster carrying its provenance.
 <section class="expect" id="expect">
   <h2 class="hd">이렇게 바뀔 수 있습니다</h2>
 <p class="sub2" style="margin-top:12px">EONU의 구조 — <b>전문가가 목표를 정하고, 기록이 가정으로 가고, 보호자가 확인해 되돌리는 것</b> —
-    는 새로 만든 것이 아닙니다. <b>교육 현장에서 20년 넘게 쓰이고 효과가 측정된 개입</b>의 구조를,
+    는 새로 만든 것이 아닙니다. 교육과 아동 정신건강 현장에서 오래 쓰이고 측정된 방식을
     진료와 진료 사이로 옮긴 것입니다.</p>
 
-  <h3 class="ev-h">① 교육에서는 이미 검증된 구조입니다</h3>
+  <h3 class="ev-h">① 사람들은 원래 중간에 사라집니다 — 연계를 설계하면 남습니다</h3>
   <div class="evid">
     <div class="ev">
-      <p class="eyebrow2">Daily Behavior Report Card</p>
-      <h3>가정이 얼마나 참여했느냐가, 같은 개입의 결과를 갈랐습니다</h3>
+      <p class="eyebrow2">기본값 · 조기 종결</p>
+      <h3>아동·청소년 외래 치료의 상당수가 끝까지 가지 않습니다</h3>
+      <div class="bigstat"><b>28&ndash;75%</b><span>조기 종결(premature termination) 비율</span></div>
+      <p class="src">1994년 이후 아동·청소년 외래 정신건강 치료의 중도 탈락을 다룬 메타분석 리뷰.
+        연구마다 범위가 넓지만, <b>이탈이 예외가 아니라 기본값</b>이라는 점은 일관됩니다.<br>
+        de Haan et al., <i>Clinical Psychology Review</i>, 2013.</p>
+      <p class="so">기관이 겪는 손실이자, 환자가 관리에서 빠지는 지점입니다.</p>
+    </div>
+    <div class="ev">
+      <p class="eyebrow2">보호자 연계를 붙였을 때</p>
+      <h3>같은 치료인데, 남는 비율이 달라졌습니다</h3>
+      <table>
+        <tr><td>2차 세션 복귀</td><td>83% → <b>97%</b></td></tr>
+        <tr><td>평균 세션 수</td><td>5.4회 → <b>7.1회</b></td></tr>
+        <tr><td>4회 이상 참석</td><td>72.7% → <b>96.0%</b></td></tr>
+      </table>
+      <p class="src">첫 세션에 보호자의 역할과 치료 과정을 함께 정리하고 현실적 장벽을 확인하는
+        짧은 연계 절차를 더한 결과. 저소득 도심 가정 107가구 대상 연구(McKay et al., 1996)와
+        후속 무작위대조시험(4회 이상 참석 비교, p=.025).</p>
+      <p class="so">세션 수 <b>5.4 → 7.1회는 약 31% 증가</b>입니다. 기관에는 매출이고,
+        환자에게는 끝까지 간 관리입니다.</p>
+    </div>
+  </div>
+
+  <h3 class="ev-h">② 남은 다음에는, 가정이 얼마나 참여했느냐가 결과를 갈랐습니다</h3>
+  <div class="evid">
+    <div class="ev">
+      <p class="eyebrow2">Daily Behavior Report Card · 교육</p>
+      <h3>같은 개입인데 가정 참여 수준에 따라 개선율이 달랐습니다</h3>
       <div class="bars">
         <div class="bar"><span class="bl">가정–학교 협력 <b>낮음</b></span><span class="bt"><i style="width:50%"></i></span><span class="bv">50%</span></div>
         <div class="bar"><span class="bl">가정–학교 협력 <b>중간</b></span><span class="bt"><i style="width:60%"></i></span><span class="bv">60%</span></div>
         <div class="bar hi"><span class="bl">가정–학교 협력 <b>높음</b></span><span class="bt"><i style="width:89%"></i></span><span class="bv">89%</span></div>
       </div>
       <p class="src">연구 17편 · 효과크기 48개 메타분석. 전체 평균 개선율 차이(IRD) 0.61.
-        조절변인 6개 중 <b>가정·학교 협력</b>과 <b>하루 전반의 사용</b>이 결과를 강하게 좌우했습니다.<br>
-        Vannest et al., <i>School Psychology Review</i>, 2010.</p>
+        조절변인 6개 중 가정·학교 협력이 결과를 강하게 좌우했습니다.
+        <b>이 수치는 행동 개선율이며 지속률이 아닙니다.</b><br>
+        Vannest et al., <i>School Psychology Review</i>, 2010.
+        같은 구조의 Check-In/Check-Out은 단일사례 32편 ES 1.22 (Drevon et al., 2019).</p>
       <p class="so">EONU가 보호자를 <b>알림 수신자가 아니라 역할 수행자</b>로 둔 이유입니다.</p>
     </div>
     <div class="ev">
-      <p class="eyebrow2">Check-In / Check-Out</p>
-      <h3>전문가가 목표를 정하고 매일 확인해 가정으로 보내는 방식</h3>
-      <table>
-        <tr><td>단일사례 연구 32편</td><td>ES 1.22</td></tr>
-        <tr><td>집단설계 메타분석</td><td>g 0.42</td></tr>
-        <tr class="dim"><td>초등</td><td>g 0.70</td></tr>
-        <tr class="dim"><td>중등</td><td>g 0.27</td></tr>
-      </table>
-      <p class="src">CICO는 미국 학교에서 2단계 보편 개입으로 자리 잡은 방식입니다.
-        단일사례 32편 ES 1.22 (95% CI 1.00–1.44) — 1 표준편차 이상 개선.<br>
-        Drevon et al., <i>Psychology in the Schools</i>, 2019 / Park &amp; Blair, <i>Education and Treatment of Children</i>, 2020.</p>
-      <p class="so">구조가 같습니다 — <b>목표를 정하는 사람, 매일 기록, 가정의 확인, 다시 전문가에게.</b></p>
-    </div>
-  </div>
-
-  <h3 class="ev-h">② 다만, 어떻게 참여시키느냐가 결과를 뒤집습니다</h3>
-  <div class="evid">
-    <div class="ev">
-      <p class="eyebrow2">부모 숙제 개입 · 3수준 메타분석</p>
+      <p class="eyebrow2">다만 · 참여의 방식</p>
       <h3>‘감독’은 효과가 없거나 해로웠고, ‘자율성 지지’만 효과가 있었습니다</h3>
       <table>
         <tr><td>자율성 지지</td><td>양(+)의 관계</td></tr>
         <tr class="dim"><td>부모 통제·감독</td><td>무관</td></tr>
         <tr class="dim"><td>내용 지원 · 빈도</td><td>무관</td></tr>
-        <tr><td>전체 평균</td><td>r = −0.064</td></tr>
+        <tr><td>전체 평균</td><td>r = &minus;0.064</td></tr>
       </table>
-      <p class="src">연구 28편 · 32개 표본 · 효과크기 252개 · 378,222명 (p&lt;.001).
-        다섯 차원 중 <b>자율성 지지만</b> 학업성취와 양의 관계였습니다.<br>
+      <p class="src">부모 숙제 개입 3수준 메타분석. 연구 28편 · 표본 32개 · 효과크기 252개 · 378,222명 (p&lt;.001).
+        다섯 차원 중 자율성 지지만 학업성취와 양의 관계였습니다.<br>
         <i>Psicothema</i>, 2024.</p>
       <p class="so">그래서 보호자를 <b>감시자로 두지 않았습니다.</b> 체크리스트 점검이 아니라,
         환자가 허용한 범위에서 <b>맡아서 끝내는 역할</b>입니다.</p>
     </div>
+  </div>
+
+  <h3 class="ev-h">③ 의료에서도 같았고, 진료가 흩어지면 환자가 입원합니다</h3>
+  <div class="evid">
     <div class="ev">
       <p class="eyebrow2">의료 · 전환기 돌봄</p>
-      <h3>의료에서도 같았습니다 — 보호자가 실제로 참여한 중재만 재입원을 줄였습니다</h3>
+      <h3>보호자가 실제로 참여한 중재만 재입원을 줄였습니다</h3>
       <table>
         <tr><td>보호자 참여 <b>있음</b></td><td>RR 0.82</td></tr>
         <tr class="dim"><td>보호자 참여 없음</td><td>RR 0.96</td></tr>
@@ -1080,10 +1128,6 @@ DESIGN.md, and every shipping raster carrying its provenance.
         Levoy et al., <i>Medical Care</i>, 2022.</p>
       <p class="so">저자 결론 — <b>“향후 전환기 돌봄은 설계·전달·평가에 보호자의 능동적 참여를 반드시 포함해야 한다.”</b></p>
     </div>
-  </div>
-
-  <h3 class="ev-h">③ 그리고 진료가 흩어지면, 환자가 입원합니다</h3>
-  <div class="evid">
     <div class="ev">
       <p class="eyebrow2">한국 · 건강보험 전수 데이터</p>
       <h3>진료 연속성이 낮을수록 입원 교차비가 계단식으로 올랐습니다</h3>
@@ -1095,25 +1139,14 @@ DESIGN.md, and every shipping raster carrying its provenance.
       </table>
       <p class="src">2형 당뇨 환자 54,458명. 2009 국민건강보험 표본 · 건강보험심사평가원 자료.
         완전 연속(1.00) 대비 입원 교차비, 보정 후. 최저군 95% CI 3.94–5.96.<br>
-        Cho et al., <i>BMC Health Services Research</i>, 2015.</p>
+        Cho et al., <i>BMC Health Services Research</i>, 2015.
+        9개국 22편 문헌고찰에서도 연속성이 높을수록 사망률이 낮았습니다 (18편, 81.8% · Pereira Gray et al., <i>BMJ Open</i>, 2018).</p>
       <p class="so">환자가 흩어지는 것은 <b>기관의 손실이자 환자의 위험</b>입니다 — 드물게 이해가 같은 지점입니다.</p>
-    </div>
-    <div class="ev">
-      <p class="eyebrow2">진료 연속성 · 체계적 문헌고찰</p>
-      <h3>같은 의사에게 이어서 보는 것 자체가 결과를 바꿨습니다</h3>
-      <table>
-        <tr><td>사망률이 유의하게 낮아진 연구</td><td>22편 중 18편</td></tr>
-        <tr class="dim"><td>비율</td><td>81.8%</td></tr>
-      </table>
-      <p class="src">9개국 22편 체계적 문헌고찰. 같은 리뷰가 진료 연속성은 환자 만족도와
-        의학적 조언 순응도를 높이고 <b>병원 이용을 줄인다</b>고 정리합니다. 모두 관찰 연구입니다.<br>
-        Pereira Gray et al., <i>BMJ Open</i>, 2018.</p>
-      <p class="so">EONU가 하려는 것은 <b>그 연속성을 진료실 밖에서도 유지하는 일</b>입니다.</p>
     </div>
   </div>
 
   <p class="caveat" style="margin-top:22px">위 연구는 어느 것도 EONU를 대상으로 한 것이 아닙니다.
-    교육 개입(DBRC·CICO)은 아동 행동을, 전환기 돌봄 연구는 퇴원 후 성인 환자를 다뤘고,
+    연계 절차 연구는 아동 정신건강 외래, 교육 개입은 아동 행동, 전환기 돌봄은 퇴원 후 성인 환자를 다뤘고,
     연속성 연구는 모두 관찰 연구입니다. <b>설계 방향의 근거로 인용했을 뿐 EONU의 효과를 보여주는 자료가 아닙니다.</b>
     EONU의 효과는 아래 지표로 파일럿에서 직접 확인합니다.</p>
 
