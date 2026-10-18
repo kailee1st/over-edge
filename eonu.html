@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>EONU — 이어진 진료, 세 사람의 안심</title>
-<meta name="description" content="병원 밖 일상에서도 환자가 혼자 관리하지 않도록. 의료진이 정한 계획을 환자의 실천과 보호자의 도움으로 잇고, 그 사이의 경험을 다음 진료로 연결합니다. 의료기관·상담센터가 도입하는 환자·보호자 연결 서비스입니다.">
+<title>EONU — 이어지는 진료, 세 사람의 안심</title>
+<meta name="description" content="일상의 이야기를 진료로, 진료의 계획을 일상으로. EONU는 환자·보호자의 걱정과 관찰을 의료진이 정한 질문별로 정리해 전하고, 의료진이 확인한 계획을 다시 일상으로 잇는 AI 소통 도우미입니다. 의료기관·상담센터가 도입합니다.">
 <link rel="canonical" href="https://over-edge.vercel.app/eonu.html">
-<meta property="og:title" content="EONU — 이어진 진료, 세 사람의 안심">
-<meta property="og:description" content="병원 밖 일상에서도 환자가 혼자 관리하지 않도록. 의료진의 계획이 환자의 실천과 보호자의 도움으로 이어지고, 그 경험이 다음 진료로 돌아옵니다. 파일럿 기관을 찾습니다.">
+<meta property="og:title" content="EONU — 이어지는 진료, 세 사람의 안심">
+<meta property="og:description" content="일상의 이야기를 진료로, 진료의 계획을 일상으로. 환자·보호자의 걱정은 의료진에게, 의료진이 확인한 계획은 일상으로. 소아·청소년 ADHD 영역에서 파일럿 기관을 찾습니다.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://over-edge.vercel.app/eonu.html">
 <meta property="og:image" content="https://over-edge.vercel.app/img/eonu-hero.jpg">
@@ -32,7 +32,7 @@
    "name": "EONU",
    "url": "https://over-edge.vercel.app/eonu.html",
    "email": "kailee1st@gmail.com",
-   "description": "EONU는 환자의 실천과 보호자의 도움을 담당 의료진의 다음 확인까지 잇는 AI입니다. 의료진이 승인한 계획을 환자의 할 일과 보호자의 도울 일로 전달하고, 평소 대화에서 근거와 출처를 붙여 다음 진료로 되돌립니다. 진단은 하지 않습니다."
+   "description": "EONU는 환자·보호자의 일상과 걱정을 의료진이 필요한 정보로 정리하고, 의료진이 확인한 설명과 관리 계획을 다시 일상으로 이어주는 AI 소통 도우미입니다. 의료진이 정한 질문별로 답·출처·시점·미확인을 표시하며, 진단은 하지 않습니다."
   },
   {
    "@type": "WebSite",
@@ -55,14 +55,16 @@
    "@type": "FAQPage",
    "@id": "https://over-edge.vercel.app/eonu.html#faq",
    "mainEntity": [
+    {"@type": "Question", "name": "확인할 일이 오히려 늘지 않나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "의료진이 정한 질문의 답만 올라옵니다. 질문별 답·출처·시점·미확인만 보이고, 대화 원문은 필요할 때만 펼쳐 봅니다. 그래도 부담이 늘 수 있어 파일럿에서 확인 시간을 함께 재고, 줄지 않으면 범위를 좁히거나 접습니다."}},
     {"@type": "Question", "name": "EONU가 진단도 해주나요?",
-     "acceptedAnswer": {"@type": "Answer", "text": "아니요. EONU는 진단·처방·예후 예측을 하지 않습니다. 의료진이 정한 계획을 전달하고 일상의 변화를 정리해 되돌릴 뿐, 의료 답변과 계획 변경은 담당 의료진이 판단합니다. 주간 집계가 기준에 도달해도 위험도 점수나 재내원 권고가 아니며, 해석과 후속 조치는 의료진의 몫입니다."}},
+     "acceptedAnswer": {"@type": "Answer", "text": "아니요. EONU는 진단·처방·예후 예측과 상태 평가를 하지 않습니다. 정해진 질문과 기준으로 이야기를 분류하고 근거와 미확인을 함께 표시할 뿐, 의학적 판단과 계획 변경은 담당 의료진이 합니다. 응급 상황에는 즉시 119에 연락하세요."}},
     {"@type": "Question", "name": "AI가 만든 내용이 그대로 전달되나요?",
-     "acceptedAnswer": {"@type": "Answer", "text": "아니요. 승인 없는 전달은 없습니다. AI는 진료 녹음·입력에서 초안을 만들 뿐이고, 의료진이 확인·승인한 내용만 환자와 보호자에게 전달됩니다. 반대 방향도 같아서 환자·보호자의 발화는 당사자가 전송을 확인한 항목만 의료진 브리핑으로 올라갑니다. 리포트 양식과 공유 기준, 주간 집계 기준은 의료진·기관이 직접 정합니다."}},
-    {"@type": "Question", "name": "제 말이 어떤 근거로 기록되나요?",
-     "acceptedAnswer": {"@type": "Answer", "text": "말한 원문·발화자·시각을 그대로 보존합니다. AI는 발화에서 확인 항목을 뽑되 근거가 된 문장과 출처를 함께 올리고, 서로 다른 공유 출처를 섞지 않습니다. 확인·전송되지 않은 발화는 집계에 반영하지 않습니다."}},
-    {"@type": "Question", "name": "보호자에게는 무엇이 어디까지 보이나요?",
-     "acceptedAnswer": {"@type": "Answer", "text": "공유 범위는 당사자가 정합니다. 보호자에게는 의료진이 승인한 계획 중 도울 일과 한 장 요약이 환자가 허용한 범위 안에서만 전달됩니다. 환자에서 보호자로 가는 도움 요청과 보호자에서 환자로 가는 도움 수락도 각각 공유 선택을 거칩니다."}}
+     "acceptedAnswer": {"@type": "Answer", "text": "아니요. 의료진이 확인하기 전에는 환자·보호자에게 아무것도 나가지 않습니다. 반대 방향도 같아서, 환자·보호자의 이야기는 당사자가 공유에 동의한 범위만 의료진에게 전달됩니다."}},
+    {"@type": "Question", "name": "보호자와 의료진에게는 무엇이 어디까지 보이나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "공유 범위는 환자·보호자가 정하고 언제든 바꿀 수 있습니다. 진료 전 걱정·질문, 보호자 관찰, 대화 원문 전체를 각각 골라 공유합니다. 보호자의 관찰과 환자의 이야기는 출처를 나눠 표시합니다."}},
+    {"@type": "Question", "name": "기관 프로그램 안내가 광고처럼 나가나요?",
+     "acceptedAnswer": {"@type": "Answer", "text": "아니요. 환자·보호자가 이야기 중에 관심을 보이고 직접 상담 요청에 추가했을 때만 의료진에게 전달됩니다. 원치 않으면 건너뛸 수 있고, 진료 안내와 섞어 보여주지 않습니다."}}
    ]
   }
  ]
@@ -749,8 +751,8 @@ DESIGN.md, and every shipping raster carrying its provenance.
       EONU
     </a>
     <nav class="head-nav" aria-label="메뉴">
+      <a href="#needs">왜 EONU</a>
       <a href="#how">작동 방식</a>
-      <a href="#about-geo">서비스 소개</a>
       <a href="#safety">안전 운영</a>
       <a href="#expect">근거·효과</a>
       <a href="#pilot">파일럿</a>
@@ -767,23 +769,23 @@ DESIGN.md, and every shipping raster carrying its provenance.
   <p class="hero-slide-badge" aria-hidden="true"></p>
   <div class="hero-in">
     <div class="hero-txt">
-      <p class="eyebrow"><i></i>의료기관·상담센터를 위한 <span style="color:var(--teal-900)">&nbsp;환자·보호자 연결 서비스</span></p>
-      <h1 class="hd">이어진 진료,<br><em>세 사람의 안심</em></h1>
-      <p class="sub"><b>병원 밖 일상에서도, 환자가 혼자 관리하지 않도록.</b><br>의료진이 정한 계획을 환자의 실천과 보호자의 도움으로 잇고,<br>그 사이의 경험을 다음 진료로 연결합니다.</p>
+      <p class="eyebrow"><i></i>의료기관·상담센터가 도입하는 <span style="color:var(--teal-900)">&nbsp;AI 소통 도우미</span></p>
+      <h1 class="hd">이어지는 진료,<br><em>세 사람의 안심</em></h1>
+      <p class="sub"><b>일상의 이야기를 진료로, 진료의 계획을 일상으로.</b><br>환자·보호자의 걱정과 관찰은 의료진이 정한 질문별로 정리해 전하고,<br>의료진이 확인한 계획은 다시 집으로 이어 보냅니다.</p>
       <div class="cta-row">
         <a href="#contact" class="cta-primary" data-umami-event="hero-pilot">기관 파일럿 문의
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
-        <a href="#how" class="cta-ghost">서비스 흐름 보기</a>
+        <a href="#how" class="cta-ghost">화면으로 보기</a>
       </div>
       <div class="hero-badges">
-        <span>여섯 방향 소통 · 모두 승인 게이트</span>
-        <span>원문·발화자·시각 보존</span>
-        <span>양식·기준은 기관이 설정</span>
+        <span>의료진은 정한 질문의 답만</span>
+        <span>공유 범위는 환자·보호자가</span>
+        <span>의료진 확인 전 발송 없음</span>
       </div>
       <p class="guard">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        진단·처방·위험도 판정을 하지 않습니다 — 답하지 않은 항목은 미확인으로 남깁니다
+        진단·처방·상태 평가를 하지 않습니다 — 근거 없는 추정 없이, 모르는 건 미확인으로 남깁니다
       </p>
     </div>
   </div>
@@ -792,14 +794,14 @@ DESIGN.md, and every shipping raster carrying its provenance.
 <!-- ② 페인 — 다크 틸 1곳 -->
 <section class="pain" id="pain">
   <div class="pain-in">
-    <h2 class="hd">진료실을 나온 뒤,<br><em>"그래서 의사 선생님이 뭐래?"</em></h2>
-    <p class="pain-lead">보호자의 물음에 들었던 설명을 더듬습니다. 매번 함께 갈 수는 없고, 환자 혼자 기억하고 전하기에도 벅찹니다. 평균 <b>7.0분</b>의 진료는 매번 기억에서 다시 시작합니다. <small style="opacity:.7">(2024 의료서비스경험조사 · 14,681명)</small></p>
+    <h2 class="hd">"집안에 의사 한 명<br><em>있으면 좋겠다"</em></h2>
+    <p class="pain-lead">병원은 낯설고, 아플 때는 무엇을 물어봐야 할지도 막막합니다. 설명이 어렵거나 보호자가 함께하지 못할수록, <b>내 상황을 아는 전문가와의 연결</b>은 더 필요합니다.</p>
     <div class="voices">
-      <p class="bub l">환자 — "집에 오면 뭘 해야 했는지 흐려집니다."</p>
-      <p class="bub r">보호자 — "뭘 도와야 할지 몰라 눈치만 봅니다."</p>
-      <p class="bub l">의료진 — "안 하신 건지 안 되신 건지 구분이 안 됩니다."</p>
-      <p class="bub r">보호자 — "말씀은 환자분이 들으셔서, 저는 전해 듣습니다."</p>
-      <p class="bub l">의료진 — "지난번에 뭘 하기로 했는지 기록을 뒤집니다."</p>
+      <p class="bub l">환자 — "이것까지 물어봐도 될까?"</p>
+      <p class="bub r">보호자 — "그래서 선생님이 뭐래?"</p>
+      <p class="bub l">그다음 날 — "오늘은 뭘 하면 되지?"</p>
+      <p class="bub r">보호자 — "집에서 본 모습을 전할 길이 없어요."</p>
+      <p class="bub l">의료진 — "진료 사이에 어땠는지는 전화로 다시 묻습니다."</p>
       <div class="who-th" aria-hidden="true">
         <div class="dots"><i></i><i></i><i></i></div>
         <!-- 단색 픽토그램 — 책상에 팔꿈치 괴고 고민하는 사람 (팔은 배경색 스트로크로 몸과 분리) -->
@@ -813,21 +815,22 @@ DESIGN.md, and every shipping raster carrying its provenance.
       </div>
     </div>
     <div class="pain-stats">
-      <div class="ps"><b>검토 시간</b><span>같은 업무를 <strong>지금 방식과 EONU 방식</strong>으로 처리한 시간 비교</span><small>파일럿에서 함께 측정합니다</small></div>
-      <div class="ps"><b>초안 수정량</b><span>승인 전에 <strong>몇 줄을 고치셨는지</strong> — 줄어드는지 봅니다</span><small>파일럿에서 함께 측정합니다</small></div>
-      <div class="ps"><b>누락·오류</b><span>읽는 양이 줄었는데 <strong>필요한 정보를 놓치지는 않았는지</strong></span><small>파일럿에서 함께 측정합니다</small></div>
-      <div class="ps"><b>중복 설명</b><span>보호자에게 <strong>다시 설명한 횟수</strong>가 줄어드는지</span><small>파일럿에서 함께 측정합니다</small></div>
+      <div class="ps"><b>진료 전</b><span>하고 싶은 말이 있어도 <strong>정리해 둘 곳이 없습니다</strong></span><small>메모나 ChatGPT에 적어 와도 진료에 이어지지 않습니다</small></div>
+      <div class="ps"><b>평균 7.0분</b><span>짧은 진료 안에서 <strong>정작 하고 싶던 말은 못 하고</strong> 나옵니다</span><small>61.1%는 1~5분 · 2024 의료서비스경험조사(14,681명)</small></div>
+      <div class="ps"><b>진료 후</b><span>보호자는 매번 동행할 수 없어 <strong>설명을 전해 듣습니다</strong></span><small>집에서 본 모습도 다음 진료까지 닿지 않습니다</small></div>
+      <div class="ps"><b>그다음 날</b><span>진료실에서 들은 계획이 <strong>일상으로 오면서 흐려집니다</strong></span><small>다음 진료는 다시 기억에서 시작합니다</small></div>
     </div>
-    <p class="pain-close">진료실을 나설 때, 함께 실행할 계획도 가지고 나왔나요?</p>
+    <p class="pain-close">원하는 것은 더 많은 의학 정보가 아니라, 내 이야기를 이해하고 전문가에게 확인받는다는 안심입니다.</p>
   </div>
 </section>
 
 <!-- ③ 기능 — 실제 화면으로 증명 -->
-<div class="bridge" id="how">
+<div class="bridge" id="needs">
   <div class="b-dots" aria-hidden="true"><i></i><i></i><i></i></div>
-  <p class="b-lead">사람 대신 메우지 않고, 세 사람을 잇도록 만들었습니다.</p>
-  <p class="b-main hd">계획이 일상으로, <em>일상의 변화가 다시 진료로</em></p>
-  <p class="bridge-sub">의료진이 <b>확인한 계획</b>이 환자의 할 일과 보호자의 도울 일이 되고, 두 사람의 평소 대화가 <b>근거와 출처</b>로 돌아옵니다.</p>
+  <p class="b-lead">세 사람이 원하는 것은 서로 다릅니다.</p>
+  <p class="b-main hd">한 사람의 이유만 풀면, <em>끝까지 이어지지 않습니다</em></p>
+  <p class="bridge-sub">환자용 기록 앱, 상담 AI, 메신저 케어, 사전문진 — 여러 시도가 있었지만 <b>한 주체의 이유만</b> 풀었습니다.<br>
+    EONU는 <b>의료진의 도입</b>에서 시작합니다. 의료진이 보증해야 환자·보호자가 움직이기 때문입니다.</p>
 <div class="triad-wrap">
     <div class="triad-canvas" role="img" aria-label="환자·보호자·의료진이 가운데의 EONU를 통해 서로 연결되는 관계도">
       <svg viewBox="0 0 610 330" aria-hidden="true">
@@ -842,21 +845,21 @@ DESIGN.md, and every shipping raster carrying its provenance.
         <div class="portrait" aria-hidden="true"></div>
         <div class="copy">
           <div class="role">환자·대상자</div>
-          <div class="detail">설명은 들었지만 실천이 막막함<b>나를 아는 의료진의 안내<br>실행할 일과 필요한 도움</b></div>
+          <div class="detail">부담 — 기록은 귀찮다<b>내 이야기를 들어주는 곳<br>나를 아는 의료진의 확인</b></div>
         </div>
       </div>
       <div class="role-node caregiver">
         <div class="portrait" aria-hidden="true"></div>
         <div class="copy">
           <div class="role">보호자</div>
-          <div class="detail">매번 동행할 수는 없으니까<b>상태를 알고 도울 일 확인<br>관찰·걱정을 전할 창구</b></div>
+          <div class="detail">부담 — 매번 같이 갈 수 없다<b>집에서 본 모습을 전하기<br>도울 방법을 알기</b></div>
         </div>
       </div>
       <div class="role-node expert">
         <div class="portrait" aria-hidden="true"></div>
         <div class="copy">
           <div class="role">의료진 · 상담 전문가</div>
-          <div class="detail">진료 사이 변화는 전화로 확인<b>적은 수고로 필요한 변화 확인<br>디지털 관리로 차별화</b></div>
+          <div class="detail">부담 — 늘어나는 확인 업무<b>진료에 쓸 정보만<br>환자 이야기를 듣는 병원</b></div>
         </div>
       </div>
       <div class="triad-center"><svg aria-hidden="true"><use href="#eonu-mark"/></svg><b>EONU</b></div>
@@ -864,42 +867,42 @@ DESIGN.md, and every shipping raster carrying its provenance.
   </div>
   <div class="pursue">
     <div class="pu"><span class="n">1</span><div>
-      <b>환자의 자율을 지킵니다</b>
-      <span>숙제처럼 적게 하지 않고 평소 말로 받습니다. 보호자에게 무엇을 열어줄지도 환자가 정합니다.</span></div></div>
+      <b>일상의 이야기를 진료 자료로 (PGHD)</b>
+      <span>숙제처럼 기록을 시키지 않고, 환자·보호자가 평소 말로 남긴 이야기와 관찰을 진료에 쓸 수 있게 정리합니다.</span></div></div>
     <div class="pu"><span class="n">2</span><div>
-      <b>보호자에게 실제 역할을 줍니다</b>
-      <span>한 장 요약을 읽는 사람이 아니라, 허용된 범위에서 맡아서 끝내는 사람으로 둡니다.</span></div></div>
+      <b>각자 필요한 만큼만 보는 화면</b>
+      <span>환자·보호자·의료진이 서로 다른 화면에서, 자기에게 필요한 만큼만 보고 입력합니다.</span></div></div>
     <div class="pu"><span class="n">3</span><div>
-      <b>기준은 의료진과 기관이 정합니다</b>
-      <span>리포트 양식, 확인 항목, 공유 범위, 주간 집계 기준을 직접 설정하고 바꿉니다.</span></div></div>
+      <b>계획 전달 → 수행 → 재확인 (클로즈드 루프)</b>
+      <span>의료진이 확인한 계획이 일상으로 가고, 해본 결과가 다음 진료 전에 다시 돌아옵니다.</span></div></div>
     <div class="pu"><span class="n">4</span><div>
-      <b>출처를 보존하고 섞지 않습니다</b>
-      <span>원문·발화자·시각을 그대로 두고, 환자의 자기보고와 보호자의 관찰을 구분해 둡니다.</span></div></div>
+      <b>정해진 기준으로만 분류하는 결정형 AI</b>
+      <span>의료진이 정한 질문과 기준으로 이야기를 나누고, 근거와 미확인을 함께 표시합니다. 상태 평가는 연구로 검증한 뒤에 넓힙니다.</span></div></div>
   </div>
 </div>
 
 <section class="story" id="story">
-  <h2 class="hd" style="max-width:1280px;margin:0 auto 10px;padding:70px 24px 0;font-size:clamp(24px,3vw,30px);line-height:1.4;color:var(--teal-900)">EONU는 이렇게 작동합니다</h2>
+  <h2 class="hd" id="how" style="max-width:1280px;margin:0 auto 10px;padding:70px 24px 0;font-size:clamp(24px,3vw,30px);line-height:1.4;color:var(--teal-900)">내 걱정은 의료진에게, 확인된 계획은 나에게</h2>
   <div class="story-pin">
     <div class="story-grid">
       <div class="story-left">
         <div class="sitem cur" data-step="0">
-          <div class="sn"><i>1</i><h3 class="hd">한 번 말하면,<br><em>두 통</em>으로 나뉩니다</h3></div>
-          <p>진료·상담 직후 평소 말로 <b>60초</b>. 환자에게 갈 <b>할 일</b>과 보호자에게 갈 <b>도울 일</b>이
-            각각 만들어집니다. 같은 녹음에서 <b>선생님 노트 초안</b>도 함께 써집니다.
-            <span style="color:var(--ink-faint)">같은 설명을 환자에게 한 번, 보호자에게 또 한 번 하지 않아도 됩니다.</span></p>
+          <div class="sn"><i>1</i><h3 class="hd">진료 전에,<br><em>하고 싶던 말</em>을 남깁니다</h3></div>
+          <p>환자·보호자가 연결할 의료진을 고르고 <b>무엇을 공유할지 직접 정합니다.</b>
+            평소 말로 걱정을 남기면 EONU가 <b>걱정·관찰로 나눠</b> 선생님께 전할 형태로 정리합니다.
+            <span style="color:var(--ink-faint)">관심 있는 기관 프로그램이 있으면, 원할 때만 상담 요청에 더합니다.</span></p>
         </div>
         <div class="sitem" data-step="1">
-          <div class="sn"><i>2</i><h3 class="hd">승인을 누르기 전엔,<br><em>아무 데도</em> 가지 않습니다</h3></div>
-          <p>고치고 누르면 그때 나갑니다. 보호자에게 <b>무엇을 열어줄지는 환자가 따로 정하고</b>,
-            허용한 범위 안에서 보호자가 <b>읽기만 하지 않고 맡아서 끝냅니다.</b>
-            <span style="color:var(--ink-faint)">선생님의 승인과 환자의 공유 동의는 각각 따로 남습니다.</span></p>
+          <div class="sn"><i>2</i><h3 class="hd">의료진은,<br><em>정한 질문의 답만</em> 봅니다</h3></div>
+          <p>선생님이 정해둔 질문별로 <b>답 · 출처 · 시점</b>이 한 장에 모입니다.
+            답이 없는 질문은 <b>미확인</b>으로 남고 — <span style="color:var(--warm-600)">괜찮다는 뜻이 아닙니다.</span>
+            대화 원문은 <b>필요할 때만 펼쳐</b> 봅니다.
+            <span style="color:var(--ink-faint)">의사는 추가 정보를 보고 싶어 하지 않습니다. 필요하면 봅니다.</span></p>
         </div>
         <div class="sitem" data-step="2">
-          <div class="sn"><i>3</i><h3 class="hd">돌아올 때는,<br><em>물어본 것만</em> 옵니다</h3></div>
-          <p>환자와 보호자는 평소처럼 말합니다. 그중 <b>미리 정해둔 확인 항목</b>에 걸리는 말만
-            <b>원문·발화자·시각</b>을 붙여 올라옵니다. 보호자의 관찰과 환자의 자기보고는 <b>섞지 않습니다.</b>
-            답이 없으면 <b>미확인</b>으로 남습니다 — <span style="color:var(--warm-600)">괜찮다는 뜻이 아닙니다.</span></p>
+          <div class="sn"><i>3</i><h3 class="hd">진료 후에는,<br><em>확인된 계획</em>이 집으로</h3></div>
+          <p>의료진이 확인한 계획만 <b>환자의 할 일</b>과 <b>보호자가 챙길 일</b>로 나뉘어 갑니다.
+            해본 결과와 관찰은 <b>다음 진료 전 요약</b>으로 다시 돌아옵니다 — 계획 전달, 수행, 재확인까지.</p>
           <p class="soon">
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.8"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
             EMR 연동 준비 중 · 지금은 기존 도구와 함께 씁니다
@@ -909,33 +912,28 @@ DESIGN.md, and every shipping raster carrying its provenance.
 
       <div class="story-right panel-stack">
         <div class="feat-ui cur" data-panel="0">
-      <div class="app" aria-label="EONU 화면 예시: 녹음에서 만들어진 노트 초안과 할 일">
+      <div class="app" aria-label="EONU 화면 예시: 의료진 선택, 공유 동의, 진료 전 이야기 정리">
         <div class="app-bar">
           <svg aria-hidden="true"><use href="#eonu-mark"/></svg>
-          <b>EONU · 노트와 할 일</b><span class="st">승인 대기</span>
+          <b>EONU · 진료 전 이야기</b><span class="st">보호자</span>
         </div>
-        <p class="msg-user">🎙 "집 앞까지 걷기 해보시고, 어려우셨던 점 알려주세요. 보호자분은 같이 나가주시고요."</p>
-        <p class="msg-read"><b>① 노트 초안</b> — 선생님 양식 그대로</p>
-        <div class="diff">근거리 보행 시도 권고. 보호자 동반 하 집 앞까지.
-          <b>다음 방문 시 수행 여부와 장애 요인 확인 예정.</b></div>
-        <p class="msg-read" style="margin-top:14px"><b>② 할 일</b> — 환자 몫과 보호자 몫으로</p>
+        <p class="msg-read"><b>OO소아청소년정신과 김OO 원장</b>에게 공유할 것</p>
         <div class="doc-row">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7"/><path d="M5 20c.8-3.6 3.6-5.5 7-5.5s6.2 1.9 7 5.5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
-          <div><b>집 앞 걷기 시도</b><small>환자 할 일</small></div>
-          <span class="st done">전달</span>
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 11l3 3 8-8" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 12v6a2 2 0 01-2 2H6a2 2 0 01-2-2V6a2 2 0 012-2h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg></span>
+          <div><b>진료 전 걱정·질문 · 보호자 관찰</b><small>대화 원문 전체는 공유하지 않음</small></div>
+          <span class="st done">공유</span>
         </div>
-        <div class="doc-row">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 12a3.2 3.2 0 100-6.4A3.2 3.2 0 008 12zM16 13a2.8 2.8 0 100-5.6A2.8 2.8 0 0016 13z" stroke="currentColor" stroke-width="1.6"/><path d="M2.8 19.5c.7-3 2.8-4.6 5.2-4.6 1.5 0 2.9.6 3.9 1.8M13 19.5c.5-2.3 1.8-3.6 3.4-3.9 2-.4 4 .9 4.8 3.9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <div><b>함께 걷기</b><small>보호자 도움</small></div>
-          <span class="st done">전달</span>
+        <p class="msg-user" style="margin-top:14px">"요즘 숙제할 때 30분도 못 앉아 있어요. 약 먹고 밥을 잘 안 먹고요."</p>
+        <div class="alert">
+          <p class="alert-h">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 3h7l4 4v14H7V3z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/></svg>
+            선생님께 이렇게 정리해 둘게요
+          </p>
+          <div class="alert-row"><span>걱정</span><p><b>식욕 저하</b></p></div>
+          <div class="alert-row"><span>관찰</span><p><b>숙제 집중 30분 미만</b> · 보호자</p></div>
         </div>
-        <div class="doc-row">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.5 9.5a2.6 2.6 0 115 .9c-.4 1.3-2.5 1.6-2.5 3.1M12 17.2v.3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <div><b>해봤나요? 어떤 점이 어려웠나요</b><small>확인 질문</small></div>
-          <span class="st ing">대기</span>
-        </div>
-        <div class="diff">고치신 부분은 <b>다음 초안에 반영</b>됩니다. 승인 전까지 어디에도 나가지 않습니다.</div>
-        <p class="app-foot">가상 사례를 사용한 화면 예시입니다</p>
+        <div class="diff">이 병원의 <b>학습·주의력 상담 프로그램</b>도 함께 물어볼까요? — 원할 때만 상담 요청에 추가</div>
+        <p class="app-foot">합성 시나리오 기반 화면 예시 · 공유 범위는 언제든 바꿀 수 있습니다</p>
       </div>
         </div>
 
